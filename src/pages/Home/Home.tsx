@@ -1,11 +1,9 @@
-import { Typography } from "@mui/material";
+import Header from "../../Layout/Header/Header";
 
 const Home = () => {
   return (
     <div>
-      <Typography variant="h1" align="center" color="primary">
-        Welcome to Home Page
-      </Typography>
+      <Header />
     </div>
   );
 };
