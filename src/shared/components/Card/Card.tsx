@@ -6,17 +6,17 @@ import CardMedia from "@mui/material/CardMedia";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 
-type TCardProps = {
+export type TRessource = {
   titre_res: string;
-  contenue_res: string;
+  contenu_res: string;
   url_res: string;
 };
 
 export default function CardRessource({
   titre_res,
-  contenue_res,
+  contenu_res,
   url_res,
-}: TCardProps) {
+}: TRessource) {
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardMedia sx={{ height: 140 }} image={url_res} />
@@ -25,11 +25,13 @@ export default function CardRessource({
           {titre_res}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          {contenue_res}
+          {contenu_res}
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small">Voir</Button>
+        <Button size="small" onClick={() => console.log("click")}>
+          Voir
+        </Button>
       </CardActions>
     </Card>
   );
