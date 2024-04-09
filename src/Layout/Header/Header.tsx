@@ -13,7 +13,9 @@ const Header = () => {
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
+        marginBottom: "2rem",
       }}
+      position="static"
     >
       <Container sx={{ padding: "0px" }}>
         <img
