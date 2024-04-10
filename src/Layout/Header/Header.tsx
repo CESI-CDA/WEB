@@ -27,7 +27,7 @@ const Header = () => {
       </Container>
       <Container sx={{ display: "flex", justifyContent: "flex-end" }}>
         <Badge sx={{ padding: "1rem" }}>
-          <Link to={ROUTE_URl.HOME}>
+          <Link to={ROUTE_URl.INSCRIPTION}>
             <PersonIcon />
           </Link>
         </Badge>

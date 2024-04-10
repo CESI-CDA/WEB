@@ -1,0 +1,1 @@
+export const ROUTE_URl_INSCRIPTION = '/Inscription';
