@@ -28,6 +28,7 @@ export default function Inscription() {
       .string()
       .email("adresse email invalide")
       .required("l'email est obligatoire"),
+    //verifier si l'email existe deja en bdd
     password: yup
       .string()
       .required("le mot de passe est requis")
