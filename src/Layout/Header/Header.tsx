@@ -1,6 +1,6 @@
 import { AppBar, Badge, Container } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import ROUTE_URl from "../../App/Routes/constants";
 
 const Header = () => {
@@ -18,16 +18,18 @@ const Header = () => {
       position="static"
     >
       <Container sx={{ padding: "0px" }}>
-        <img
-          src="logo.png"
-          alt="logo ressources relationnelles"
-          height="150px"
-          width="150px"
-        />
+        <NavLink to={ROUTE_URl.HOME}>
+          <img
+            src="logo.png"
+            alt="logo ressources relationnelles"
+            height="150px"
+            width="150px"
+          />
+        </NavLink>
       </Container>
       <Container sx={{ display: "flex", justifyContent: "flex-end" }}>
         <Badge sx={{ padding: "1rem" }}>
-          <Link to={ROUTE_URl.INSCRIPTION}>
+          <Link to={ROUTE_URl.CONNEXION}>
             <PersonIcon />
           </Link>
         </Badge>

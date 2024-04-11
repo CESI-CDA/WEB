@@ -1,4 +1,3 @@
-import * as React from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -15,45 +14,42 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Alert } from "@mui/material";
+import ROUTE_URl from "../../App/Routes/constants";
 
 type TUser = {
   email: string;
   password: string;
-  nom: string;
-  prenom: string;
-  pseudonyme: string;
+  nom?: string;
+  prenom?: string;
+  pseudonyme?: string;
 };
 
-export default function SignInSide() {
-  const [inscription, setInscription] = React.useState(false);
+export default function Connexion() {
   const yupSchema = yup.object({
     email: yup
       .string()
       .email("adresse email invalide")
       .required("l'email est obligatoire"),
-    password: yup
-      .string()
-      .required("le mot de passe est requis")
-      .min(8, "le mode de passe doit contenir au moins 8 caractères"),
-    nom: yup.string().required("le nom est obligatoire"),
-    prenom: yup.string().required("le prénom est obligatoire"),
-    pseudonyme: yup.string().required("le pseudonyme est obligatoire"),
+    password: yup.string().required("le mot de passe est requis"),
+    // .min(8, "le mode de passe doit contenir au moins 8 caractères"),
   });
 
   function submit(value: TUser) {
     console.log(value);
-    fetch("https://projet-resources.fr/api/users", {
+    fetch("https://projet-resources.fr/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(value),
     }).then((response) => {
+      console.log(response);
+
       if (response.ok) {
-        console.log("user created");
-        alert("votre compte a était crée");
+        console.log("connexion réussie");
+        alert("vous etes connecté");
       } else {
-        console.log("error");
+        alert("connexion échouée");
       }
     });
   }
@@ -66,9 +62,6 @@ export default function SignInSide() {
     defaultValues: {
       email: "",
       password: "",
-      nom: "",
-      prenom: "",
-      pseudonyme: "",
     },
     resolver: yupResolver(yupSchema),
     mode: "onSubmit",
@@ -107,45 +100,6 @@ export default function SignInSide() {
               margin="normal"
               required
               fullWidth
-              label="Prénom"
-              id="prenom"
-              autoComplete="prénom"
-              {...register("prenom")}
-            />
-            {errors?.prenom && (
-              <Alert severity="warning" sx={{ width: "100%" }}>
-                {errors.prenom.message}
-              </Alert>
-            )}
-            {getValues("prenom")}
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              label="Nom"
-              id="nom"
-              autoComplete="nom"
-              {...register("nom")}
-            />
-            {errors?.nom && (
-              <Alert severity="warning">{errors.nom.message}</Alert>
-            )}
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              label="Nom d'utilisateur"
-              id="nom d'utilisateur"
-              autoComplete="nom d'utilisateur"
-              {...register("pseudonyme")}
-            />
-            {errors?.pseudonyme && (
-              <Alert severity="warning">{errors.pseudonyme.message}</Alert>
-            )}
-            <TextField
-              margin="normal"
-              required
-              fullWidth
               id="email"
               label="Email"
               autoComplete="email"
@@ -177,7 +131,7 @@ export default function SignInSide() {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              inscription
+              Connexion
             </Button>
             <Grid container>
               <Grid item xs>
@@ -186,7 +140,7 @@ export default function SignInSide() {
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href={ROUTE_URl.INSCRIPTION} variant="body2">
                   {"créer un compte"}
                 </Link>
               </Grid>
