@@ -15,6 +15,7 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Alert } from "@mui/material";
 import ROUTE_URl from "../../App/Routes/constants";
+import { type } from "./../../shared/components/Card/Card";
 
 type TUser = {
   email: string;
@@ -116,6 +117,7 @@ export default function Connexion() {
               label="Mot de passe"
               id="mot de passe"
               autoComplete="mot de passe"
+              type="password"
               {...register("password")}
             />
             {errors?.password && (
