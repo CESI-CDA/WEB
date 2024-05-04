@@ -25,7 +25,7 @@ export function useFetchRessources(page?: number): [boolean, string, any[]] {
           }
         }
       } catch (e) {
-        setError("Erreur");
+        setError("Erreur lors de la récupérations des ressources");
       } finally {
         if (!cancel) {
           setLoading(false);

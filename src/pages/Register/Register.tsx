@@ -4,9 +4,11 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigate } from "react-router-dom";
 import { createUser } from "../../apis/users";
+import { useState } from "react";
 
 function Register() {
   const navigate = useNavigate();
+  const [error, setError] = useState<string | null>("");
 
   const validationSchema = yup.object({
     nom: yup
@@ -41,7 +43,7 @@ function Register() {
     handleSubmit,
     register,
     formState: { errors, isSubmitting },
-    setError,
+
     clearErrors,
   } = useForm<typeof initialValues>({
     resolver: yupResolver(validationSchema),
@@ -53,8 +55,8 @@ function Register() {
       clearErrors();
       await createUser(user);
       navigate("/login");
-    } catch (message: any) {
-      setError("root", { type: "generic", message });
+    } catch (e: any) {
+      setError("Erreur lors de l'inscription");
     }
   });
 

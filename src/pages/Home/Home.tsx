@@ -30,10 +30,11 @@ function Home() {
               {ressources
                 .filter((r) => r.title.toLowerCase().startsWith(filter))
                 .map((ressource) => (
-                  <RessourceCard key={ressource.id} ressource={ressource} />
+                  <RessourceCard key={ressource.title} ressource={ressource} />
                 ))}
             </div>
           )}
+          {error && <div className="alert alert-danger">{error}</div>}
           <div className="d-flex flex-row justify-content-center align-items-center p-20">
             <div className="d-flex flex-row justify-content-center align-items-center p-20">
               <button

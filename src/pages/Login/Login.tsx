@@ -3,11 +3,13 @@ import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { AuthContext } from "../../context";
-import { useContext } from "react";
-import { Navigate } from "react-router-dom";
+import { useContext, useState } from "react";
+import { Navigate, redirect, useNavigate } from "react-router-dom";
 
 function Login() {
   const { user, loginUser } = useContext(AuthContext);
+  const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   const validationSchema = yup.object({
     email: yup
@@ -29,7 +31,6 @@ function Login() {
     handleSubmit,
     register,
     formState: { errors, isSubmitting },
-    setError,
     clearErrors,
   } = useForm<typeof initialValues>({
     resolver: yupResolver(validationSchema),
@@ -40,8 +41,9 @@ function Login() {
     try {
       clearErrors();
       await loginUser(credentials);
+      navigate("/");
     } catch (e: string | any) {
-      setError("root", { type: "custom", message: e });
+      setError("Erreur lors de la connexion");
     }
   });
 
@@ -70,9 +72,9 @@ function Login() {
                 <p className="form-error">{errors.password?.message}</p>
               )}
             </div>
-            {errors.root && (
+            {error && (
               <div className="mb-10">
-                <p className="form-error">{errors.root?.message}</p>
+                <p className="form-error">{error}</p>
               </div>
             )}
             <div>
