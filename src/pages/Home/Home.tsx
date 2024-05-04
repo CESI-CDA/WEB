@@ -1,43 +1,54 @@
-import { Grid, Typography } from "@mui/material";
-import Header from "../../Layout/Header/Header";
-import { useEffect, useState } from "react";
-import type { TRessource } from "../../shared/components/Card/Card";
-import CardRessource from "../../shared/components/Card/Card";
-import { numberPerPage } from "./constants";
+import { useState } from "react";
+import { useFetchRessources } from "../../hooks";
+import styles from "./Home.module.scss";
+import RessourceCard from "./components/RessourceCard/RessourceCard";
+import Search from "./components/Search/Search";
+import Loader from "../../components/Loader/Loader";
 
-const Home = () => {
-  const [ressources, setRessources] = useState<Array<TRessource>>([]);
-  useEffect(() => {
-    fetch(`https://projet-resources.fr/api/ressources?` + numberPerPage)
-      .then((response) => response.json())
-      .then((data) => setRessources(data.items.data));
-    console.log(ressources);
-  }, []);
+function Home() {
+  const [filter, setFilter] = useState("");
+  const [page, setPage] = useState(1);
+  const [loadind, error, ressources] = useFetchRessources(page);
   console.log(ressources);
 
+  function handleClickMoreRessources() {
+    setPage((current) => current + 1);
+  }
+
   return (
-    <div>
-      <Header />
-      <Grid container spacing={2}>
-        {ressources.length > 0 ? (
-          ressources.map((ressource) => {
-            return (
-              <Grid item xs={12} sm={6} md={4} lg={3} key={ressource.titre_res}>
-                <CardRessource
-                  titre_res={ressource.titre_res}
-                  contenu_res={ressource.contenu_res}
-                  url_res={ressource.url_res}
-                />
-              </Grid>
-            );
-          })
-        ) : (
-          //mettre le loader material ui
-          <Typography variant="h3">Loading...</Typography>
-        )}
-      </Grid>
-    </div>
+    <>
+      <div className="flex-fill container d-flex flex-column p-20">
+        <h1 className={`my-30 `}>Découvrez les nouvelles ressources</h1>
+        <div
+          className={`card flex-fill d-flex flex-column p-20 mb-20 ${styles.contentCard}`}
+        >
+          <Search setFilter={setFilter} />
+          {loadind && !ressources.length ? (
+            <Loader />
+          ) : (
+            <div className={styles.grid}>
+              {ressources
+                .filter((r) => r.title.toLowerCase().startsWith(filter))
+                .map((ressource) => (
+                  <RessourceCard key={ressource.title} ressource={ressource} />
+                ))}
+            </div>
+          )}
+          {error && <div className="alert alert-danger">{error}</div>}
+          <div className="d-flex flex-row justify-content-center align-items-center p-20">
+            <div className="d-flex flex-row justify-content-center align-items-center p-20">
+              <button
+                onClick={handleClickMoreRessources}
+                className="btn btn-primary"
+              >
+                Charger plus de ressources
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
   );
-};
+}
 
 export default Home;
