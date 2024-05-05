@@ -1,9 +1,10 @@
 export interface IUser {
   nom: string;
   prenom: string;
-  pseudonyme: string;
+  pseudonyme?: string;
   email: string;
-  password: string;
+  password?: string;
+  role?: string;
 }
 
 export interface IContextAuth {

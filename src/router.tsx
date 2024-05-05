@@ -5,11 +5,12 @@ import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
 import { rootLoader } from "./loaders/rootLoader";
 import { Admin } from "./pages/Admin/Admin";
-import Resource from "./pages/Resource/Resource";
-import Favorite from "./pages/Favorite/Favorite";
-import Archive from "./pages/Archive/Archive";
-import ResetPassword from "./pages/ResetPassword/ResetPassword";
-import UserAccount from "./pages/UserAccount/UserAccount";
+import AdminRessourcesList from "./pages/Admin/AdminRessourcesList/AdminRessourcesList";
+import AdminCommentsList from "./pages/Admin/AdminCommentsList/AdminCommentsList";
+import AdminUser from "./pages/Admin/AdminUser/AdminUser";
+import CreateUser from "./pages/Admin/AdminUser/CreateUser/CreateUser";
+import UserManagement from "./pages/Admin/AdminUser/UserManagement/UserManagement";
+import AdminRessources from "./pages/Admin/AdminRessources/AdminRessources";
 
 export const router = createBrowserRouter([
   {
@@ -32,6 +33,34 @@ export const router = createBrowserRouter([
       {
         path: "/admin",
         element: <Admin />,
+        children: [
+          {
+            path: "ressources",
+            element: <AdminRessourcesList />,
+          },
+          {
+            path: "comments",
+            element: <AdminCommentsList />,
+          },
+          {
+            path: "users",
+            element: <AdminUser />,
+            children: [
+              {
+                path: "create",
+                element: <CreateUser />,
+              },
+              {
+                path: "manage",
+                element: <UserManagement />,
+              },
+            ],
+          },
+          {
+            path: "manageRessources",
+            element: <AdminRessources />,
+          },
+        ],
       },
       {
         path: "/resource/:id",

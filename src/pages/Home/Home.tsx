@@ -9,7 +9,6 @@ function Home() {
   const [filter, setFilter] = useState("");
   const [page, setPage] = useState(1);
   const [loadind, error, ressources] = useFetchRessources(page);
-  console.log(ressources);
 
   function handleClickMoreRessources() {
     setPage((current) => current + 1);
