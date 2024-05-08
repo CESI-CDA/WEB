@@ -1,10 +1,14 @@
 import React from 'react';
 import styles from "./Resource.module.scss";
+import HeaderResource from './Component/HeaderResource/HeaderResource';
 
 const Resource: React.FC = () => {
     return (
         <div className={`flex-fill container d-flex flex-column p-20`}>
             <div className={`card flex-fill d-flex flex-column p-20 mb-20 ${styles.contentCard}`}>
+                <div className={styles.header}>
+                    <HeaderResource />
+                </div>
                 <img src="https://cdn.pixabay.com/photo/2024/03/14/08/52/pug-8632718_1280.jpg" alt="Resource" className={styles.imageContainer} />
                 <div className={styles.characteristicProp}>
                     <p className={styles.category}>Catégorie : Animalier</p>
