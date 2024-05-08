@@ -18,17 +18,18 @@
     height: 100px;
     margin-right: 50px;
     margin-top: 30px;
-
     font-size: 20px;
 
 }
 
-.category, .typeOfRelation, .typeOfResource {
+.category,
+.typeOfRelation,
+.typeOfResource {
     margin: 0;
 }
+
 .content {
     padding: 38px;
-
 }
 
 .title {
@@ -55,10 +56,32 @@
     margin-right: 30;
 }
 
+.comment {
+    font-size: 30px;
+}
+
 .icon {
     color: #6E5BE2;
     font-size: 60px;
     padding-bottom: 12;
     border: none;
     background-color: transparent;
+}
+
+@media (max-width: 430px) {
+    .title {
+        font-size: 22px;
+    }
+
+    .resourceContent {
+        font-size: 15px;
+    }
+
+    .comment {
+        font-size: 22px;
+    }
+
+    .icon {
+        font-size: 40px;
+    }
 }

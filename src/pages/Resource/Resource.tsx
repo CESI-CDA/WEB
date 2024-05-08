@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from "./Resource.module.scss";
-import HeaderResource from './Component/HeaderResource/HeaderResource';
+import HeaderResource from './components/HeaderResource/HeaderResource';
 
 const Resource: React.FC = () => {
     return (
