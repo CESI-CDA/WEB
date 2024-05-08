@@ -4,7 +4,7 @@ export interface IUser {
   pseudonyme?: string;
   email: string;
   password?: string;
-  role?: string;
+  id_rol?: number;
 }
 
 export interface IContextAuth {

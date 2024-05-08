@@ -1,6 +1,7 @@
 import { getUsers } from "../../../../apis/users";
 import { IUser } from "interfaces";
 import { useEffect, useState } from "react";
+import styles from "./UserManagement.module.scss";
 
 export function UserManagement() {
   const [users, setUsers] = useState<IUser[]>([]);
@@ -19,8 +20,16 @@ export function UserManagement() {
 
   return (
     <div>
-      {users &&
-        users.map((user) => <div key={user.pseudonyme}>{user.nom}</div>)}
+      <ul className={styles.list}>
+        {users &&
+          users.map((user) => (
+            <li key={user.pseudonyme} className="d-flex align-items-center">
+              <span className="flex-fill">{user.prenom}</span>
+              <button className="btn btn-primary mr-15">suspendre</button>
+              <button className="btn btn-danger">supprimer</button>
+            </li>
+          ))}
+      </ul>
     </div>
   );
 }

@@ -9,7 +9,10 @@ export async function createUser(newUser: IUser) {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ ...newUser, id_rol: 1 }),
+    body: JSON.stringify({
+      ...newUser,
+      id_rol: newUser.id_rol ? newUser.id_rol : 1,
+    }),
   });
 
   if (response.ok) {
@@ -23,6 +26,7 @@ export async function getUsers(): Promise<IUser[]> {
   const response = await fetch(API_USERS);
   if (response.ok) {
     const data = await response.json();
+    console.log(data);
     const users = userMapper(data.items.data);
     return users;
   } else {

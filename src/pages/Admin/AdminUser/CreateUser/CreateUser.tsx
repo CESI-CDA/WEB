@@ -3,22 +3,33 @@ import { IUser } from "interfaces";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import styles from "./CreateUser.module.scss";
+import { createUser } from "../../../../apis/users";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 export function CreateUser() {
+  const [error, setError] = useState<string | null>("");
   const schema = yup.object({});
-
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-    setError,
+
+    clearErrors,
   } = useForm<IUser>({
     resolver: yupResolver(schema),
   });
 
-  function submit() {
-    setError("root", { message: "Not implemented" });
-  }
+  const submit = handleSubmit(async (user) => {
+    try {
+      clearErrors();
+      await createUser(user);
+      navigate("/");
+    } catch (e: any) {
+      setError("Erreur lors de l'inscription");
+    }
+  });
   return (
     <div className="flex-fill d-flex align-items-center justify-content-center">
       <form

@@ -17,6 +17,7 @@ export function useFetchRessources(page?: number): [boolean, string, any[]] {
           queryParam.append("page", `${page}`);
         }
         const fetchedRessources = await getRessources(queryParam);
+
         if (!cancel) {
           if (page && page !== 1) {
             setRessources((x) => [...x, ...fetchedRessources]);
