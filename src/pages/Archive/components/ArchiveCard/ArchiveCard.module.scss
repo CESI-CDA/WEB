@@ -1,0 +1,107 @@
+.card {
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: row;
+}
+
+.cardImage {
+    width: 80%;
+    height: 100%;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    border-radius: 20px;
+}
+
+.contentCard {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.cardTitle {
+    width: 100%;
+    font-size: 30px;
+}
+
+.titleAndIcon {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 30px;
+    width: 100%;
+    padding-left: 30px;
+    padding-right: 10px;
+}
+
+.icon {
+    margin-top: 4px;
+    font-size: 30px;
+}
+
+.contentResource {
+    display: flex;
+    font-size: 16px;
+    color: "#808080";
+    margin-top: 20px;
+    width: 95%;
+    padding-left: 30px;
+}
+
+.threeLines {
+    display: -webkit-box;
+    -webkit-line-clamp: 8;
+    -webkit-box-orient: vertical;  
+    overflow: hidden;
+}
+
+@media (max-width: 430px) {
+    .card {
+        width: 100%;
+        height: auto;
+        display: flex;
+        flex-direction: row;
+    }
+
+    .cardImage {
+        width: 45%;
+    }
+
+    .contentCard {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .cardTitle {
+        width: 100%;
+        font-size: 15px;
+    }
+
+    .titleAndIcon {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        margin-top: 30px;
+        padding-left: 10px;
+    }
+
+    .icon {
+        margin-top: 4px;
+        font-size: 15px;
+    }
+
+    .contentResource {
+        font-size: 12px;
+        margin-top: 10px;
+        padding-left: 10px;
+        width: 90%;
+    }
+
+    .threeLines {
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;  
+        overflow: hidden;
+    }
+}
