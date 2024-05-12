@@ -6,6 +6,8 @@ import Register from "./pages/Register/Register";
 import { rootLoader } from "./loaders/rootLoader";
 import { Admin } from "./pages/Admin/Admin";
 import Resource from "./pages/Resource/Resource";
+import Favorite from "./pages/Favorite/Favorite";
+import Archive from "./pages/Archive/Archive";
 
 export const router = createBrowserRouter([
   {
@@ -32,6 +34,14 @@ export const router = createBrowserRouter([
       {
         path: "/resource",
         element: <Resource />,
+      },
+      {
+        path: "/favorite",
+        element: <Favorite />,
+      },
+      {
+        path: "/archive",
+        element: <Archive />,
       },
     ],
   },
