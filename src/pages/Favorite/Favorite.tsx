@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from "./Favorite.module.scss";
-import HeaderFavorite from './components/HeaderFavorite';
+import HeaderFavorite from './components/HeaderFavorite/HeaderFavorite';
+import FavoriteCard from './components/FavoriteCard/FavoriteCard';
 
 
 const Favorite: React.FC = () => {
@@ -11,6 +12,14 @@ const Favorite: React.FC = () => {
                 <div className={styles.header}>
                     <HeaderFavorite title="Mes favoris" onBackPress={() => console.log('Retour en arrière effectué')} />
                 </div>
+                <div className={styles.body}>
+                <FavoriteCard/>
+                <FavoriteCard/>
+                <FavoriteCard/>
+                <FavoriteCard/>
+                <FavoriteCard/>
+                </div>
+              
             </div>
         </div>
     );
