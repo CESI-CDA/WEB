@@ -5,6 +5,7 @@ import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
 import { rootLoader } from "./loaders/rootLoader";
 import { Admin } from "./pages/Admin/Admin";
+import Resource from "./pages/Resource/Resource";
 
 export const router = createBrowserRouter([
   {
@@ -27,6 +28,10 @@ export const router = createBrowserRouter([
       {
         path: "/admin",
         element: <Admin />,
+      },
+      {
+        path: "/resource",
+        element: <Resource />,
       },
     ],
   },

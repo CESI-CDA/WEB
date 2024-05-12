@@ -1,0 +1,87 @@
+.contentCard {
+    max-width: 1130px;
+    width: 100%;
+}
+
+.imageContainer {
+    width: 100%;
+    border-radius: 5px;
+    max-height: 550px;
+    object-fit: cover;
+}
+
+.characteristicProp {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    height: 100px;
+    margin-right: 50px;
+    margin-top: 30px;
+    font-size: 20px;
+
+}
+
+.category,
+.typeOfRelation,
+.typeOfResource {
+    margin: 0;
+}
+
+.content {
+    padding: 38px;
+}
+
+.title {
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #0F0F0F;
+}
+
+.resourceContent {
+    font-size: 17px;
+    padding-top: 5px;
+    margin-bottom: 10px;
+    color: #0F0F0F;
+    text-align: justify;
+}
+
+.headerComment {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 10;
+    margin-right: 30;
+}
+
+.comment {
+    font-size: 30px;
+}
+
+.icon {
+    color: #6E5BE2;
+    font-size: 60px;
+    padding-bottom: 12;
+    border: none;
+    background-color: transparent;
+}
+
+@media (max-width: 430px) {
+    .title {
+        font-size: 22px;
+    }
+
+    .resourceContent {
+        font-size: 15px;
+    }
+
+    .comment {
+        font-size: 22px;
+    }
+
+    .icon {
+        font-size: 40px;
+    }
+}
