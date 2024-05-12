@@ -8,6 +8,7 @@ import { Admin } from "./pages/Admin/Admin";
 import Resource from "./pages/Resource/Resource";
 import Favorite from "./pages/Favorite/Favorite";
 import Archive from "./pages/Archive/Archive";
+import ResetPassword from "./pages/ResetPassword/ResetPassword";
 
 export const router = createBrowserRouter([
   {
@@ -42,6 +43,10 @@ export const router = createBrowserRouter([
       {
         path: "/archive",
         element: <Archive />,
+      },
+      {
+        path: "/resetpassword",
+        element: <ResetPassword />,
       },
     ],
   },
