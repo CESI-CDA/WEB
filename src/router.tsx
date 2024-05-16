@@ -34,7 +34,7 @@ export const router = createBrowserRouter([
         element: <Admin />,
       },
       {
-        path: "/resource",
+        path: "/resource/:id",
         element: <Resource />,
       },
       {
