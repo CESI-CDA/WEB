@@ -17,8 +17,8 @@ export async function getRessources(
     throw new Error("Error fetch ressources");
   }
 }
-export async function getRessource(_id: ObjectId): Promise<IRessource> {
-  const response = await fetch(`${RESSOURCES_API}/${_id}`);
+export async function getRessource(id: ObjectId): Promise<IRessource> {
+  const response = await fetch(`${RESSOURCES_API}/${id}`);
   if (response.ok) {
     return response.json();
   } else {

@@ -1,9 +1,10 @@
+import { NavLink } from "react-router-dom";
 import { IRessource } from "../../../../interfaces";
 import styles from "./RessourceCard.module.scss";
 
 function RessourceCard({ ressource }: { ressource: IRessource }) {
   return (
-    <div className={styles.ressource}>
+    <NavLink to={`/resource/${ressource.id}`}>
       <div className={styles.imageContainer}>
         <img
           src={ressource.image}
@@ -13,12 +14,10 @@ function RessourceCard({ ressource }: { ressource: IRessource }) {
           height="300"
         />
       </div>
-      <div
-        className={`${styles.ressourceTitle} d-flex flex-column justify-content-center align-items-center p-10`}
-      >
+      <div className={`${styles.resourceTitle} d-flex flex-column justify-content-center align-items-center p-10`}>
         <h3>{ressource.title}</h3>
       </div>
-    </div>
+    </NavLink>
   );
 }
 

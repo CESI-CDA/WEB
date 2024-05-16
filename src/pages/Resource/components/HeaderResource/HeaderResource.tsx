@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft, faHeart, faArchive } from '@fortawesome/free-solid-svg-icons'; // Importez les icônes nécessaires
 import styles from "./HeaderResource.module.scss";
+import { NavLink } from 'react-router-dom';
 
 const HeaderResource: React.FC = () => {
     // Utilisez l'état local pour suivre si les sont remplis ou non
@@ -18,7 +19,9 @@ const HeaderResource: React.FC = () => {
     }
     return (
         <div className={styles.container}>
+            <NavLink to="/">
             <FontAwesomeIcon icon={faChevronLeft} className={styles.icon} color="white" />
+            </NavLink>
             <div className={styles.add}>
                 <div>
                     {/* Utiliser la couleur blanche si l'icône n'est pas rempli, sinon utilisez la couleur violette */}

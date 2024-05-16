@@ -2,22 +2,23 @@ import React, { useState, useEffect } from 'react';
 import styles from "./Resource.module.scss";
 import HeaderResource from './components/HeaderResource/HeaderResource';
 import { getRessource } from '../../apis/ressource'; 
+import { useParams } from 'react-router-dom';
 
 const Resource: React.FC = () => {
     const [resourceData, setResourceData] = useState<any>(null);
-    const resourceId = "2";
+    const { id = "" } = useParams<{ id?: string }>();
 
     useEffect(() => {
         const fetchResourceData = async () => {
             try {
-                const data = await getRessource(resourceId);
+                const data = await getRessource(id);
                 setResourceData(data);
             } catch (error) {
                 console.error('Error fetching resource data:', error);
             }
         };
         fetchResourceData();
-    }, [resourceId]);
+    }, [id]);
 
     return (
         <div className={`flex-fill container d-flex flex-column p-20`}>
