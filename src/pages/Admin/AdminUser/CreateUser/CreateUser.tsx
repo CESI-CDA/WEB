@@ -3,12 +3,14 @@ import { IUser } from "interfaces";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import styles from "./CreateUser.module.scss";
-import { createUser } from "../../../../apis/users";
+import { createUser, createUserAdmin } from "../../../../apis/users";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { AuthContext } from "../../../../context";
 
 export function CreateUser() {
   const [error, setError] = useState<string | null>("");
+  const { token } = useContext(AuthContext);
   const schema = yup.object({});
   const navigate = useNavigate();
   const {
@@ -21,10 +23,10 @@ export function CreateUser() {
     resolver: yupResolver(schema),
   });
 
-  const submit = handleSubmit(async (user) => {
+  const submit = handleSubmit(async (user: IUser) => {
     try {
       clearErrors();
-      await createUser(user);
+      await createUserAdmin(user, token);
       navigate("/");
     } catch (e: any) {
       setError("Erreur lors de l'inscription");

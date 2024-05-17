@@ -8,6 +8,8 @@ import { AuthContext } from "../../context";
 function Header() {
   const [showMenu, setShowMenu] = useState(false);
   const { user, logoutUser } = useContext(AuthContext);
+  console.log(user);
+
   return (
     <header
       className={`${styles.header} d-flex flex-row align-items-center mb-20`}
@@ -36,6 +38,14 @@ function Header() {
             <NavLink to="profile">
               <button className="btn btn-primary mr-15">Profil</button>
             </NavLink>
+            {user.role === 1 ? (
+              <NavLink to="admin">
+                <button className="btn btn-primary mr-15">
+                  Administration
+                </button>
+              </NavLink>
+            ) : null}
+
             <button onClick={logoutUser} className="btn btn-primary">
               Déconnexion
             </button>

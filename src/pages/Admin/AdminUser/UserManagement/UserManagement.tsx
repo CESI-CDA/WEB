@@ -1,15 +1,18 @@
 import { getUsers } from "../../../../apis/users";
 import { IUser } from "interfaces";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import styles from "./UserManagement.module.scss";
+import { AuthContext } from "../../../../context";
 
 export function UserManagement() {
   const [users, setUsers] = useState<IUser[]>([]);
+  const context = useContext(AuthContext);
+  console.log(context);
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const data = await getUsers();
+        const data = await getUsers(context?.token as string);
         setUsers(data);
       } catch (error) {
         console.log(error);

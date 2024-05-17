@@ -11,12 +11,13 @@ import AdminUser from "./pages/Admin/AdminUser/AdminUser";
 import CreateUser from "./pages/Admin/AdminUser/CreateUser/CreateUser";
 import UserManagement from "./pages/Admin/AdminUser/UserManagement/UserManagement";
 import AdminRessources from "./pages/Admin/AdminRessources/AdminRessources";
+import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
-    loader: rootLoader,
+    // loader: rootLoader,
     children: [
       {
         index: true,
@@ -32,7 +33,11 @@ export const router = createBrowserRouter([
       },
       {
         path: "/admin",
-        element: <Admin />,
+        element: (
+          <ProtectedRoute allowedRoles={[1, 2]}>
+            <Admin />
+          </ProtectedRoute>
+        ),
         children: [
           {
             path: "ressources",
@@ -62,26 +67,26 @@ export const router = createBrowserRouter([
           },
         ],
       },
-      {
-        path: "/resource/:id",
-        element: <Resource />,
-      },
-      {
-        path: "/favorite",
-        element: <Favorite />,
-      },
-      {
-        path: "/archive",
-        element: <Archive />,
-      },
-      {
-        path: "/resetpassword",
-        element: <ResetPassword />,
-      },
-      {
-        path: "/useraccount",
-        element: <UserAccount />,
-      },
+      // {
+      //   path: "/resource/:id",
+      //   element: <Resource />,
+      // },
+      // {
+      //   path: "/favorite",
+      //   element: <Favorite />,
+      // },
+      // {
+      //   path: "/archive",
+      //   element: <Archive />,
+      // },
+      // {
+      //   path: "/resetpassword",
+      //   element: <ResetPassword />,
+      // },
+      // {
+      //   path: "/useraccount",
+      //   element: <UserAccount />,
+      // },
     ],
   },
 ]);

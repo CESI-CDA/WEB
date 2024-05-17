@@ -4,10 +4,11 @@ export interface IUser {
   pseudonyme?: string;
   email: string;
   password?: string;
-  id_rol?: number;
+  role?: number;
 }
 
 export interface IContextAuth {
+  token: string | null;
   user: IUser | null;
   loginUser: (credentials: {
     email: string;
