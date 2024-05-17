@@ -1,12 +1,14 @@
 export interface IUser {
   nom: string;
   prenom: string;
-  pseudonyme: string;
+  pseudonyme?: string;
   email: string;
-  password: string;
+  password?: string;
+  role?: number;
 }
 
 export interface IContextAuth {
+  token: string | null;
   user: IUser | null;
   loginUser: (credentials: {
     email: string;

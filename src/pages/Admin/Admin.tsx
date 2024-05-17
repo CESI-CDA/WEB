@@ -1,7 +1,16 @@
+import { Outlet } from "react-router-dom";
+import { AdminNav } from "./components/AdminNav/AdminNav";
+import { Suspense } from "react";
+import Loader from "../../components/Loader/Loader";
 export function Admin() {
   return (
-    <div>
-      <h1>Admin</h1>
+    <div className="d-flex flex-fill p-20">
+      <AdminNav />
+      <div className="d-flex flex-column flex-fill">
+        <Suspense>
+          <Outlet />
+        </Suspense>
+      </div>
     </div>
   );
 }

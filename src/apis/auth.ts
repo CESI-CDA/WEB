@@ -1,7 +1,11 @@
-const API_AUTH = "https://projet-resources.fr";
+import userMapper from "../mapper/userMapper";
+import { IUser } from "interfaces";
+
+const API_AUTH = "https://projet-resources.fr/api";
+export const API_DEV = "http://127.0.0.1:8000/api";
 
 export async function login(credentials: { email: string; password: string }) {
-  const response = await fetch(`${API_AUTH}/login`, {
+  const response = await fetch(`${API_DEV}/login`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -10,6 +14,7 @@ export async function login(credentials: { email: string; password: string }) {
   });
   const body = await response.json();
   if (response.ok) {
+    console.log(body);
     return body;
   } else {
     if (body) {
@@ -20,21 +25,12 @@ export async function login(credentials: { email: string; password: string }) {
   }
 }
 
-export async function getCurrentUser() {
-  // const response = await fetch(`${API_AUTH}/current`);
-  // return response.json();
-  // return {
-  //   id: 4,
-  //   nom: "Forestier",
-  //   prenom: "Julien",
-  //   pseudonyme: "JulienForestier",
-  //   email: "julien.forestier@viacesi.fr",
-  // };
-  return null;
-}
+// export async function getCurrentUser() {
+//   return null;
+// }
 
 export async function logout() {
-  await fetch(API_AUTH, {
-    method: "DELETE",
+  await fetch(`${API_DEV}/logout`, {
+    method: "POST",
   });
 }
