@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronLeft, faHeart, faArchive } from '@fortawesome/free-solid-svg-icons'; // Importez les icônes nécessaires
 import styles from "./HeaderResource.module.scss";
 import { NavLink } from 'react-router-dom';
 
@@ -20,16 +18,20 @@ const HeaderResource: React.FC = () => {
     return (
         <div className={styles.container}>
             <NavLink to="/">
-            <FontAwesomeIcon icon={faChevronLeft} className={styles.icon} color="white" />
+                <i className={`fa-solid fa-chevron-left ${styles.icon}`} style={{ color: "white" }}></i>
             </NavLink>
             <div className={styles.add}>
                 <div>
-                    {/* Utiliser la couleur blanche si l'icône n'est pas rempli, sinon utilisez la couleur violette */}
-                    <FontAwesomeIcon icon={faHeart} className={styles.icon} color={isHeartFilled ? "#6E5BE2" : "white"} onClick={handleHeartClick} />
+                    <i className={`fa-solid fa-heart ${styles.icon}`}
+                        style={{ color: isHeartFilled ? "#6E5BE2" : "white" }}
+                        onClick={handleHeartClick}
+                    ></i>
                 </div>
                 <div>
-                    {/* Utiliser la couleur blanche si l'icône n'est pas rempli, sinon utilisez la couleur violette */}
-                    <FontAwesomeIcon icon={faArchive} className={styles.icon} color={isArchiveFilled ? "#6E5BE2" : "white"} onClick={handleArchiveClick} />
+                    <i className={`fa-solid fa-box-archive ${styles.icon}`}
+                        style={{ color: isArchiveFilled ? "#6E5BE2" : "white" }}
+                        onClick={handleArchiveClick}
+                    ></i>
                 </div>
             </div>
         </div>

@@ -1,7 +1,5 @@
 import React from "react";
 import styles from "./ArchiveCard.module.scss";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEllipsisV } from '@fortawesome/free-solid-svg-icons';
 
 const ArchiveCard: React.FC = () => {
 
@@ -14,7 +12,7 @@ const ArchiveCard: React.FC = () => {
             <div className={styles.contentCard}>
                 <div className={styles.titleAndIcon}>
                     <div className={styles.cardTitle}>Une ressource</div>
-                    <FontAwesomeIcon icon={faEllipsisV} className={styles.icon} color="black" />
+                    <i className={`fa-solid fa-ellipsis-vertical ${styles.icon}`} style={{ color: "black" }}></i>
                 </div>
                 <div className={`${styles.contentResource} ${styles.threeLines}`}>Une ressource peut être considérée comme tout ce qui peut être exploité ou utilisé pour atteindre un objectif spécifique. Cela peut inclure des ressources naturelles telles que l'eau et les minéraux, des ressources financières comme l'argent, des ressources humaines comme les compétences et les connaissances, ou même des ressources technologiques telles que les logiciels et les équipements.
                 <br/>
@@ -24,7 +22,5 @@ const ArchiveCard: React.FC = () => {
         </div>
     );
 };
-
-
 
 export default ArchiveCard;
