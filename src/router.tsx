@@ -16,7 +16,7 @@ import Favorite from "./pages/Archive/Archive";
 import Archive from "./pages/Archive/Archive";
 import ResetPassword from "./pages/ResetPassword/ResetPassword";
 import UserAccount from "./pages/UserAccount/UserAccount";
-import ForgotPassword from "pages/ForgotPassword/ForgotPassword";
+import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
 
 export const router = createBrowserRouter([
   {
