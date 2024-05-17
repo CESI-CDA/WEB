@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import styles from "./UserAccount.module.scss";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSignOutAlt, faCameraRetro, faHeart, faBoxArchive, faPenClip } from "@fortawesome/free-solid-svg-icons";
 import StatCard from './components/StatCard/StatCard';
 import TextInputField from './components/TextInputField/TextInputField';
 import backgroundHeader from "../../assets/images/background-header-user-account.jpg";
@@ -27,7 +25,7 @@ const UserAccount: React.FC = () => {
                             />
                         </div>
                         <button className={styles.logoutButton} >
-                            <FontAwesomeIcon icon={faSignOutAlt} className={styles.logoutIcon} />
+                        <i className={`fa-solid fa-right-from-bracket ${styles.logoutIcon}`}></i>
                         </button>
                         <img
                             src="https://cdn.icon-icons.com/icons2/3054/PNG/512/account_profile_user_icon_190494.png"
@@ -35,23 +33,23 @@ const UserAccount: React.FC = () => {
                             className={styles.circle}
                         />
                         <div className={styles.cameraIconContainer}>
-                            <FontAwesomeIcon icon={faCameraRetro} className={styles.cameraIcon} />
+                        <i className={`fa-solid fa-camera-retro ${styles.cameraIcon}`}></i>
                         </div>
                         <div className={styles.username}>Pseudo</div>
                     </div>
                     <div className={styles.cardStat}>
                         <button className={styles.button}>
-                            <StatCard icon={faHeart} number={10} />
+                        <StatCard number={10} icon="fa-solid fa-heart" />
                         </button>
                         <button className={styles.button}>
-                            <StatCard icon={faBoxArchive} number={5} />
+                        <StatCard number={5} icon="fa-solid fa-box-archive" />
                         </button>
                     </div>
                     <div className={styles.body}>
                         <div className={styles.bodyheader}>
                             <div className={styles.bodytitle}>Mes infos</div>
                             <div className={styles.modifyprofile}>
-                                <FontAwesomeIcon icon={faPenClip} />
+                            <i className="fa-solid fa-pen-clip"></i>
                                 <span className={styles.textmodifyprofile}>
                                     Modifier mes informations
                                 </span>
