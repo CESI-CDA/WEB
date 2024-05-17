@@ -1,7 +1,8 @@
-import { ObjectId } from "../types";
+import { ObjectId, RessourceCategorie } from "../types";
 
 export interface IRessource {
   id: ObjectId;
   title: string;
   image: string;
+  categorie: Array<RessourceCategorie>;
 }

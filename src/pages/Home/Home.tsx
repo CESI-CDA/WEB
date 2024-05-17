@@ -8,8 +8,7 @@ import Loader from "../../components/Loader/Loader";
 function Home() {
   const [filter, setFilter] = useState("");
   const [page, setPage] = useState(1);
-  const [loadind, error, ressources] = useFetchRessources(page);
-  console.log(ressources);
+  const [loading, error, ressources] = useFetchRessources(page);
 
   function handleClickMoreRessources() {
     setPage((current) => current + 1);
@@ -23,7 +22,7 @@ function Home() {
           className={`card flex-fill d-flex flex-column p-20 mb-20 ${styles.contentCard}`}
         >
           <Search setFilter={setFilter} />
-          {loadind && !ressources.length ? (
+          {loading && !ressources.length ? (
             <Loader />
           ) : (
             <div className={styles.grid}>
