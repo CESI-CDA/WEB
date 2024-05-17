@@ -4,7 +4,7 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { AuthContext } from "../../context";
 import { useContext, useState } from "react";
-import { Navigate, redirect, useNavigate } from "react-router-dom";
+import { NavLink, Navigate, redirect, useNavigate } from "react-router-dom";
 
 function Login() {
   const { user, loginUser } = useContext(AuthContext);
@@ -82,6 +82,12 @@ function Login() {
                 Connexion
               </button>
             </div>
+            <NavLink to="/forgotpassword">
+            <div className={`mt-10" ${styles.forgot}`}>
+                <a href="/forgot-password">Mot de passe oublié ?</a>
+            </div>
+            </NavLink>
+           
           </form>
         </div>
       )}

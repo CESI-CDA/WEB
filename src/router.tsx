@@ -10,6 +10,7 @@ import Favorite from "./pages/Favorite/Favorite";
 import Archive from "./pages/Archive/Archive";
 import ResetPassword from "./pages/ResetPassword/ResetPassword";
 import UserAccount from "./pages/UserAccount/UserAccount";
+import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
 
 export const router = createBrowserRouter([
   {
@@ -52,6 +53,10 @@ export const router = createBrowserRouter([
       {
         path: "/useraccount",
         element: <UserAccount />,
+      },
+      {
+        path: "/forgotpassword",
+        element: <ForgotPassword />,
       },
     ],
   },
