@@ -14,6 +14,7 @@ const ResetPassword: React.FC = () => {
                 <label htmlFor="password">Confirmer le mot de passe</label>
                 <input type="password" />
             </div>
+
             <div>
                 <button className="btn btn-primary">
                     Valider
