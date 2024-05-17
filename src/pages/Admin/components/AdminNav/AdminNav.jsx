@@ -7,13 +7,13 @@ export function AdminNav() {
         className={({ isActive }) => (isActive ? styles.active : "")}
         to="ressources"
       >
-        Ressources en attentes de validation
+        Ressources en attente de validation
       </NavLink>
       <NavLink
         className={({ isActive }) => (isActive ? styles.active : "")}
         to="comments"
       >
-        commentaires en attentes de validation
+        Commentaires en attente de validation
       </NavLink>
       <NavLink
         className={({ isActive }) => (isActive ? styles.active : "")}

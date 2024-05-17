@@ -31,7 +31,7 @@ function AdminRecipesList() {
               <li key={r.title} className="d-flex align-items-center">
                 <span className="flex-fill">{r.title}</span>
                 <button className="btn btn-primary mr-15">Accepter</button>
-                <button className="btn btn-danger">rejeter</button>
+                <button className="btn btn-danger">Rejeter</button>
               </li>
             ))
           : null}

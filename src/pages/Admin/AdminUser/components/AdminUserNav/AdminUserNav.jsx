@@ -13,7 +13,7 @@ export function AdminUserNav() {
         className={({ isActive }) => (isActive ? styles.active : "")}
         to="manage"
       >
-        Gerer les utilisateurs
+        Gérer les utilisateurs
       </NavLink>
     </ul>
   );

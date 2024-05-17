@@ -28,8 +28,8 @@ export function UserManagement() {
           users.map((user) => (
             <li key={user.pseudonyme} className="d-flex align-items-center">
               <span className="flex-fill">{user.prenom}</span>
-              <button className="btn btn-primary mr-15">suspendre</button>
-              <button className="btn btn-danger">supprimer</button>
+              <button className="btn btn-primary mr-15">Suspendre</button>
+              <button className="btn btn-danger">Supprimer</button>
             </li>
           ))}
       </ul>
