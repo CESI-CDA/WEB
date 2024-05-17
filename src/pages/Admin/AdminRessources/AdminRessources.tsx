@@ -93,7 +93,7 @@ export function AdminRessources() {
                 <button className="btn btn-primary mr-15 ml-10">
                   Suspendre
                 </button>
-                <button className="btn btn-danger">Suprimer</button>
+                <button className="btn btn-danger">Supprimer</button>
               </li>
             ))
           : null}

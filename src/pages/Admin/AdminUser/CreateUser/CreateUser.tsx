@@ -52,7 +52,7 @@ export function CreateUser() {
           )}
         </div>
         <div className="mb-10 d-flex flex-column">
-          <label htmlFor="email">Pseudo</label>
+          <label htmlFor="email">Pseudonyme</label>
           <input type="text" {...register("pseudonyme")} />
           {errors.pseudonyme && (
             <p className="form-error">{errors.pseudonyme.message}</p>
@@ -64,19 +64,19 @@ export function CreateUser() {
           {errors.email && <p className="form-error">{errors.email.message}</p>}
         </div>
         <div className="mb-10 d-flex flex-column">
-          <label htmlFor="password">Password</label>
+          <label htmlFor="password">Mot de passe</label>
           <input type="password" {...register("password")} />
           {errors.password && (
             <p className="form-error">{errors.password.message}</p>
           )}
         </div>
         <div className="mb-10 d-flex flex-column">
-          <label htmlFor="role">Role</label>
+          <label htmlFor="role">Rôle</label>
           <select {...register("role")}>
-            <option value="1">Membre</option>
+            <option value="1">Citoyen</option>
             <option value="2">Modérateur</option>
-            <option value="3">Admin</option>
-            <option value="4">Super Admin</option>
+            <option value="3">Administrateur</option>
+            <option value="4">Super-Administrateur</option>
           </select>
         </div>
         {errors.root && (
