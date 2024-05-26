@@ -8,21 +8,19 @@ import FavoriteCard from './components/FavoriteCard/FavoriteCard';
 const Favorite: React.FC = () => {
 
     return (
-     
-            <div className={`card flex-fill d-flex flex-column p-30 mb-30 ${styles.contentCard}`}>
-                <div className={styles.header}>
-                    <HeaderFavorite title="Mes favoris" onBackPress={() => console.log('Retour en arrière effectué')} />
-                </div>
-                <div className={styles.body}>
-                <FavoriteCard/>
-                <FavoriteCard/>
-                <FavoriteCard/>
-                <FavoriteCard/>
-                <FavoriteCard/>
-                </div>
-              
+        <div className={`card flex-fill d-flex flex-column p-30 mb-30 ${styles.contentCard}`}>
+            <div className={styles.header}>
+                <HeaderFavorite title="Mes favoris" onBackPress={() => console.log('Retour en arrière effectué')} />
             </div>
-     
+            <div className={styles.body}>
+                <FavoriteCard />
+                <FavoriteCard />
+                <FavoriteCard />
+                <FavoriteCard />
+                <FavoriteCard />
+            </div>
+        </div>
+
     );
 };
 

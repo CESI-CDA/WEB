@@ -3,7 +3,7 @@ import styles from "./Account.module.scss";
 import StatCard from "./components/StatCard/StatCard";
 import TextInputField from "./components/TextInputField/TextInputField";
 import backgroundHeader from '../../../assets/images/background-header-user-account.jpg';
-import { IContextAuth, IUser, UserData } from "interfaces";
+import { IContextAuth, UserData } from "interfaces";
 import { AuthContext } from "../../../context";
 import { getUserById } from "../../../apis/users";
 
@@ -11,26 +11,22 @@ import { getUserById } from "../../../apis/users";
 const Account: React.FC = () => {
     const authContext = useContext<IContextAuth | null>(AuthContext);
     if (!authContext) {
-        return <div>Authentification non disponible</div>;
+        return null;
     }
     const { token, user } = authContext;
     const [userData, setUserData] = useState<UserData | null>(null);
-
 
     useEffect(() => {
         const fetchUser = async () => {
             try {
                 if (user && token) {
                     const fetchedUserData = await getUserById(user.id, token);
-                    console.log("Données utilisateur récupérées:", fetchedUserData);
                     setUserData(fetchedUserData);
-                    console.log("Données utilisateur mises à jour:", fetchedUserData);
                 }
             } catch (error) {
                 console.error("Erreur lors de la récupération des données utilisateur:", error);
             }
         };
-
         fetchUser();
     }, [user, token]);
 

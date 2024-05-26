@@ -43,7 +43,6 @@ export async function getUsers(token: string): Promise<IUser[]> {
   });
   if (response.ok) {
     const data = await response.json();
-    console.log(data);
     const users = userMapper(data.items.data);
     return users;
   } else {
@@ -67,7 +66,6 @@ export async function getUserById(userId: number, token: string): Promise<UserDa
       pseudonyme: user.pseudonyme,
       email: user.email,
     };
-    console.log(userData);
     return userData;
   } else {
     throw new Error("Error fetching user");
