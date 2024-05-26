@@ -16,6 +16,12 @@ const FavoriteCard: React.FC = () => {
                 <div className={`${styles.contentResource} ${styles.threeLines}`}>Une ressource peut être considérée comme tout ce qui peut être exploité ou utilisé pour atteindre un objectif spécifique. Cela peut inclure des ressources naturelles telles que l'eau et les minéraux, des ressources financières comme l'argent, des ressources humaines comme les compétences et les connaissances, ou même des ressources technologiques telles que les logiciels et les équipements.
                 <br/>
                 Une ressource peut être considérée comme tout ce qui peut être exploité ou utilisé pour atteindre un objectif spécifique. Cela peut inclure des ressources naturelles telles que l'eau et les minéraux, des ressources financières comme l'argent, des ressources humaines comme les compétences et les connaissances, ou même des ressources technologiques telles que les logiciels et les équipements.
+                <br/>
+                Une ressource peut être considérée comme tout ce qui peut être exploité ou utilisé pour atteindre un objectif spécifique. Cela peut inclure des ressources naturelles telles que l'eau et les minéraux, des ressources financières comme l'argent, des ressources humaines comme les compétences et les connaissances, ou même des ressources technologiques telles que les logiciels et les équipements.
+                <br/>
+                Une ressource peut être considérée comme tout ce qui peut être exploité ou utilisé pour atteindre un objectif spécifique. Cela peut inclure des ressources naturelles telles que l'eau et les minéraux, des ressources financières comme l'argent, des ressources humaines comme les compétences et les connaissances, ou même des ressources technologiques telles que les logiciels et les équipements.
+                <br/>
+                Une ressource peut être considérée comme tout ce qui peut être exploité ou utilisé pour atteindre un objectif spécifique. Cela peut inclure des ressources naturelles telles que l'eau et les minéraux, des ressources financières comme l'argent, des ressources humaines comme les compétences et les connaissances, ou même des ressources technologiques telles que les logiciels et les équipements.
                 </div>
             </div>
         </div>
