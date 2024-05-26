@@ -1,4 +1,4 @@
-import { IUser } from "interfaces/user.interface";
+import { IUser, UserData } from "interfaces/user.interface";
 import userMapper from "../mapper/userMapper";
 import { API_DEV } from "./auth";
 
@@ -48,5 +48,28 @@ export async function getUsers(token: string): Promise<IUser[]> {
     return users;
   } else {
     throw new Error("Error fetch users");
+  }
+}
+
+export async function getUserById(userId: number, token: string): Promise<UserData> {
+  const response = await fetch(`${API_DEV}/users/${userId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  if (response.ok) {
+    const userData: UserData = await response.json();
+    const { user } = userData.item;
+    const userObject: IUser = {
+      id: user.id,
+      nom: user.nom,
+      prenom: user.prenom,
+      pseudonyme: user.pseudonyme,
+      email: user.email,
+    };
+    console.log(userData);
+    return userData;
+  } else {
+    throw new Error("Error fetching user");
   }
 }

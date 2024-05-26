@@ -1,29 +1,52 @@
-import { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import styles from "./Account.module.scss";
 import StatCard from "./components/StatCard/StatCard";
 import TextInputField from "./components/TextInputField/TextInputField";
 import backgroundHeader from '../../../assets/images/background-header-user-account.jpg';
+import { IContextAuth, IUser, UserData } from "interfaces";
+import { AuthContext } from "../../../context";
+import { getUserById } from "../../../apis/users";
+
 
 const Account: React.FC = () => {
+    const authContext = useContext<IContextAuth | null>(AuthContext);
+    if (!authContext) {
+        return <div>Authentification non disponible</div>;
+    }
+    const { token, user } = authContext;
+    const [userData, setUserData] = useState<UserData | null>(null);
 
 
-    // Déclarez des états pour les valeurs des champs de texte
-    const [nom, setNom] = useState("");
-    const [prenom, setPrenom] = useState("");
-    const [pseudonyme, setPseudonyme] = useState("");
-    const [email, setEmail] = useState("");
+    useEffect(() => {
+        const fetchUser = async () => {
+            try {
+                if (user && token) {
+                    const fetchedUserData = await getUserById(user.id, token);
+                    console.log("Données utilisateur récupérées:", fetchedUserData);
+                    setUserData(fetchedUserData);
+                    console.log("Données utilisateur mises à jour:", fetchedUserData);
+                }
+            } catch (error) {
+                console.error("Erreur lors de la récupération des données utilisateur:", error);
+            }
+        };
+
+        fetchUser();
+    }, [user, token]);
+
+
     return (
         <div className={`card flex-fill d-flex flex-column p-20 mb-20 ${styles.contentCard}`}>
             <div className={styles.container}>
                 <div className={styles.header}>
                     <div className={styles.topheader}>
-                        {<img
+                        <img
                             src={backgroundHeader}
                             alt="Header"
                             className={styles.headerImage}
-                        />}
+                        />
                     </div>
-                    <button className={styles.logoutButton} >
+                    <button className={styles.logoutButton}>
                         <i className={`fa-solid fa-right-from-bracket ${styles.logoutIcon}`}></i>
                     </button>
                     <img
@@ -34,14 +57,15 @@ const Account: React.FC = () => {
                     <div className={styles.cameraIconContainer}>
                         <i className={`fa-solid fa-camera-retro ${styles.cameraIcon}`}></i>
                     </div>
-                    <div className={styles.username}>Pseudo</div>
+                    <div className={styles.username}>{userData?.item?.user?.pseudonyme || "Pseudo"}</div>
+
                 </div>
                 <div className={styles.cardStat}>
                     <button className={styles.button}>
-                        <StatCard number={10} icon="fa-solid fa-heart" />
+                        <StatCard number={userData?.item.getNombreFavoris ?? 0} icon="fa-solid fa-heart" />
                     </button>
                     <button className={styles.button}>
-                        <StatCard number={5} icon="fa-solid fa-box-archive" />
+                        <StatCard number={userData?.item.getNombreArchive ?? 0} icon="fa-solid fa-box-archive" />
                     </button>
                 </div>
                 <div className={styles.body}>
@@ -58,41 +82,37 @@ const Account: React.FC = () => {
                         <TextInputField
                             label="Nom"
                             placeholder="Mon nom"
-                            value={nom}
-                            onChangeText={setNom}
+                            value={userData?.item?.user?.nom || ''}
                             editable={true}
                         />
                         <TextInputField
                             label="Prénom"
                             placeholder="Mon prénom"
-                            value={prenom}
-                            onChangeText={setPrenom}
+                            value={userData?.item?.user?.prenom || ''}
                             editable={true}
                         />
                         <TextInputField
                             label="Pseudonyme"
                             placeholder="Mon pseudonyme"
-                            value={pseudonyme}
-                            onChangeText={setPseudonyme}
+                            value={userData?.item?.user?.pseudonyme || ''}
+
                             editable={true}
                         />
                         <TextInputField
                             label="Mail"
                             placeholder="Mon adresse mail"
-                            value={email}
-                            onChangeText={setEmail}
+                            value={userData?.item?.user?.email || ''}
                             editable={false}
                         />
                         <div className={styles.positionButton}>
                             <button className={styles.deleteButton}>
                                 Supprimer mon compte
-                            </button></div>
-
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-
     );
 }
 
