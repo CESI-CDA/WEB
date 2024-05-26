@@ -1,11 +1,12 @@
 import { Outlet } from "react-router-dom";
-import { AdminNav } from "./components/AdminNav/AdminNav";
 import { Suspense } from "react";
-export function Admin() {
+import UserNav from "./components/UserNav/UserNav";
+
+export function User() {
   return (
     <div className="d-flex flex-fill p-20">
-      <AdminNav />
-      <div className="d-flex flex-column flex-fill">
+        <UserNav/>
+            <div className="d-flex flex-column flex-fill">
         <Suspense>
           <Outlet />
         </Suspense>

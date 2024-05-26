@@ -1,4 +1,5 @@
 export interface IUser {
+  id: number;
   nom: string;
   prenom: string;
   pseudonyme?: string;
@@ -15,4 +16,12 @@ export interface IContextAuth {
     password: string;
   }) => Promise<void>;
   logoutUser: () => Promise<void>;
+}
+
+export interface UserData {
+  item: {
+    user: IUser;
+    getNombreFavoris: number;
+    getNombreArchive: number;
+  };
 }

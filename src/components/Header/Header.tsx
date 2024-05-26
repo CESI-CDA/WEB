@@ -32,10 +32,7 @@ function Header() {
         )}
         {user && (
           <>
-            <NavLink to="favoris">
-              <button className="btn btn-primary mr-15">Favoris</button>
-            </NavLink>
-            <NavLink to="profile">
+            <NavLink to="user">
               <button className="btn btn-primary mr-15">Profil</button>
             </NavLink>
             {user.role === 1 ? (

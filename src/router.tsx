@@ -12,17 +12,19 @@ import UserManagement from "./pages/Admin/AdminUser/UserManagement/UserManagemen
 import AdminRessources from "./pages/Admin/AdminRessources/AdminRessources";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import Resource from "./pages/Resource/Resource";
-import Favorite from "./pages/Archive/Archive";
-import Archive from "./pages/Archive/Archive";
 import ResetPassword from "./pages/ResetPassword/ResetPassword";
-import UserAccount from "./pages/UserAccount/UserAccount";
 import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
+import { User } from "./pages/User/User";
+import Account from "./pages/User/Account/Account";
+import Favorite from "./pages/User/Favorite/Favorite";
+import Archive from "./pages/User/Archive/Archive";
+
+
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
-    // loader: rootLoader,
     children: [
       {
         index: true,
@@ -77,14 +79,6 @@ export const router = createBrowserRouter([
         element: <Resource />,
       },
       {
-        path: "/favorite",
-        element: <Favorite />,
-      },
-      {
-        path: "/archive",
-        element: <Archive />,
-      },
-      {
         path: "/resetpassword",
         element: <ResetPassword />,
       },
@@ -93,8 +87,26 @@ export const router = createBrowserRouter([
         element: <ForgotPassword />,
       },
       {
-        path: "/useraccount",
-        element: <UserAccount />,
+        path: "/user",
+        element: <User />,
+        children: [
+          {
+            path: "archive",
+            element: <Archive />,
+          },
+          {
+            path: "favorite",
+            element: <Favorite />,
+          },
+          {
+            path: "account",
+            element: <Account />,
+          },
+          // {
+          //   path: "myresources",
+          //   element: <MyResources />,
+          // },
+        ],
       },
     ],
   },
