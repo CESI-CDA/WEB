@@ -178,3 +178,83 @@ export async function getUserArchives(userId: string, token: string): Promise<IR
     throw error;
   }
 }
+
+export async function addResourceToFavorites(userId: string, resourceId: number, token: string): Promise<void> {
+  try {
+    const response = await fetch(`${API_DEV}/liensRessourceUserFavoris`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        id_res: resourceId,
+        id_user: userId,
+      }),
+    });
+    if (!response.ok) {
+      throw new Error("Error adding resource to favorites. Status: " + response.status);
+    }
+  } catch (error) {
+    console.error("Error adding resource to favorites:", error);
+    throw error;
+  }
+}
+
+export async function addResourceToArchives(userId: string, resourceId: number, token: string): Promise<void> {
+  try {
+    const response = await fetch(`${API_DEV}/liensRessourceUserArchive`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        id_res: resourceId,
+        id_user: userId,
+      }),
+    });
+    if (!response.ok) {
+      throw new Error("Error adding resource to archives. Status: " + response.status);
+    }
+  } catch (error) {
+    console.error("Error adding resource to archives:", error);
+    throw error;
+  }
+}
+
+export async function checkFavoriteStatus(resourceId: string, userId: string, token: string): Promise<boolean> {
+  try {
+      const response = await fetch(
+          `${API_DEV}/liensRessourceUserFavoris/${resourceId}/${userId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+      );
+      const data = await response.json();
+      return data.status;
+  } catch (error) {
+      console.error("Erreur lors de la vérification du statut de favori de la ressource:", error);
+      throw error;
+  }
+}
+
+export async function checkArchiveStatus(resourceId: string, userId: string, token: string): Promise<boolean> {
+  try {
+      const response = await fetch(
+          `${API_DEV}/liensRessourceUserArchive/${resourceId}/${userId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+      );
+      const data = await response.json();
+      return data.status;
+  } catch (error) {
+      console.error("Erreur lors de la vérification du statut d'archive de la ressource:", error);
+      throw error;
+  }
+}

@@ -23,8 +23,8 @@ const Resource: React.FC = () => {
     return (
         <div className={`flex-fill container d-flex flex-column p-20`}>
             <div className={`card flex-fill d-flex flex-column p-20 mb-20 ${styles.contentCard}`}>
-                <div className={styles.header}>
-                    <HeaderResource />
+                <div className={styles.header } >
+                {resourceData && <HeaderResource resourceId={resourceData.item.id} />}
                 </div>
                 {resourceData && (
                     <>

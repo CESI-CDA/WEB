@@ -1,21 +1,83 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import styles from "./HeaderResource.module.scss";
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from "../../../../context";
+import { IContextAuth } from 'interfaces';
+import { addResourceToArchives, addResourceToFavorites, checkArchiveStatus, checkFavoriteStatus }from "../../../../apis/users";
+import { IRessource } from 'interfaces';
 
-const HeaderResource: React.FC = () => {
-    // Utilisez l'état local pour suivre si les sont remplis ou non
+
+const HeaderResource: React.FC<{ resourceId: IRessource['id'] }> = ({ resourceId }) => {
+    const authContext = useContext<IContextAuth | null>(AuthContext);
+
+    if (!authContext || !authContext.user || authContext.token === null) {
+        return null;
+    }
+
+    const { token, user } = authContext;
     const [isHeartFilled, setIsHeartFilled] = useState(false);
     const [isArchiveFilled, setIsArchiveFilled] = useState(false);
     const navigate = useNavigate();
 
-    // Gestionnaire d'événements pour basculer entre les états rempli et vide lors du clic sur l'icône
-    const handleHeartClick = () => {
-        setIsHeartFilled(!isHeartFilled);
+    useEffect(() => {
+        const fetchFavoriteStatus = async () => {
+            try {
+                const userIdString = user.id.toString();
+                const favoriteStatus = await checkFavoriteStatus(resourceId, userIdString, token);
+                setIsHeartFilled(favoriteStatus);
+            } catch (error) {
+                console.error('Erreur lors de la vérification du statut du favori de la ressource:', error);
+            }
+        };
+
+        fetchFavoriteStatus();
+    }, []); 
+
+    useEffect(() => {
+        const fetchArchiveStatus = async () => {
+            try {
+                const userIdString = user.id.toString();
+                const archiveStatus = await checkArchiveStatus(resourceId, userIdString, token);
+                setIsArchiveFilled(archiveStatus);
+            } catch (error) {
+                console.error('Erreur lors de la vérification du statut d\'archive de la ressource:', error);
+            }
+        };
+
+        fetchArchiveStatus();
+    }, []); 
+
+    const handleHeartClick = async () => {
+        if (!isHeartFilled) {
+            const userIdString = user.id.toString();
+            try {
+                
+                const resourceIdNumber = parseInt(resourceId)
+                await addResourceToFavorites(userIdString, resourceIdNumber, token);
+                setIsHeartFilled(true);
+            } catch (error) {
+                console.error('Erreur lors de l\'ajout de la ressource aux favoris :', error);
+            }
+        } else {
+            setIsHeartFilled(false);
+        }
     };
 
-    const handleArchiveClick = () => {
-        setIsArchiveFilled(!isArchiveFilled);
-    }
+    const handleArchiveClick = async  () => {
+        if (!isArchiveFilled) {
+            const userIdString = user.id.toString();
+            try {
+                
+                const resourceIdNumber = parseInt(resourceId)
+                await addResourceToArchives(userIdString, resourceIdNumber, token);
+                setIsArchiveFilled(true);
+            } catch (error) {
+                console.error('Erreur lors de l\'ajout de la ressource aux archives :', error);
+            }
+        } else {
+            setIsArchiveFilled(false);
+        }
+    };
 
     const handleBackClick = () => {
         navigate(-1);
