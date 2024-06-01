@@ -7,6 +7,7 @@ import ressourceMapper from "../mapper/ressourceMapper";
 
 const API_USERS = "https://projet-resources.fr/api/users";
 
+// Créer un nouvel utilisateur
 export async function createUser(newUser: IUser) {
   const response = await fetch(`${API_DEV}/register`, {
     method: "POST",
@@ -22,6 +23,8 @@ export async function createUser(newUser: IUser) {
     throw new Error("Error api createUser");
   }
 }
+
+// Créer un nouvel utilisateur administrateur
 export async function createUserAdmin(newUser: IUser, token: string) {
   const response = await fetch(`${API_DEV}/users`, {
     method: "POST",
@@ -38,6 +41,8 @@ export async function createUserAdmin(newUser: IUser, token: string) {
     throw new Error("Error api createUser");
   }
 }
+
+// Récupèrer tous les utilisateurs
 export async function getUsers(token: string): Promise<IUser[]> {
   const response = await fetch(`${API_DEV}/users`, {
     headers: {
@@ -53,6 +58,7 @@ export async function getUsers(token: string): Promise<IUser[]> {
   }
 }
 
+// Récupérer un utilisateur
 export async function getUserById(userId: number, token: string): Promise<UserData> {
   const response = await fetch(`${API_DEV}/users/${userId}`, {
     headers: {
@@ -75,6 +81,8 @@ export async function getUserById(userId: number, token: string): Promise<UserDa
   }
 }
 
+
+// Modifier un utilisateur
 export async function updateUserById(userId: number, token: string, updatedUserData: Partial<UserData>): Promise<UserData> {
   try {
     const response = await fetch(`${API_DEV}/users/${userId}`, {
@@ -97,6 +105,7 @@ export async function updateUserById(userId: number, token: string, updatedUserD
   }
 }
 
+// Récupérer les ressources favorites d'un utilisateur
 export async function getUserFavorites(userId: string, token: string): Promise<IRessource[]> {
   try {
     const response = await fetch(`${API_DEV}/liensRessourceUserFavoris/favorisFromUser/${userId}`, {
@@ -123,7 +132,6 @@ export async function getUserFavorites(userId: string, token: string): Promise<I
         );
         const resourcesResponses = await Promise.all(fetchResourcePromises);
         const resources: IRessource[] = ressourceMapper(resourcesResponses.map(response => response.item));
-        console.log(`resources:`, resources);
         return resources;
       } else {
         console.error("Unexpected response structure:", data);
@@ -138,6 +146,8 @@ export async function getUserFavorites(userId: string, token: string): Promise<I
   }
 }
 
+
+// Récupérer les ressources archivées d'un utilisateur
 export async function getUserArchives(userId: string, token: string): Promise<IRessource[]> {
   try {
     const response = await fetch(`${API_DEV}/liensRessourceUserArchive/archivesFromUser/${userId}`, {
@@ -164,7 +174,6 @@ export async function getUserArchives(userId: string, token: string): Promise<IR
         );
         const resourcesResponses = await Promise.all(fetchResourcePromises);
         const resources: IRessource[] = ressourceMapper(resourcesResponses.map(response => response.item));
-        console.log(`resources:`, resources);
         return resources;
       } else {
         console.error("Unexpected response structure:", data);
@@ -175,6 +184,171 @@ export async function getUserArchives(userId: string, token: string): Promise<IR
     }
   } catch (error) {
     console.error("Error fetching favorite IDs:", error);
+    throw error;
+  }
+}
+
+// Mettre une ressource en favori
+export async function addResourceToFavorites(userId: string, resourceId: number, token: string): Promise<void> {
+  try {
+    const response = await fetch(`${API_DEV}/liensRessourceUserFavoris`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        id_res: resourceId,
+        id_user: userId,
+      }),
+    });
+    if (!response.ok) {
+      throw new Error("Error adding resource to favorites. Status: " + response.status);
+    }
+  } catch (error) {
+    console.error("Error adding resource to favorites:", error);
+    throw error;
+  }
+}
+
+// Mettre une ressource en archive
+export async function addResourceToArchives(userId: string, resourceId: number, token: string): Promise<void> {
+  try {
+    const response = await fetch(`${API_DEV}/liensRessourceUserArchive`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        id_res: resourceId,
+        id_user: userId,
+      }),
+    });
+    if (!response.ok) {
+      throw new Error("Error adding resource to archives. Status: " + response.status);
+    }
+  } catch (error) {
+    console.error("Error adding resource to archives:", error);
+    throw error;
+  }
+}
+
+// Supprimer une ressource des favoris
+export async function removeResourceFromFavorites(userId: string, resourceId: string, token: string): Promise<void> {
+  try {
+    const response = await fetch(`${API_DEV}/liensRessourceUserFavoris/${resourceId}/${userId}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Erreur lors de la suppression de la ressource des favoris. Statut: " + response.status);
+    }
+  } catch (error) {
+    console.error("Erreur lors de la suppression de la ressource des favoris:", error);
+    throw error;
+  }
+}
+
+// Supprimer une ressource des archives
+export async function removeResourceFromArchives(userId: string, resourceId: string, token: string): Promise<void> {
+  try {
+    const response = await fetch(`${API_DEV}/liensRessourceUserArchive/${resourceId}/${userId}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error("Erreur lors de la suppression de la ressource des archives. Statut: " + response.status);
+    }
+  } catch (error) {
+    console.error("Erreur lors de la suppression de la ressource des archives:", error);
+    throw error;
+  }
+}
+
+// Vérifier le statut de favori d'une ressource pour un utilisateur
+export async function checkFavoriteStatus(resourceId: string, userId: string, token: string): Promise<boolean> {
+  try {
+      const response = await fetch(
+          `${API_DEV}/liensRessourceUserFavoris/${resourceId}/${userId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+      );
+      const data = await response.json();
+      return data.status;
+  } catch (error) {
+      console.error("Erreur lors de la vérification du statut de favori de la ressource:", error);
+      throw error;
+  }
+}
+
+// Vérifier le statut d'archive d'une ressource pour un utilisateur
+export async function checkArchiveStatus(resourceId: string, userId: string, token: string): Promise<boolean> {
+  try {
+      const response = await fetch(
+          `${API_DEV}/liensRessourceUserArchive/${resourceId}/${userId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+      );
+      const data = await response.json();
+      return data.status;
+  } catch (error) {
+      console.error("Erreur lors de la vérification du statut d'archive de la ressource:", error);
+      throw error;
+  }
+}
+
+// Récupérer les ressources d'un utilisateur
+export async function getResourcesCreateByUser(userId: string, token: string): Promise<IRessource[]> {
+  try {
+    const response = await fetch(`${API_DEV}/ressources/ressourcesCreeFromUtilisateur/${userId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (response.ok) {
+      const data = await response.json();
+
+      if (data.items && data.items.data && Array.isArray(data.items.data)) {
+        // Effectuer une requête pour récupérer les données complètes des ressources
+        const fetchResourcePromises = data.items.data.map((item: any) =>
+          fetch(`${API_DEV}/ressources/${item.id}`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }).then(response => {
+            if (response.ok) {
+              return response.json();
+            } else {
+              throw new Error("Erreur lors de la récupération des détails de la ressource. Statut: " + response.status);
+            }
+          })
+        );
+
+        const resourcesResponses = await Promise.all(fetchResourcePromises);
+        const resources: IRessource[] = ressourceMapper(resourcesResponses.map(response => response.item));
+        return resources;
+      } else {
+        console.error("Structure de réponse inattendue:", data);
+        return [];
+      }
+    } else {
+      throw new Error("Erreur lors de la récupération des ressources de l'utilisateur. Statut: " + response.status);
+    }
+  } catch (error) {
+    console.error("Erreur lors de la récupération des ressources de l'utilisateur:", error);
     throw error;
   }
 }
