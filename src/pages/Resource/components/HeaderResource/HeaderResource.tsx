@@ -3,7 +3,7 @@ import styles from "./HeaderResource.module.scss";
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from "../../../../context";
 import { IContextAuth } from 'interfaces';
-import { addResourceToArchives, addResourceToFavorites, checkArchiveStatus, checkFavoriteStatus }from "../../../../apis/users";
+import { addResourceToArchives, addResourceToFavorites, checkArchiveStatus, checkFavoriteStatus, removeResourceFromArchives, removeResourceFromFavorites }from "../../../../apis/users";
 import { IRessource } from 'interfaces';
 
 
@@ -15,6 +15,7 @@ const HeaderResource: React.FC<{ resourceId: IRessource['id'] }> = ({ resourceId
     }
 
     const { token, user } = authContext;
+
     const [isHeartFilled, setIsHeartFilled] = useState(false);
     const [isArchiveFilled, setIsArchiveFilled] = useState(false);
     const navigate = useNavigate();
@@ -51,7 +52,6 @@ const HeaderResource: React.FC<{ resourceId: IRessource['id'] }> = ({ resourceId
         if (!isHeartFilled) {
             const userIdString = user.id.toString();
             try {
-                
                 const resourceIdNumber = parseInt(resourceId)
                 await addResourceToFavorites(userIdString, resourceIdNumber, token);
                 setIsHeartFilled(true);
@@ -59,7 +59,15 @@ const HeaderResource: React.FC<{ resourceId: IRessource['id'] }> = ({ resourceId
                 console.error('Erreur lors de l\'ajout de la ressource aux favoris :', error);
             }
         } else {
-            setIsHeartFilled(false);
+            const userIdString = user.id.toString();
+            try {
+                const resourceIdNumber = parseInt(resourceId);
+                const resourceIdString = resourceIdNumber.toString();
+                await removeResourceFromFavorites(userIdString, resourceIdString, token);
+                setIsHeartFilled(false);
+            } catch (error) {
+                console.error('Erreur lors de la suppression de la ressource des favoris :', error);
+            }
         }
     };
 
@@ -67,7 +75,6 @@ const HeaderResource: React.FC<{ resourceId: IRessource['id'] }> = ({ resourceId
         if (!isArchiveFilled) {
             const userIdString = user.id.toString();
             try {
-                
                 const resourceIdNumber = parseInt(resourceId)
                 await addResourceToArchives(userIdString, resourceIdNumber, token);
                 setIsArchiveFilled(true);
@@ -75,7 +82,15 @@ const HeaderResource: React.FC<{ resourceId: IRessource['id'] }> = ({ resourceId
                 console.error('Erreur lors de l\'ajout de la ressource aux archives :', error);
             }
         } else {
-            setIsArchiveFilled(false);
+            const userIdString = user.id.toString();
+            try {
+                const resourceIdNumber = parseInt(resourceId);
+                const resourceIdString = resourceIdNumber.toString();
+                await removeResourceFromArchives(userIdString, resourceIdString, token);
+                setIsArchiveFilled(false);
+            } catch (error) {
+                console.error('Erreur lors de la suppression de la ressource des archives :', error);
+            }
         }
     };
 
