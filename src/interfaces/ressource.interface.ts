@@ -5,4 +5,5 @@ export interface IRessource {
   title: string;
   image: string;
   categorie: Array<RessourceCategorie>;
+  contenu_res: string;
 }

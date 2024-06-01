@@ -1,27 +1,28 @@
 .card {
     width: 100%;
-    height: auto;
+    height: 40%;
     display: flex;
     flex-direction: row;
+    margin-bottom: 20px;margin-top: 20px;
 }
 
 .cardImage {
-    width: 80%;
-    height: 100%;
-    margin-top: 30px;
-    margin-bottom: 30px;
+    width: 30%;
+
     border-radius: 20px;
 }
 
 .contentCard {
     width: 100%;
+    height: 100%;
     display: flex;
     flex-direction: column;
 }
 
 .cardTitle {
-    width: 100%;
-    font-size: 30px;
+    width: 90%;
+    font-size: 25px;
+    font-weight:500;
 }
 
 .titleAndIcon {
@@ -50,7 +51,7 @@
 
 .threeLines {
     display: -webkit-box;
-    -webkit-line-clamp: 20;
+    -webkit-line-clamp: 10;
     -webkit-box-orient: vertical;  
     overflow: hidden;
 }

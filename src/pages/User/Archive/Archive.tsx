@@ -5,12 +5,12 @@ import ArchiveCard from './components/ArchiveCard/ArchiveCard';
 
 
 
-const Favorite: React.FC = () => {
+const Archive: React.FC = () => {
 
     return (
         <div className={`card flex-fill d-flex flex-column p-30 mb-30 ${styles.contentCard}`}>
             <div className={styles.header}>
-                <HeaderArchive title="Mes archives" onBackPress={() => console.log('Retour en arrière effectué')} />
+                <HeaderArchive title="Mes archives"/>
             </div>
             <div className={styles.body}>
                 <ArchiveCard />
@@ -24,4 +24,4 @@ const Favorite: React.FC = () => {
     );
 };
 
-export default Favorite;
+export default Archive;

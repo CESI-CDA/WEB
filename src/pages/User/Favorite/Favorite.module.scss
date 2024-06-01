@@ -3,3 +3,10 @@
     max-width: 2000px;
     margin: 0 auto;
 }
+
+.body {
+    display: flex;
+    flex-direction: column;
+    height: 500px; 
+    overflow-y: auto; 
+}
