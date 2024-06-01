@@ -3,9 +3,15 @@ import styles from "./HeaderResource.module.scss";
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from "../../../../context";
 import { IContextAuth } from 'interfaces';
-import { addResourceToArchives, addResourceToFavorites, checkArchiveStatus, checkFavoriteStatus, removeResourceFromArchives, removeResourceFromFavorites }from "../../../../apis/users";
+import { 
+    addResourceToArchives, 
+    addResourceToFavorites, 
+    checkArchiveStatus, 
+    checkFavoriteStatus, 
+    removeResourceFromArchives, 
+    removeResourceFromFavorites 
+} from "../../../../apis/users";
 import { IRessource } from 'interfaces';
-
 
 const HeaderResource: React.FC<{ resourceId: IRessource['id'] }> = ({ resourceId }) => {
     const authContext = useContext<IContextAuth | null>(AuthContext);
@@ -15,82 +21,67 @@ const HeaderResource: React.FC<{ resourceId: IRessource['id'] }> = ({ resourceId
     }
 
     const { token, user } = authContext;
-
     const [isHeartFilled, setIsHeartFilled] = useState(false);
     const [isArchiveFilled, setIsArchiveFilled] = useState(false);
     const navigate = useNavigate();
+    const userIdString = user.id.toString();
 
     useEffect(() => {
-        const fetchFavoriteStatus = async () => {
+        const fetchStatuses = async () => {
             try {
-                const userIdString = user.id.toString();
-                const favoriteStatus = await checkFavoriteStatus(resourceId, userIdString, token);
+                console.log('Fetching statuses for resourceId:', resourceId, 'userIdString:', userIdString);
+                
+                const [favoriteStatus, archiveStatus] = await Promise.all([
+                    checkFavoriteStatus(resourceId, userIdString, token),
+                    checkArchiveStatus(resourceId, userIdString, token)
+                ]);
+
+                console.log('Favorite status:', favoriteStatus);
+                console.log('Archive status:', archiveStatus);
+                
                 setIsHeartFilled(favoriteStatus);
-            } catch (error) {
-                console.error('Erreur lors de la vérification du statut du favori de la ressource:', error);
-            }
-        };
-
-        fetchFavoriteStatus();
-    }, []); 
-
-    useEffect(() => {
-        const fetchArchiveStatus = async () => {
-            try {
-                const userIdString = user.id.toString();
-                const archiveStatus = await checkArchiveStatus(resourceId, userIdString, token);
                 setIsArchiveFilled(archiveStatus);
             } catch (error) {
-                console.error('Erreur lors de la vérification du statut d\'archive de la ressource:', error);
+                console.error('Erreur lors de la vérification des statuts:', error);
             }
         };
 
-        fetchArchiveStatus();
-    }, []); 
+        fetchStatuses();
+    }, [resourceId, userIdString, token]);
 
     const handleHeartClick = async () => {
-        if (!isHeartFilled) {
-            const userIdString = user.id.toString();
-            try {
-                const resourceIdNumber = parseInt(resourceId)
-                await addResourceToFavorites(userIdString, resourceIdNumber, token);
-                setIsHeartFilled(true);
-            } catch (error) {
-                console.error('Erreur lors de l\'ajout de la ressource aux favoris :', error);
+        try {
+            console.log('Toggling favorite status for resourceId:', resourceId, 'userIdString:', userIdString);
+            
+            if (isHeartFilled) {
+                await removeResourceFromFavorites(userIdString, resourceId.toString(), token);
+                console.log('Removed from favorites');
+            } else {
+                await addResourceToFavorites(userIdString, parseInt(resourceId), token);
+                console.log('Added to favorites');
             }
-        } else {
-            const userIdString = user.id.toString();
-            try {
-                const resourceIdNumber = parseInt(resourceId);
-                const resourceIdString = resourceIdNumber.toString();
-                await removeResourceFromFavorites(userIdString, resourceIdString, token);
-                setIsHeartFilled(false);
-            } catch (error) {
-                console.error('Erreur lors de la suppression de la ressource des favoris :', error);
-            }
+            
+            setIsHeartFilled(!isHeartFilled);
+        } catch (error) {
+            console.error(`Erreur lors de la gestion des favoris : ${error}`);
         }
     };
 
-    const handleArchiveClick = async  () => {
-        if (!isArchiveFilled) {
-            const userIdString = user.id.toString();
-            try {
-                const resourceIdNumber = parseInt(resourceId)
-                await addResourceToArchives(userIdString, resourceIdNumber, token);
-                setIsArchiveFilled(true);
-            } catch (error) {
-                console.error('Erreur lors de l\'ajout de la ressource aux archives :', error);
+    const handleArchiveClick = async () => {
+        try {
+            console.log('Toggling archive status for resourceId:', resourceId, 'userIdString:', userIdString);
+            
+            if (isArchiveFilled) {
+                await removeResourceFromArchives(userIdString, resourceId.toString(), token);
+                console.log('Removed from archives');
+            } else {
+                await addResourceToArchives(userIdString, parseInt(resourceId), token);
+                console.log('Added to archives');
             }
-        } else {
-            const userIdString = user.id.toString();
-            try {
-                const resourceIdNumber = parseInt(resourceId);
-                const resourceIdString = resourceIdNumber.toString();
-                await removeResourceFromArchives(userIdString, resourceIdString, token);
-                setIsArchiveFilled(false);
-            } catch (error) {
-                console.error('Erreur lors de la suppression de la ressource des archives :', error);
-            }
+            
+            setIsArchiveFilled(!isArchiveFilled);
+        } catch (error) {
+            console.error(`Erreur lors de la gestion des archives : ${error}`);
         }
     };
 

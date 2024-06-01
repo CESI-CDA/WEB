@@ -132,7 +132,6 @@ export async function getUserFavorites(userId: string, token: string): Promise<I
         );
         const resourcesResponses = await Promise.all(fetchResourcePromises);
         const resources: IRessource[] = ressourceMapper(resourcesResponses.map(response => response.item));
-        console.log(`resources:`, resources);
         return resources;
       } else {
         console.error("Unexpected response structure:", data);
@@ -175,7 +174,6 @@ export async function getUserArchives(userId: string, token: string): Promise<IR
         );
         const resourcesResponses = await Promise.all(fetchResourcePromises);
         const resources: IRessource[] = ressourceMapper(resourcesResponses.map(response => response.item));
-        console.log(`resources:`, resources);
         return resources;
       } else {
         console.error("Unexpected response structure:", data);
