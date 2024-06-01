@@ -138,3 +138,43 @@ export async function getUserFavorites(userId: string, token: string): Promise<I
   }
 }
 
+export async function getUserArchives(userId: string, token: string): Promise<IRessource[]> {
+  try {
+    const response = await fetch(`${API_DEV}/liensRessourceUserArchive/archivesFromUser/${userId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (response.ok) {
+      const data = await response.json();
+      if (data.items && data.items.data && Array.isArray(data.items.data)) {
+        const ids = data.items.data.map((item: { id_res: any }) => item.id_res);
+        const fetchResourcePromises = ids.map((id: any) =>
+          fetch(`${API_DEV}/ressources/${id}`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }).then(response => {
+            if (response.ok) {
+              return response.json();
+            } else {
+              throw new Error("Error fetching resource details. Status: " + response.status);
+            }
+          })
+        );
+        const resourcesResponses = await Promise.all(fetchResourcePromises);
+        const resources: IRessource[] = ressourceMapper(resourcesResponses.map(response => response.item));
+        console.log(`resources:`, resources);
+        return resources;
+      } else {
+        console.error("Unexpected response structure:", data);
+        return [];
+      }
+    } else {
+      throw new Error("Error fetching user favorites. Status: " + response.status);
+    }
+  } catch (error) {
+    console.error("Error fetching favorite IDs:", error);
+    throw error;
+  }
+}

@@ -1,9 +1,11 @@
 import React from "react";
 import styles from "./FavoriteCard.module.scss";
 import { IRessource } from "interfaces";
+import { NavLink } from "react-router-dom";
 
 const FavoriteCard: React.FC<{ ressource: IRessource }> = ({ ressource }) => {
     return (
+        <NavLink to={`/resource/${ressource.id}`}>
         <div className={styles.card}>
             <img
                 src={ressource.image} alt="Card" 
@@ -18,6 +20,7 @@ const FavoriteCard: React.FC<{ ressource: IRessource }> = ({ ressource }) => {
                 </div>
             </div>
         </div>
+        </NavLink>
     );
 };
 export default FavoriteCard;
