@@ -309,3 +309,46 @@ export async function checkArchiveStatus(resourceId: string, userId: string, tok
       throw error;
   }
 }
+
+// Récupérer les ressources d'un utilisateur
+export async function getResourcesCreateByUser(userId: string, token: string): Promise<IRessource[]> {
+  try {
+    const response = await fetch(`${API_DEV}/ressources/ressourcesCreeFromUtilisateur/${userId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (response.ok) {
+      const data = await response.json();
+
+      if (data.items && data.items.data && Array.isArray(data.items.data)) {
+        // Effectuer une requête pour récupérer les données complètes des ressources
+        const fetchResourcePromises = data.items.data.map((item: any) =>
+          fetch(`${API_DEV}/ressources/${item.id}`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }).then(response => {
+            if (response.ok) {
+              return response.json();
+            } else {
+              throw new Error("Erreur lors de la récupération des détails de la ressource. Statut: " + response.status);
+            }
+          })
+        );
+
+        const resourcesResponses = await Promise.all(fetchResourcePromises);
+        const resources: IRessource[] = ressourceMapper(resourcesResponses.map(response => response.item));
+        return resources;
+      } else {
+        console.error("Structure de réponse inattendue:", data);
+        return [];
+      }
+    } else {
+      throw new Error("Erreur lors de la récupération des ressources de l'utilisateur. Statut: " + response.status);
+    }
+  } catch (error) {
+    console.error("Erreur lors de la récupération des ressources de l'utilisateur:", error);
+    throw error;
+  }
+}

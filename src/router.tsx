@@ -18,6 +18,7 @@ import { User } from "./pages/User/User";
 import Account from "./pages/User/Account/Account";
 import Favorite from "./pages/User/Favorite/Favorite";
 import Archive from "./pages/User/Archive/Archive";
+import MyResources from "./pages/User/MyResources/MyResources";
 
 
 
@@ -102,10 +103,10 @@ export const router = createBrowserRouter([
             path: "account",
             element: <Account />,
           },
-          // {
-          //   path: "myresources",
-          //   element: <MyResources />,
-          // },
+          {
+            path: "myresources",
+            element: <MyResources />,
+          },
         ],
       },
     ],
