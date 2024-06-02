@@ -18,7 +18,6 @@ export function AdminRessources() {
   ) => {
     const value = e.target.value;
     setRessourcesCategorie((prevValue) => (prevValue === value ? "" : value));
-    console.log(ressources);
   };
 
   const filteredRessources = ressourcesCategorie
@@ -79,11 +78,11 @@ export function AdminRessources() {
           <label className={`${styles.tag} mr-5`}>
             <input
               type="checkbox"
-              value={RessourceCategorie.TECHNOLOGiE}
-              checked={ressourcesCategorie === RessourceCategorie.TECHNOLOGiE}
+              value={RessourceCategorie.TECHNOLOGIE}
+              checked={ressourcesCategorie === RessourceCategorie.TECHNOLOGIE}
               onChange={handleRessourcesTypeChange}
             />
-            <span>{RessourceCategorie.TECHNOLOGiE}</span>
+            <span>{RessourceCategorie.TECHNOLOGIE}</span>
           </label>
         </div>
         {filteredRessources.length > 0

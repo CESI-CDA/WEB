@@ -8,7 +8,6 @@ import { AuthContext } from "../../context";
 function Header() {
   const [showMenu, setShowMenu] = useState(false);
   const { user, logoutUser } = useContext(AuthContext);
-  console.log(user);
 
   return (
     <header

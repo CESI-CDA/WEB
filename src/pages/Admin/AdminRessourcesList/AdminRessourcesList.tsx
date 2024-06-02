@@ -13,7 +13,6 @@ function AdminRecipesList() {
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
     setRessourcesCategorie(e.target.value);
-    console.log(ressources);
   };
 
   const filteredRessources = ressourcesCategorie

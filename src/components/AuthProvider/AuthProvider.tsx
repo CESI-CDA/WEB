@@ -19,8 +19,6 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
       email: user.user.email ? user.user.email : "N/A",
       role: user.user.id_rol ? user.user.id_rol : "N/A",
     };
-    console.log(user.token);
-    console.log(userMapped);
 
     setUser(userMapped);
     setToken(user.token);
