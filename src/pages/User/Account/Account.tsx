@@ -7,7 +7,6 @@ import { IContextAuth, UserData } from "interfaces";
 import { AuthContext } from "../../../context";
 import { getUserById } from "../../../apis/users";
 
-
 const Account: React.FC = () => {
     const authContext = useContext<IContextAuth | Partial<IContextAuth> | null>(AuthContext);
     if (!authContext) {
@@ -15,6 +14,7 @@ const Account: React.FC = () => {
     }
     const { token, user } = authContext;
     const [userData, setUserData] = useState<UserData | null>(null);
+    const [editable, setEditable] = useState(false);  // Ajouter un état pour gérer l'édition
 
     useEffect(() => {
         const fetchUser = async () => {
@@ -30,6 +30,21 @@ const Account: React.FC = () => {
         fetchUser();
     }, [user, token]);
 
+    const handleInputChange = (field: string, value: string) => {
+        setUserData((prevState) => {
+            if (!prevState) return prevState;
+            return {
+                ...prevState,
+                item: {
+                    ...prevState.item,
+                    user: {
+                        ...prevState.item.user,
+                        [field]: value,
+                    },
+                },
+            };
+        });
+    };
 
     return (
         <div className={`card flex-fill d-flex flex-column p-20 mb-20 ${styles.contentCard}`}>
@@ -54,7 +69,6 @@ const Account: React.FC = () => {
                         <i className={`fa-solid fa-camera-retro ${styles.cameraIcon}`}></i>
                     </div>
                     <div className={styles.username}>{userData?.item?.user?.pseudonyme || "Pseudo"}</div>
-
                 </div>
                 <div className={styles.cardStat}>
                     <button className={styles.button}>
@@ -67,7 +81,10 @@ const Account: React.FC = () => {
                 <div className={styles.body}>
                     <div className={styles.bodyheader}>
                         <div className={styles.bodytitle}>Mes infos</div>
-                        <div className={styles.modifyprofile}>
+                        <div 
+                            className={styles.modifyprofile} 
+                            onClick={() => setEditable(!editable)}  // Ajouter un gestionnaire pour basculer le mode édition
+                        >
                             <i className="fa-solid fa-pen-clip"></i>
                             <span className={styles.textmodifyprofile}>
                                 Modifier mes informations
@@ -79,26 +96,28 @@ const Account: React.FC = () => {
                             label="Nom"
                             placeholder="Mon nom"
                             value={userData?.item?.user?.nom || ''}
-                            editable={true}
+                            editable={editable}
+                            onChange={(e) => handleInputChange('nom', e.target.value)}  // Ajouter le gestionnaire onChange
                         />
                         <TextInputField
                             label="Prénom"
                             placeholder="Mon prénom"
                             value={userData?.item?.user?.prenom || ''}
-                            editable={true}
+                            editable={editable}
+                            onChange={(e) => handleInputChange('prenom', e.target.value)}  // Ajouter le gestionnaire onChange
                         />
                         <TextInputField
                             label="Pseudonyme"
                             placeholder="Mon pseudonyme"
                             value={userData?.item?.user?.pseudonyme || ''}
-
-                            editable={true}
+                            editable={editable}
+                            onChange={(e) => handleInputChange('pseudonyme', e.target.value)}  // Ajouter le gestionnaire onChange
                         />
                         <TextInputField
                             label="Mail"
                             placeholder="Mon adresse mail"
                             value={userData?.item?.user?.email || ''}
-                            editable={false}
+                            editable={false}  // Pas modifiable, donc pas besoin d'onChange
                         />
                         <div className={styles.positionButton}>
                             <button className={styles.deleteButton}>
