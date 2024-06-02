@@ -1,4 +1,4 @@
-export interface IUser {
+export type IUser = {
   id: number;
   nom: string;
   prenom: string;
@@ -6,7 +6,7 @@ export interface IUser {
   email: string;
   password?: string;
   role?: number;
-}
+};
 
 export interface IContextAuth {
   token: string | null;

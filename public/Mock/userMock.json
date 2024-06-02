@@ -1,0 +1,34 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "John Doe",
+      "id_etat": "1",
+      "role": 1
+    },
+    {
+      "id": 2,
+      "name": "Jane Doe",
+      "id_etat": "2",
+      "role": 2
+    },
+    {
+      "id": 3,
+      "name": "Alice",
+      "id_etat": "3",
+      "role": 3
+    },
+    {
+      "id": 4,
+      "name": "Bob",
+      "id_etat": "1",
+      "role": 4
+    },
+    {
+      "id": 5,
+      "name": "Charlie",
+      "id_etat": "2",
+      "role": 1
+    }
+  ]
+}
