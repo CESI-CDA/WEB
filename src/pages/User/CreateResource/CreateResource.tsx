@@ -94,7 +94,7 @@ const CreateResource: React.FC = () => {
         }
     };
 
-{
+
 
     return (
         <div className={`card flex-fill d-flex flex-column p-30 mb-30 ${styles.contentCard}`}>
@@ -148,7 +148,6 @@ const CreateResource: React.FC = () => {
             </div>
         </div>
 
-              
     );
 };
 

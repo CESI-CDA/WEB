@@ -82,6 +82,7 @@ export async function createRessource(newRes: ICreateRessource, token: string): 
   }
 }
 
+
 // Récupérer les catégories de ressource
 export async function getCategories(token: string): Promise<any[]> {
 
