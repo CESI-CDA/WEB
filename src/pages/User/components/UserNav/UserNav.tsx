@@ -27,6 +27,12 @@ export function UserNav() {
       >
         Mes ressources en attente de lecture
       </NavLink>
+      <NavLink
+        className={({ isActive }) => (isActive ? styles.active : "")}
+        to="createresource"
+      >
+        Créer une ressource
+      </NavLink>
     </ul>
   );
 }
