@@ -1,3 +1,4 @@
+
 import React, { useState, useContext, useEffect } from 'react';
 import styles from './CreateResource.module.scss';
 import HeaderCreateResource from './components/HeaderCreateResource/HeaderCreateResource';
@@ -93,12 +94,15 @@ const CreateResource: React.FC = () => {
         }
     };
 
+{
+
     return (
         <div className={`card flex-fill d-flex flex-column p-30 mb-30 ${styles.contentCard}`}>
             <div className={styles.header}>
                 <HeaderCreateResource title="Créer une nouvelle ressource" />
             </div>
             <div className={styles.formContainer}>
+
                 <input type="file" accept="image/*" className={styles.input} onChange={handleImageChange} />
                 {imagePreviewUrl && <img src={imagePreviewUrl} alt="Preview" className={styles.imagePreview} />}
                 <input type="text" placeholder="Title" className={styles.input} value={title} onChange={(e) => setTitle(e.target.value)} />
@@ -143,6 +147,8 @@ const CreateResource: React.FC = () => {
                 {error && <p className="form-error">{error}</p>}
             </div>
         </div>
+
+              
     );
 };
 

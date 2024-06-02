@@ -104,6 +104,7 @@ export async function getCategories(token: string): Promise<any[]> {
   }
 }
 
+
 // Récupérer les types de relation
 export async function getRelations(token: string): Promise<any[]> {
   try {
@@ -166,3 +167,17 @@ export async function getResourcesTypes(token: string): Promise<any[]> {
     throw error;
   }
 }
+
+export async function getWaitingRessources(): Promise<IRessource[]> {
+  const response = await fetch(`/Mock/ressourceMock.json`);
+  if (response.ok) {
+    const data = await response.json();
+    const waitingRessources = data.ressources.filter(
+      (ressource: { id_etat: string }) => ressource.id_etat === "1"
+    );
+    return waitingRessources;
+  } else {
+    throw new Error("Error fetch ressources");
+  }
+}
+
