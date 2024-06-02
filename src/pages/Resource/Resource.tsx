@@ -30,10 +30,8 @@ const Resource: React.FC = () => {
                     <>
                         <img src={resourceData.item.url_res} alt="Resource" className={styles.imageContainer} />
                         <div className={styles.characteristicProp}>
-                            <p className={styles.category}>
-                                Catégorie : {resourceData.item.get_lien_ressource_categorie.map((lien: { get_categorie: { intitule_cat: string } }) => lien.get_categorie.intitule_cat).join(" / ")}
-                            </p>
-                            <p className={styles.typeOfRelation}>Types de relations : {resourceData?.item.get_lien_ressource_relation.map((lien: { get_relation_ressource: { intitule_rel: string } }) => lien.get_relation_ressource.intitule_rel)}</p>
+                        <p className={styles.category}> Catégorie : </p>
+                            <p className={styles.typeOfResource}>Type de relation : {resourceData.item.get_visibilite.intitule_vis}</p>
                             <p className={styles.typeOfResource}>Type de ressource : {resourceData.item.get_type_ressource.intitule_type_res}</p>
                         </div>
                         <div className={styles.content}>
