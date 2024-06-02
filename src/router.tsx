@@ -19,6 +19,7 @@ import Account from "./pages/User/Account/Account";
 import Favorite from "./pages/User/Favorite/Favorite";
 import Archive from "./pages/User/Archive/Archive";
 import MyResources from "./pages/User/MyResources/MyResources";
+import EmailSent from "./pages/EmailSent/EmailSent";
 
 
 
@@ -86,6 +87,10 @@ export const router = createBrowserRouter([
       {
         path: "/forgotpassword",
         element: <ForgotPassword />,
+      },
+      {
+        path: "/emailsent",
+        element: <EmailSent/>,
       },
       {
         path: "/user",
