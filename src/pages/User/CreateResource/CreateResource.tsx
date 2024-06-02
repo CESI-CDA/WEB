@@ -7,7 +7,7 @@ import { createRessource, getCategories, getRelations, getResourcesTypes, getVis
 import { AuthContext } from "../../../context";
 
 const CreateResource: React.FC = () => {
-    const authContext = useContext<IContextAuth | null>(AuthContext);
+    const authContext = useContext<IContextAuth | Partial<IContextAuth> | null>(AuthContext);
 
     if (!authContext || !authContext.token) {
         throw new Error('Authentication token is missing.');

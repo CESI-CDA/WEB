@@ -8,7 +8,8 @@ import { IContextAuth, IRessource } from 'interfaces';
 
 const MyResources: React.FC = () => {
 
-    const authContext = useContext<IContextAuth | null>(AuthContext);
+   
+    const authContext = useContext<IContextAuth | Partial<IContextAuth> | null>(AuthContext);
 
     if (!authContext) {
         return null;

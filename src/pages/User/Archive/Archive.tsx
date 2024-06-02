@@ -7,7 +7,7 @@ import { IContextAuth, IRessource } from 'interfaces';
 import { AuthContext } from "../../../context";
 
 const Archive: React.FC = () => {
-    const authContext = useContext<IContextAuth | null>(AuthContext);
+    const authContext = useContext<IContextAuth | Partial<IContextAuth> | null>(AuthContext);
 
     if (!authContext) {
         return null;

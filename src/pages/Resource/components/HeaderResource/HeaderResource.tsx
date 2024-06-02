@@ -14,7 +14,7 @@ import {
 import { IRessource } from 'interfaces';
 
 const HeaderResource: React.FC<{ resourceId: IRessource['id'] }> = ({ resourceId }) => {
-    const authContext = useContext<IContextAuth | null>(AuthContext);
+    const authContext = useContext<IContextAuth | Partial<IContextAuth> | null>(AuthContext);
 
     if (!authContext || !authContext.user || authContext.token === null) {
         return null;
@@ -31,8 +31,8 @@ const HeaderResource: React.FC<{ resourceId: IRessource['id'] }> = ({ resourceId
             try {
                 
                 const [favoriteStatus, archiveStatus] = await Promise.all([
-                    checkFavoriteStatus(resourceId, userIdString, token),
-                    checkArchiveStatus(resourceId, userIdString, token)
+                    checkFavoriteStatus(resourceId, userIdString, token!),
+                    checkArchiveStatus(resourceId, userIdString, token!)
                 ]);
 
                 setIsHeartFilled(favoriteStatus);
@@ -48,9 +48,9 @@ const HeaderResource: React.FC<{ resourceId: IRessource['id'] }> = ({ resourceId
     const handleHeartClick = async () => {
         try {
             if (isHeartFilled) {
-                await removeResourceFromFavorites(userIdString, resourceId.toString(), token);
+                await removeResourceFromFavorites(userIdString, resourceId.toString(), token!);
             } else {
-                await addResourceToFavorites(userIdString, parseInt(resourceId), token);
+                await addResourceToFavorites(userIdString, parseInt(resourceId), token!);
             }
             
             setIsHeartFilled(!isHeartFilled);
@@ -62,9 +62,9 @@ const HeaderResource: React.FC<{ resourceId: IRessource['id'] }> = ({ resourceId
     const handleArchiveClick = async () => {
         try {            
             if (isArchiveFilled) {
-                await removeResourceFromArchives(userIdString, resourceId.toString(), token);
+                await removeResourceFromArchives(userIdString, resourceId.toString(), token!);
             } else {
-                await addResourceToArchives(userIdString, parseInt(resourceId), token);
+                await addResourceToArchives(userIdString, parseInt(resourceId), token!);
             }
             setIsArchiveFilled(!isArchiveFilled);
         } catch (error) {
