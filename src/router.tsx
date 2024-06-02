@@ -19,6 +19,7 @@ import Account from "./pages/User/Account/Account";
 import Favorite from "./pages/User/Favorite/Favorite";
 import Archive from "./pages/User/Archive/Archive";
 import MyResources from "./pages/User/MyResources/MyResources";
+import CreateResource from "./pages/User/CreateResource/CreateResource";
 
 
 
@@ -106,6 +107,10 @@ export const router = createBrowserRouter([
           {
             path: "myresources",
             element: <MyResources />,
+          },
+          {
+            path: "createresource",
+            element: <CreateResource />,
           },
         ],
       },
