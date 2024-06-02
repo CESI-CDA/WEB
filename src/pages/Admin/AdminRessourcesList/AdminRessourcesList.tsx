@@ -2,36 +2,54 @@ import styles from "./AdminRessourcesList.module.scss";
 import { useFetchRessources } from "../../../hooks";
 import Loader from "../../../components/Loader/Loader";
 import { RessourceCategorie } from "../../../types";
-import { useState } from "react";
+import { HTMLAttributes, MouseEventHandler, useEffect, useState } from "react";
 import { IRessource } from "interfaces";
+import { getWaitingRessources } from "../../../apis/ressource";
+import { set } from "react-hook-form";
 
 function AdminRecipesList() {
-  const [loading, error, ressources] = useFetchRessources(1);
-  const [ressourcesCategorie, setRessourcesCategorie] = useState("");
+  const [ressources, setRessources] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const handleRessourcesTypeChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setRessourcesCategorie(e.target.value);
+  useEffect(() => {
+    const fetchRessources = async () => {
+      try {
+        setRessources(await getWaitingRessources());
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetch ressources", error);
+      }
+    };
+    fetchRessources();
+  }, []);
+
+  const handleRessource = (name: string) => {
+    setRessources((prevRessources) =>
+      prevRessources.filter((r) => r.name !== name)
+    );
     console.log(ressources);
   };
-
-  const filteredRessources = ressourcesCategorie
-    ? ressources.filter((r: IRessource) =>
-        r.categorie.includes(ressourcesCategorie as RessourceCategorie)
-      )
-    : ressources;
   return (
     <>
       {loading && <Loader />}
 
       <ul className={styles.list}>
-        {filteredRessources.length > 0
-          ? filteredRessources.map((r) => (
-              <li key={r.title} className="d-flex align-items-center">
-                <span className="flex-fill">{r.title}</span>
-                <button className="btn btn-primary mr-15">Accepter</button>
-                <button className="btn btn-danger">Rejeter</button>
+        {ressources.length > 0
+          ? ressources.map((r) => (
+              <li key={r.name} className="d-flex align-items-center">
+                <span className="flex-fill">{r.name}</span>
+                <button
+                  className="btn btn-primary mr-15"
+                  onClick={() => handleRessource(r.name)}
+                >
+                  Accepter
+                </button>
+                <button
+                  className="btn btn-danger"
+                  onClick={() => handleRessource(r.name)}
+                >
+                  Rejeter
+                </button>
               </li>
             ))
           : null}

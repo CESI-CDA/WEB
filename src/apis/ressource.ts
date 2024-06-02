@@ -82,3 +82,16 @@ export async function createRessource(
     throw new Error("Error create ressource");
   }
 }
+
+export async function getWaitingRessources(): Promise<IRessource[]> {
+  const response = await fetch(`/Mock/ressourceMock.json`);
+  if (response.ok) {
+    const data = await response.json();
+    const waitingRessources = data.ressources.filter(
+      (ressource: { id_etat: string }) => ressource.id_etat === "1"
+    );
+    return waitingRessources;
+  } else {
+    throw new Error("Error fetch ressources");
+  }
+}

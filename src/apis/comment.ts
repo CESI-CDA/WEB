@@ -1,9 +1,6 @@
 import { API_DEV } from "./auth";
 
-export async function getComments(
-  token: string,
-  id: string
-): Promise<unknown[]> {
+export async function getComments(id: string): Promise<unknown[]> {
   const response = await fetch("/Mock/commentsMock.json");
   if (response.ok) {
     const data = await response.json();

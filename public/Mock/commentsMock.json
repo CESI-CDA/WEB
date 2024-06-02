@@ -26,14 +26,14 @@
       "author": "John Doe",
       "message": "Great job on the project!",
       "timestamp": "2022-09-15T10:30:00",
-      "id_etat": "2"
+      "id_etat": "1"
     },
     {
       "id": 5,
       "author": "Jane Smith",
       "message": "I really like the design!",
       "timestamp": "2022-09-16T14:45:00",
-      "id_etat": "2"
+      "id_etat": "1"
     },
     {
       "id": 6,
