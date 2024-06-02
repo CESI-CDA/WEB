@@ -14,7 +14,6 @@ export async function login(credentials: { email: string; password: string }) {
   });
   const body = await response.json();
   if (response.ok) {
-    console.log(body);
     return body;
   } else {
     if (body) {

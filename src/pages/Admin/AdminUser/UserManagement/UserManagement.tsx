@@ -7,7 +7,7 @@ import { AuthContext } from "../../../../context";
 export function UserManagement() {
   const [users, setUsers] = useState<IUser[]>([]);
   const context = useContext(AuthContext);
-  console.log(context);
+
 
   useEffect(() => {
     async function fetchData() {

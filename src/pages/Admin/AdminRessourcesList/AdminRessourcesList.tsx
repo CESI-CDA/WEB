@@ -11,6 +11,12 @@ function AdminRecipesList() {
   const [ressources, setRessources] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
+
+  const handleRessourcesTypeChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setRessourcesCategorie(e.target.value);
+
   useEffect(() => {
     const fetchRessources = async () => {
       try {

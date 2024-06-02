@@ -29,16 +29,12 @@ const HeaderResource: React.FC<{ resourceId: IRessource['id'] }> = ({ resourceId
     useEffect(() => {
         const fetchStatuses = async () => {
             try {
-                console.log('Fetching statuses for resourceId:', resourceId, 'userIdString:', userIdString);
                 
                 const [favoriteStatus, archiveStatus] = await Promise.all([
                     checkFavoriteStatus(resourceId, userIdString, token),
                     checkArchiveStatus(resourceId, userIdString, token)
                 ]);
 
-                console.log('Favorite status:', favoriteStatus);
-                console.log('Archive status:', archiveStatus);
-                
                 setIsHeartFilled(favoriteStatus);
                 setIsArchiveFilled(archiveStatus);
             } catch (error) {
@@ -51,14 +47,10 @@ const HeaderResource: React.FC<{ resourceId: IRessource['id'] }> = ({ resourceId
 
     const handleHeartClick = async () => {
         try {
-            console.log('Toggling favorite status for resourceId:', resourceId, 'userIdString:', userIdString);
-            
             if (isHeartFilled) {
                 await removeResourceFromFavorites(userIdString, resourceId.toString(), token);
-                console.log('Removed from favorites');
             } else {
                 await addResourceToFavorites(userIdString, parseInt(resourceId), token);
-                console.log('Added to favorites');
             }
             
             setIsHeartFilled(!isHeartFilled);
@@ -68,17 +60,12 @@ const HeaderResource: React.FC<{ resourceId: IRessource['id'] }> = ({ resourceId
     };
 
     const handleArchiveClick = async () => {
-        try {
-            console.log('Toggling archive status for resourceId:', resourceId, 'userIdString:', userIdString);
-            
+        try {            
             if (isArchiveFilled) {
                 await removeResourceFromArchives(userIdString, resourceId.toString(), token);
-                console.log('Removed from archives');
             } else {
                 await addResourceToArchives(userIdString, parseInt(resourceId), token);
-                console.log('Added to archives');
             }
-            
             setIsArchiveFilled(!isArchiveFilled);
         } catch (error) {
             console.error(`Erreur lors de la gestion des archives : ${error}`);
