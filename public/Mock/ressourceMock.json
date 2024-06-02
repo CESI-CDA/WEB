@@ -1,0 +1,55 @@
+{
+  "ressources": [
+    {
+      "name": "ressource1",
+      "type": "ressource",
+      "id_etat": "1"
+    },
+    {
+      "name": "ressource2",
+      "type": "ressource",
+      "id_etat": "2"
+    },
+    {
+      "name": "ressource3",
+      "type": "ressource",
+      "url": "http://localhost:8080/ressource3",
+      "id_etat": "3"
+    },
+    {
+      "name": "ressource4",
+      "type": "ressource",
+      "id_etat": "1"
+    },
+    {
+      "name": "ressource5",
+      "type": "ressource",
+      "id_etat": "1"
+    },
+    {
+      "name": "ressource6",
+      "type": "ressource",
+      "id_etat": "1"
+    },
+    {
+      "name": "ressource7",
+      "type": "ressource",
+      "id_etat": "1"
+    },
+    {
+      "name": "ressource8",
+      "type": "ressource",
+      "id_etat": "1"
+    },
+    {
+      "name": "ressource9",
+      "type": "ressource",
+      "id_etat": "1"
+    },
+    {
+      "name": "ressource10",
+      "type": "ressource",
+      "id_etat": "1"
+    }
+  ]
+}
