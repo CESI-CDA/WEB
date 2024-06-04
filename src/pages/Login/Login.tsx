@@ -84,7 +84,7 @@ function Login() {
             </div>
             <NavLink to="/forgotpassword">
               <div className={`mt-10" ${styles.forgot}`}>
-                <NavLink to="/forgot-password">Mot de passe oublié ?</NavLink>
+                Mot de passe oublié ?
               </div>
             </NavLink>
           </form>

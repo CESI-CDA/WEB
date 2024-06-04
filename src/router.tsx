@@ -4,12 +4,14 @@ import Home from "./pages/Home/Home";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
 import { Admin } from "./pages/Admin/Admin";
-import AdminRessourcesList from "./pages/Admin/AdminRessourcesList/AdminRessourcesList";
+import AdminRessourcesList from "./pages/Admin/AdminWaitingRessourcesList/AdminWaitingRessourcesList";
 import AdminCommentsList from "./pages/Admin/AdminCommentsList/AdminCommentsList";
 import AdminUser from "./pages/Admin/AdminUser/AdminUser";
 import CreateUser from "./pages/Admin/AdminUser/CreateUser/CreateUser";
 import UserManagement from "./pages/Admin/AdminUser/UserManagement/UserManagement";
-import AdminRessources from "./pages/Admin/AdminRessources/AdminRessources";
+import AdminRessources, {
+  AdminRessourcesManagement,
+} from "./pages/Admin/AdminRessourcesManagement/AdminRessourcesManagement";
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import Resource from "./pages/Resource/Resource";
 import ResetPassword from "./pages/ResetPassword/ResetPassword";
@@ -20,6 +22,7 @@ import Favorite from "./pages/User/Favorite/Favorite";
 import Archive from "./pages/User/Archive/Archive";
 import MyResources from "./pages/User/MyResources/MyResources";
 import CreateResource from "./pages/User/CreateResource/CreateResource";
+import AdminWaitingRessourcesList from "./pages/Admin/AdminWaitingRessourcesList/AdminWaitingRessourcesList";
 
 export const router = createBrowserRouter([
   {
@@ -48,7 +51,7 @@ export const router = createBrowserRouter([
         children: [
           {
             path: "ressources",
-            element: <AdminRessourcesList />,
+            element: <AdminWaitingRessourcesList />,
           },
           {
             path: "comments",
@@ -74,7 +77,7 @@ export const router = createBrowserRouter([
           },
           {
             path: "manageRessources",
-            element: <AdminRessources />,
+            element: <AdminRessourcesManagement />,
           },
         ],
       },
