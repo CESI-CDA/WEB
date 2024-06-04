@@ -1,34 +1,34 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { forgotPassword } from '../../apis/users';
 import styles from "./ForgotPassword.module.scss";
 
 const ForgotPassword: React.FC = () => {
     const [email, setEmail] = useState("");
-    const [error, setError] = useState("");
+    const [error, setError] = useState<string | null>(null);
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
-    const handleSubmit = async (event: React.FormEvent) => {
-        event.preventDefault();
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        console.log("Form submitted");
+        setLoading(true);
+        setError(null);
+        console.log("Loading state set to true");
 
         try {
-            const response = await fetch('https://api.example.com/forgot-password', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ email })
-            });
-
-            if (response.ok) {
-                navigate("/email-sent");
-            } else {
-                const data = await response.json();
-                setError(data.message || "Une erreur s'est produite");
-            }
+            console.log("Calling forgotPassword with email:", email);
+            await forgotPassword(email);
+            console.log("Password reset email sent successfully");
+            navigate('/emailsent'); 
         } catch (error) {
-            setError("Une erreur s'est produite. Veuillez réessayer plus tard.");
+            console.error("Error sending password reset email:", error);
+            setError("Erreur lors de l'envoi de l'email de réinitialisation de mot de passe.");
+        } finally {
+            setLoading(false);
+            console.log("Loading state set to false");
         }
-    }
+    };
 
     return (
         <div className="flex-fill d-flex align-items-center justify-content-center">
@@ -41,12 +41,14 @@ const ForgotPassword: React.FC = () => {
                         id="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
+                        required
+                        className="form-control"
                     />
                 </div>
                 {error && <div className="text-danger mt-2">{error}</div>}
                 <div>
-                    <button type="submit" className="btn btn-primary">
-                        Envoyer
+                    <button type="submit" className="btn btn-primary" disabled={loading}>
+                        {loading ? 'Envoi en cours...' : 'Envoyer'}
                     </button>
                 </div>
             </form>
@@ -55,5 +57,3 @@ const ForgotPassword: React.FC = () => {
 };
 
 export default ForgotPassword;
-
-
