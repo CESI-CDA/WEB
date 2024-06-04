@@ -1,27 +1,35 @@
-import { getComments } from "../../../apis/comment";
-import { useEffect, useState } from "react";
+import { acceptComment, getComments } from "../../../apis/comment";
+import { useContext, useEffect, useState } from "react";
 import Loader from "../../../components/Loader/Loader";
 import styles from "./AdminCommentsList.module.scss";
+import { AuthContext } from "../../../context/AuthContext";
+import { ICommentaire } from "../../../interfaces/commentaire.interface";
+import { set } from "react-hook-form";
 
 export function AdminCommentsList() {
-  const [comments, setComments] = useState<any[]>([]);
+  const [comments, setComments] = useState<ICommentaire[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+  const { token } = useContext(AuthContext);
 
   useEffect(() => {
     setLoading(true);
-    const fetchComments = async (type: string) => {
+    const fetchComments = async () => {
       try {
-        setComments(await getComments(type));
+        const data = await getComments(token);
+        setComments(data);
+        setLoading(false);
       } catch (error) {
         console.error("Error fetch comments", error);
+        setLoading(false);
       }
     };
-    fetchComments("1");
-    setLoading(false);
+    fetchComments();
+    console.log(comments);
   }, []);
 
-  const handleComment = (id: string) => {
-    setComments((prevComments) => prevComments.filter((r) => r.id !== id));
+  const handleComment = (id: number, etat: number) => {
+    acceptComment(id, token, etat);
+    setComments(comments.filter((comment) => comment.id !== id));
   };
 
   return (
@@ -32,16 +40,16 @@ export function AdminCommentsList() {
         {comments.length > 0
           ? comments.map((comment) => (
               <li key={comment.id} className="d-flex align-items-center">
-                <span className="flex-fill">{comment.message}</span>
+                <span className="flex-fill">{comment.text}</span>
                 <button
                   className="btn btn-primary mr-15"
-                  onClick={() => handleComment(comment.id)}
+                  onClick={() => handleComment(comment.id, 2)}
                 >
                   Accepter
                 </button>
                 <button
                   className="btn btn-danger"
-                  onClick={() => handleComment(comment.id)}
+                  onClick={() => handleComment(comment.id, 3)}
                 >
                   Rejeter
                 </button>
