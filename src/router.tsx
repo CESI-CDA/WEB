@@ -21,8 +21,6 @@ import Archive from "./pages/User/Archive/Archive";
 import MyResources from "./pages/User/MyResources/MyResources";
 import CreateResource from "./pages/User/CreateResource/CreateResource";
 
-
-
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -62,7 +60,11 @@ export const router = createBrowserRouter([
             children: [
               {
                 path: "create",
-                element: <CreateUser />,
+                element: (
+                  <ProtectedRoute allowedRoles={[1]}>
+                    <CreateUser />
+                  </ProtectedRoute>
+                ),
               },
               {
                 path: "manage",
