@@ -21,10 +21,10 @@ export function UserManagement() {
     fetchData();
   }, []);
 
-  // function handleSuspend() {
-  //   suspendUser(context.token, context?.user?.id);
-  //   setUsers(users.filter((user) => user.id !== context?.user?.id));
-  // }
+  function handleSuspend(id: number) {
+    suspendUser(context.token, id);
+    setUsers(users.filter((user) => user.id !== id));
+  }
   function handleDelete(id: number) {
     deleteUser(id, context.token);
     setUsers(users.filter((user) => user.id !== id));
@@ -39,7 +39,7 @@ export function UserManagement() {
               <span className="flex-fill">{user.prenom}</span>
               <button
                 className="btn btn-primary mr-15"
-                onClick={() => handleDelete(user.id)}
+                onClick={() => handleSuspend(user.id)}
               >
                 Suspendre
               </button>

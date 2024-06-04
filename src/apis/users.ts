@@ -50,7 +50,7 @@ export async function suspendUser(token: string, id: number) {
     body: JSON.stringify({
       id_user: id,
       date: new Date().toISOString().replace("T", " ").substring(0, 19),
-      commentaire: "",
+      commentaire: "test",
     }),
   });
   if (response.ok) {
