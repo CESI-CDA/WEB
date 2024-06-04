@@ -14,7 +14,7 @@ import {
 import { IRessource } from 'interfaces';
 
 const HeaderResource: React.FC<{ resourceId: IRessource['id'] }> = ({ resourceId }) => {
-    const authContext = useContext<IContextAuth | null>(AuthContext);
+    const authContext = useContext<IContextAuth | Partial<IContextAuth> | null>(AuthContext);
 
     if (!authContext || !authContext.user || authContext.token === null) {
         return null;
@@ -29,16 +29,12 @@ const HeaderResource: React.FC<{ resourceId: IRessource['id'] }> = ({ resourceId
     useEffect(() => {
         const fetchStatuses = async () => {
             try {
-                console.log('Fetching statuses for resourceId:', resourceId, 'userIdString:', userIdString);
                 
                 const [favoriteStatus, archiveStatus] = await Promise.all([
-                    checkFavoriteStatus(resourceId, userIdString, token),
-                    checkArchiveStatus(resourceId, userIdString, token)
+                    checkFavoriteStatus(resourceId, userIdString, token!),
+                    checkArchiveStatus(resourceId, userIdString, token!)
                 ]);
 
-                console.log('Favorite status:', favoriteStatus);
-                console.log('Archive status:', archiveStatus);
-                
                 setIsHeartFilled(favoriteStatus);
                 setIsArchiveFilled(archiveStatus);
             } catch (error) {
@@ -51,14 +47,10 @@ const HeaderResource: React.FC<{ resourceId: IRessource['id'] }> = ({ resourceId
 
     const handleHeartClick = async () => {
         try {
-            console.log('Toggling favorite status for resourceId:', resourceId, 'userIdString:', userIdString);
-            
             if (isHeartFilled) {
-                await removeResourceFromFavorites(userIdString, resourceId.toString(), token);
-                console.log('Removed from favorites');
+                await removeResourceFromFavorites(userIdString, resourceId.toString(), token!);
             } else {
-                await addResourceToFavorites(userIdString, parseInt(resourceId), token);
-                console.log('Added to favorites');
+                await addResourceToFavorites(userIdString, parseInt(resourceId), token!);
             }
             
             setIsHeartFilled(!isHeartFilled);
@@ -68,17 +60,12 @@ const HeaderResource: React.FC<{ resourceId: IRessource['id'] }> = ({ resourceId
     };
 
     const handleArchiveClick = async () => {
-        try {
-            console.log('Toggling archive status for resourceId:', resourceId, 'userIdString:', userIdString);
-            
+        try {            
             if (isArchiveFilled) {
-                await removeResourceFromArchives(userIdString, resourceId.toString(), token);
-                console.log('Removed from archives');
+                await removeResourceFromArchives(userIdString, resourceId.toString(), token!);
             } else {
-                await addResourceToArchives(userIdString, parseInt(resourceId), token);
-                console.log('Added to archives');
+                await addResourceToArchives(userIdString, parseInt(resourceId), token!);
             }
-            
             setIsArchiveFilled(!isArchiveFilled);
         } catch (error) {
             console.error(`Erreur lors de la gestion des archives : ${error}`);

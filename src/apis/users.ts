@@ -4,7 +4,6 @@ import { API_DEV } from "./auth";
 import { IRessource } from "interfaces";
 import ressourceMapper from "../mapper/ressourceMapper";
 
-
 const API_USERS = "https://projet-resources.fr/api/users";
 
 // Créer un nouvel utilisateur
@@ -41,6 +40,25 @@ export async function createUserAdmin(newUser: IUser, token: string) {
     throw new Error("Error api createUser");
   }
 }
+export async function suspendUser(token: string, id: number) {
+  const response = await fetch(`${API_DEV}/liens-user-restriction`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({
+      id_user: id,
+      date: new Date().toISOString().replace("T", " ").substring(0, 19),
+      commentaire: "test",
+    }),
+  });
+  if (response.ok) {
+    return "utilisateur suspendu";
+  } else {
+    throw new Error("Error api suspendUser");
+  }
+}
 
 // Récupèrer tous les utilisateurs
 export async function getUsers(token: string): Promise<IUser[]> {
@@ -59,7 +77,10 @@ export async function getUsers(token: string): Promise<IUser[]> {
 }
 
 // Récupérer un utilisateur
-export async function getUserById(userId: number, token: string): Promise<UserData> {
+export async function getUserById(
+  userId: number,
+  token: string
+): Promise<UserData> {
   const response = await fetch(`${API_DEV}/users/${userId}`, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -81,9 +102,12 @@ export async function getUserById(userId: number, token: string): Promise<UserDa
   }
 }
 
-
 // Modifier un utilisateur
-export async function updateUserById(userId: number, token: string, updatedUserData: Partial<UserData>): Promise<UserData> {
+export async function updateUserById(
+  userId: number,
+  token: string,
+  updatedUserData: Partial<UserData>
+): Promise<UserData> {
   try {
     const response = await fetch(`${API_DEV}/users/${userId}`, {
       method: "PUT",
@@ -100,19 +124,30 @@ export async function updateUserById(userId: number, token: string, updatedUserD
       throw new Error("Error updating user");
     }
   } catch (error) {
-    console.error("Erreur lors de la mise à jour des informations de l'utilisateur:", error);
-    throw new Error("Erreur lors de la mise à jour des informations de l'utilisateur");
+    console.error(
+      "Erreur lors de la mise à jour des informations de l'utilisateur:",
+      error
+    );
+    throw new Error(
+      "Erreur lors de la mise à jour des informations de l'utilisateur"
+    );
   }
 }
 
 // Récupérer les ressources favorites d'un utilisateur
-export async function getUserFavorites(userId: string, token: string): Promise<IRessource[]> {
+export async function getUserFavorites(
+  userId: string,
+  token: string
+): Promise<IRessource[]> {
   try {
-    const response = await fetch(`${API_DEV}/liensRessourceUserFavoris/favorisFromUser/${userId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await fetch(
+      `${API_DEV}/liensRessourceUserFavoris/favorisFromUser/${userId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
     if (response.ok) {
       const data = await response.json();
       if (data.items && data.items.data && Array.isArray(data.items.data)) {
@@ -122,23 +157,29 @@ export async function getUserFavorites(userId: string, token: string): Promise<I
             headers: {
               Authorization: `Bearer ${token}`,
             },
-          }).then(response => {
+          }).then((response) => {
             if (response.ok) {
               return response.json();
             } else {
-              throw new Error("Error fetching resource details. Status: " + response.status);
+              throw new Error(
+                "Error fetching resource details. Status: " + response.status
+              );
             }
           })
         );
         const resourcesResponses = await Promise.all(fetchResourcePromises);
-        const resources: IRessource[] = ressourceMapper(resourcesResponses.map(response => response.item));
+        const resources: IRessource[] = ressourceMapper(
+          resourcesResponses.map((response) => response.item)
+        );
         return resources;
       } else {
         console.error("Unexpected response structure:", data);
         return [];
       }
     } else {
-      throw new Error("Error fetching user favorites. Status: " + response.status);
+      throw new Error(
+        "Error fetching user favorites. Status: " + response.status
+      );
     }
   } catch (error) {
     console.error("Error fetching favorite IDs:", error);
@@ -146,15 +187,20 @@ export async function getUserFavorites(userId: string, token: string): Promise<I
   }
 }
 
-
 // Récupérer les ressources archivées d'un utilisateur
-export async function getUserArchives(userId: string, token: string): Promise<IRessource[]> {
+export async function getUserArchives(
+  userId: string,
+  token: string
+): Promise<IRessource[]> {
   try {
-    const response = await fetch(`${API_DEV}/liensRessourceUserArchive/archivesFromUser/${userId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await fetch(
+      `${API_DEV}/liensRessourceUserArchive/archivesFromUser/${userId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
     if (response.ok) {
       const data = await response.json();
       if (data.items && data.items.data && Array.isArray(data.items.data)) {
@@ -164,23 +210,29 @@ export async function getUserArchives(userId: string, token: string): Promise<IR
             headers: {
               Authorization: `Bearer ${token}`,
             },
-          }).then(response => {
+          }).then((response) => {
             if (response.ok) {
               return response.json();
             } else {
-              throw new Error("Error fetching resource details. Status: " + response.status);
+              throw new Error(
+                "Error fetching resource details. Status: " + response.status
+              );
             }
           })
         );
         const resourcesResponses = await Promise.all(fetchResourcePromises);
-        const resources: IRessource[] = ressourceMapper(resourcesResponses.map(response => response.item));
+        const resources: IRessource[] = ressourceMapper(
+          resourcesResponses.map((response) => response.item)
+        );
         return resources;
       } else {
         console.error("Unexpected response structure:", data);
         return [];
       }
     } else {
-      throw new Error("Error fetching user favorites. Status: " + response.status);
+      throw new Error(
+        "Error fetching user favorites. Status: " + response.status
+      );
     }
   } catch (error) {
     console.error("Error fetching favorite IDs:", error);
@@ -189,7 +241,11 @@ export async function getUserArchives(userId: string, token: string): Promise<IR
 }
 
 // Mettre une ressource en favori
-export async function addResourceToFavorites(userId: string, resourceId: number, token: string): Promise<void> {
+export async function addResourceToFavorites(
+  userId: string,
+  resourceId: number,
+  token: string
+): Promise<void> {
   try {
     const response = await fetch(`${API_DEV}/liensRessourceUserFavoris`, {
       method: "POST",
@@ -203,7 +259,9 @@ export async function addResourceToFavorites(userId: string, resourceId: number,
       }),
     });
     if (!response.ok) {
-      throw new Error("Error adding resource to favorites. Status: " + response.status);
+      throw new Error(
+        "Error adding resource to favorites. Status: " + response.status
+      );
     }
   } catch (error) {
     console.error("Error adding resource to favorites:", error);
@@ -212,7 +270,11 @@ export async function addResourceToFavorites(userId: string, resourceId: number,
 }
 
 // Mettre une ressource en archive
-export async function addResourceToArchives(userId: string, resourceId: number, token: string): Promise<void> {
+export async function addResourceToArchives(
+  userId: string,
+  resourceId: number,
+  token: string
+): Promise<void> {
   try {
     const response = await fetch(`${API_DEV}/liensRessourceUserArchive`, {
       method: "POST",
@@ -226,7 +288,9 @@ export async function addResourceToArchives(userId: string, resourceId: number, 
       }),
     });
     if (!response.ok) {
-      throw new Error("Error adding resource to archives. Status: " + response.status);
+      throw new Error(
+        "Error adding resource to archives. Status: " + response.status
+      );
     }
   } catch (error) {
     console.error("Error adding resource to archives:", error);
@@ -235,89 +299,135 @@ export async function addResourceToArchives(userId: string, resourceId: number, 
 }
 
 // Supprimer une ressource des favoris
-export async function removeResourceFromFavorites(userId: string, resourceId: string, token: string): Promise<void> {
+export async function removeResourceFromFavorites(
+  userId: string,
+  resourceId: string,
+  token: string
+): Promise<void> {
   try {
-    const response = await fetch(`${API_DEV}/liensRessourceUserFavoris/${resourceId}/${userId}`, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await fetch(
+      `${API_DEV}/liensRessourceUserFavoris/${resourceId}/${userId}`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
     if (!response.ok) {
-      throw new Error("Erreur lors de la suppression de la ressource des favoris. Statut: " + response.status);
+      throw new Error(
+        "Erreur lors de la suppression de la ressource des favoris. Statut: " +
+          response.status
+      );
     }
   } catch (error) {
-    console.error("Erreur lors de la suppression de la ressource des favoris:", error);
+    console.error(
+      "Erreur lors de la suppression de la ressource des favoris:",
+      error
+    );
     throw error;
   }
 }
 
 // Supprimer une ressource des archives
-export async function removeResourceFromArchives(userId: string, resourceId: string, token: string): Promise<void> {
+export async function removeResourceFromArchives(
+  userId: string,
+  resourceId: string,
+  token: string
+): Promise<void> {
   try {
-    const response = await fetch(`${API_DEV}/liensRessourceUserArchive/${resourceId}/${userId}`, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await fetch(
+      `${API_DEV}/liensRessourceUserArchive/${resourceId}/${userId}`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
 
     if (!response.ok) {
-      throw new Error("Erreur lors de la suppression de la ressource des archives. Statut: " + response.status);
+      throw new Error(
+        "Erreur lors de la suppression de la ressource des archives. Statut: " +
+          response.status
+      );
     }
   } catch (error) {
-    console.error("Erreur lors de la suppression de la ressource des archives:", error);
+    console.error(
+      "Erreur lors de la suppression de la ressource des archives:",
+      error
+    );
     throw error;
   }
 }
 
 // Vérifier le statut de favori d'une ressource pour un utilisateur
-export async function checkFavoriteStatus(resourceId: string, userId: string, token: string): Promise<boolean> {
+export async function checkFavoriteStatus(
+  resourceId: string,
+  userId: string,
+  token: string
+): Promise<boolean> {
   try {
-      const response = await fetch(
-          `${API_DEV}/liensRessourceUserFavoris/${resourceId}/${userId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-      );
-      const data = await response.json();
-      return data.status;
+    const response = await fetch(
+      `${API_DEV}/liensRessourceUserFavoris/${resourceId}/${userId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const data = await response.json();
+    return data.status;
   } catch (error) {
-      console.error("Erreur lors de la vérification du statut de favori de la ressource:", error);
-      throw error;
+    console.error(
+      "Erreur lors de la vérification du statut de favori de la ressource:",
+      error
+    );
+    throw error;
   }
 }
 
 // Vérifier le statut d'archive d'une ressource pour un utilisateur
-export async function checkArchiveStatus(resourceId: string, userId: string, token: string): Promise<boolean> {
+export async function checkArchiveStatus(
+  resourceId: string,
+  userId: string,
+  token: string
+): Promise<boolean> {
   try {
-      const response = await fetch(
-          `${API_DEV}/liensRessourceUserArchive/${resourceId}/${userId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-      );
-      const data = await response.json();
-      return data.status;
+    const response = await fetch(
+      `${API_DEV}/liensRessourceUserArchive/${resourceId}/${userId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    const data = await response.json();
+    return data.status;
   } catch (error) {
-      console.error("Erreur lors de la vérification du statut d'archive de la ressource:", error);
-      throw error;
+    console.error(
+      "Erreur lors de la vérification du statut d'archive de la ressource:",
+      error
+    );
+    throw error;
   }
 }
 
 // Récupérer les ressources d'un utilisateur
-export async function getResourcesCreateByUser(userId: string, token: string): Promise<IRessource[]> {
+export async function getResourcesCreateByUser(
+  userId: string,
+  token: string
+): Promise<IRessource[]> {
   try {
-    const response = await fetch(`${API_DEV}/ressources/ressourcesCreeFromUtilisateur/${userId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    const response = await fetch(
+      `${API_DEV}/ressources/ressourcesCreeFromUtilisateur/${userId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
     if (response.ok) {
       const data = await response.json();
 
@@ -328,27 +438,48 @@ export async function getResourcesCreateByUser(userId: string, token: string): P
             headers: {
               Authorization: `Bearer ${token}`,
             },
-          }).then(response => {
+          }).then((response) => {
             if (response.ok) {
               return response.json();
             } else {
-              throw new Error("Erreur lors de la récupération des détails de la ressource. Statut: " + response.status);
+              throw new Error(
+                "Erreur lors de la récupération des détails de la ressource. Statut: " +
+                  response.status
+              );
             }
           })
         );
 
         const resourcesResponses = await Promise.all(fetchResourcePromises);
-        const resources: IRessource[] = ressourceMapper(resourcesResponses.map(response => response.item));
+        const resources: IRessource[] = ressourceMapper(
+          resourcesResponses.map((response) => response.item)
+        );
         return resources;
       } else {
         console.error("Structure de réponse inattendue:", data);
         return [];
       }
     } else {
-      throw new Error("Erreur lors de la récupération des ressources de l'utilisateur. Statut: " + response.status);
+      throw new Error(
+        "Erreur lors de la récupération des ressources de l'utilisateur. Statut: " +
+          response.status
+      );
     }
   } catch (error) {
-    console.error("Erreur lors de la récupération des ressources de l'utilisateur:", error);
+    console.error(
+      "Erreur lors de la récupération des ressources de l'utilisateur:",
+      error
+    );
     throw error;
   }
+}
+
+export function deleteUser(id: number, token: string) {
+  const response = fetch(`${API_DEV}/users/${id}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
 }

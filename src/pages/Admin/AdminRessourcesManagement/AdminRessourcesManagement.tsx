@@ -1,14 +1,18 @@
-import styles from "./AdminRessources.module.scss";
+import styles from "./AdminRessourcesManagement.module.scss";
 import { useFetchRessources } from "../../../hooks";
 import Loader from "../../../components/Loader/Loader";
-import { RessourceCategorie } from "../../../types";
-import { useState } from "react";
+import { ObjectId, RessourceCategorie } from "../../../types";
+import { useContext, useState } from "react";
 import { IRessource } from "interfaces";
+import { deleteRessource } from "../../../apis";
+import { AuthContext } from "../../../context";
+import { set } from "react-hook-form";
 
-export function AdminRessources() {
+export function AdminRessourcesManagement() {
   const [page, setPage] = useState(1);
-  const [loading, error, ressources] = useFetchRessources(page);
+  const [loading, error, ressources, setRessources] = useFetchRessources(page);
   const [ressourcesCategorie, setRessourcesCategorie] = useState("");
+  const { token } = useContext(AuthContext);
 
   function handleClickMoreRessources() {
     setPage((current) => current + 1);
@@ -18,7 +22,6 @@ export function AdminRessources() {
   ) => {
     const value = e.target.value;
     setRessourcesCategorie((prevValue) => (prevValue === value ? "" : value));
-    console.log(ressources);
   };
 
   const filteredRessources = ressourcesCategorie
@@ -26,9 +29,13 @@ export function AdminRessources() {
         r.categorie.includes(ressourcesCategorie as RessourceCategorie)
       )
     : ressources;
+
+  function handleDeleteRessource(id: ObjectId) {
+    deleteRessource(id, token);
+    setRessources(ressources.filter((r) => r.id !== id));
+  }
   return (
     <div className="d-flex flex-column align-items-center flex-fill justify-content-center">
-      {loading && <Loader />}
       <ul className={styles.list}>
         <div className="mb-20">
           <label className={`${styles.tag} mr-5`}>
@@ -79,21 +86,30 @@ export function AdminRessources() {
           <label className={`${styles.tag} mr-5`}>
             <input
               type="checkbox"
-              value={RessourceCategorie.TECHNOLOGiE}
-              checked={ressourcesCategorie === RessourceCategorie.TECHNOLOGiE}
+              value={RessourceCategorie.TECHNOLOGIE}
+              checked={ressourcesCategorie === RessourceCategorie.TECHNOLOGIE}
               onChange={handleRessourcesTypeChange}
             />
-            <span>{RessourceCategorie.TECHNOLOGiE}</span>
+            <span>{RessourceCategorie.TECHNOLOGIE}</span>
           </label>
         </div>
+        {loading && <Loader />}
         {filteredRessources.length > 0
           ? filteredRessources.map((r) => (
-              <li key={r.title} className="d-flex align-items-center">
+              <li key={r.id} className="d-flex align-items-center">
                 <span className="flex-fill">{r.title}</span>
-                <button className="btn btn-primary mr-15 ml-10">
+                <button
+                  className="btn btn-primary mr-15 ml-10"
+                  onClick={() => handleDeleteRessource(r.id)}
+                >
                   Suspendre
                 </button>
-                <button className="btn btn-danger">Supprimer</button>
+                <button
+                  className="btn btn-danger"
+                  onClick={() => handleDeleteRessource(r.id)}
+                >
+                  Supprimer
+                </button>
               </li>
             ))
           : null}
@@ -103,9 +119,9 @@ export function AdminRessources() {
         className="btn btn-primary m-10"
       >
         Charger plus de ressources
-      </button>
+      </button>{" "}
     </div>
   );
 }
 
-export default AdminRessources;
+export default AdminRessourcesManagement;

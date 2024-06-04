@@ -33,7 +33,7 @@ function Login() {
     formState: { errors, isSubmitting },
     clearErrors,
   } = useForm<typeof initialValues>({
-    resolver: yupResolver(validationSchema),
+    resolver: yupResolver(validationSchema) as any,
     defaultValues: initialValues,
   });
 
@@ -83,9 +83,9 @@ function Login() {
               </button>
             </div>
             <NavLink to="/forgotpassword">
-            <div className={`mt-10" ${styles.forgot}`}>
-                <a href="/forgot-password">Mot de passe oublié ?</a>
-            </div>
+              <div className={`mt-10" ${styles.forgot}`}>
+                Mot de passe oublié ?
+              </div>
             </NavLink>
           </form>
         </div>

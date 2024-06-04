@@ -20,7 +20,7 @@ export function CreateUser() {
 
     clearErrors,
   } = useForm<IUser>({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(schema) as any,
   });
 
   const submit = handleSubmit(async (user: IUser) => {

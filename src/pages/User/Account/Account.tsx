@@ -6,30 +6,55 @@ import backgroundHeader from '../../../assets/images/background-header-user-acco
 import { IContextAuth, UserData } from "interfaces";
 import { AuthContext } from "../../../context";
 import { getUserById } from "../../../apis/users";
+import Loader from "../../../components/Loader/Loader";
 
 
 const Account: React.FC = () => {
-    const authContext = useContext<IContextAuth | null>(AuthContext);
+    const authContext = useContext<IContextAuth | Partial<IContextAuth> | null>(AuthContext);
     if (!authContext) {
         return null;
     }
+
     const { token, user } = authContext;
     const [userData, setUserData] = useState<UserData | null>(null);
+    const [editable, setEditable] = useState(false); 
+    const [loading, setLoading] = useState<boolean>(true);
 
     useEffect(() => {
-        const fetchUser = async () => {
-            try {
-                if (user && token) {
-                    const fetchedUserData = await getUserById(user.id, token);
-                    setUserData(fetchedUserData);
-                }
-            } catch (error) {
-                console.error("Erreur lors de la récupération des données utilisateur:", error);
-            }
-        };
-        fetchUser();
-    }, [user, token]);
+        if (user && token) {
 
+            getUserById(user.id, token)
+                .then(data => {
+                    setUserData(data);
+                    setLoading(false); // Fin du chargement
+                })
+                .catch(error => {
+                    console.error('Erreur lors de la récupération des données utilisateur:', error);
+                    setLoading(false); // Fin du chargement même en cas d'erreur
+                });
+        }
+    }, [user, token]);
+   
+
+
+    if (loading) {
+        return <Loader />; // Afficher le loader pendant le chargement
+    }
+    const handleInputChange = (field: string, value: string) => {
+        setUserData((prevState) => {
+            if (!prevState) return prevState;
+            return {
+                ...prevState,
+                item: {
+                    ...prevState.item,
+                    user: {
+                        ...prevState.item.user,
+                        [field]: value,
+                    },
+                },
+            };
+        });
+    };
 
     return (
         <div className={`card flex-fill d-flex flex-column p-20 mb-20 ${styles.contentCard}`}>
@@ -54,7 +79,6 @@ const Account: React.FC = () => {
                         <i className={`fa-solid fa-camera-retro ${styles.cameraIcon}`}></i>
                     </div>
                     <div className={styles.username}>{userData?.item?.user?.pseudonyme || "Pseudo"}</div>
-
                 </div>
                 <div className={styles.cardStat}>
                     <button className={styles.button}>
@@ -67,7 +91,10 @@ const Account: React.FC = () => {
                 <div className={styles.body}>
                     <div className={styles.bodyheader}>
                         <div className={styles.bodytitle}>Mes infos</div>
-                        <div className={styles.modifyprofile}>
+                        <div 
+                            className={styles.modifyprofile} 
+                            onClick={() => setEditable(!editable)}  // Ajouter un gestionnaire pour basculer le mode édition
+                        >
                             <i className="fa-solid fa-pen-clip"></i>
                             <span className={styles.textmodifyprofile}>
                                 Modifier mes informations
@@ -79,26 +106,28 @@ const Account: React.FC = () => {
                             label="Nom"
                             placeholder="Mon nom"
                             value={userData?.item?.user?.nom || ''}
-                            editable={true}
+                            editable={editable}
+                            onChange={(e) => handleInputChange('nom', e.target.value)}  // Ajouter le gestionnaire onChange
                         />
                         <TextInputField
                             label="Prénom"
                             placeholder="Mon prénom"
                             value={userData?.item?.user?.prenom || ''}
-                            editable={true}
+                            editable={editable}
+                            onChange={(e) => handleInputChange('prenom', e.target.value)}  // Ajouter le gestionnaire onChange
                         />
                         <TextInputField
                             label="Pseudonyme"
                             placeholder="Mon pseudonyme"
                             value={userData?.item?.user?.pseudonyme || ''}
-
-                            editable={true}
+                            editable={editable}
+                            onChange={(e) => handleInputChange('pseudonyme', e.target.value)}  // Ajouter le gestionnaire onChange
                         />
                         <TextInputField
                             label="Mail"
                             placeholder="Mon adresse mail"
                             value={userData?.item?.user?.email || ''}
-                            editable={false}
+                            editable={false}  // Pas modifiable, donc pas besoin d'onChange
                         />
                         <div className={styles.positionButton}>
                             <button className={styles.deleteButton}>

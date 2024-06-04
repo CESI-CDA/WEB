@@ -4,8 +4,23 @@ export enum RessourceCategorie {
   COMMUNICATION = "Communication",
   CULTURE = "Culture",
   SPORT = "Sport",
-  TECHNOLOGiE = "Technologie",
+  TECHNOLOGIE = "Technologie",
   FINANCE = "Finance",
   EDUCATION = "Éducation",
+  SANTE = "Santé",
   INCONNUE = "Inconnue",
 }
+
+
+export enum RessourceRelation {
+  FAMILLE = "Famille",
+  AMI = "Ami",
+  INCONNUE = "Inconnue",
+}
+
+export enum RessourceVisibility {
+  PUBLIC = "Public",
+  PRIVE = "Privé",
+  INCONNUE = "Inconnue",
+}
+

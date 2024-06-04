@@ -29,6 +29,13 @@ function Register() {
       .required("Il faut préciser votre mot de passe")
       .min(8)
       .max(20),
+    password_confirmation: yup
+      .string()
+      .required()
+      .oneOf(
+        [yup.ref("password"), null],
+        "Les mots de passe ne correspondent pas"
+      ),
   });
 
   const initialValues = {
@@ -37,16 +44,16 @@ function Register() {
     pseudonyme: "",
     email: "",
     password: "",
+    password_confirmation: "",
   };
 
   const {
     handleSubmit,
     register,
     formState: { errors, isSubmitting },
-
     clearErrors,
   } = useForm<typeof initialValues>({
-    resolver: yupResolver(validationSchema),
+    resolver: yupResolver(validationSchema) as any,
     defaultValues: initialValues,
   });
 
@@ -96,6 +103,15 @@ function Register() {
           <input type="password" {...register("password")} />
           {errors.password && (
             <p className="form-error">{errors.password.message}</p>
+          )}
+        </div>
+        <div className="mb-10 d-flex flex-column">
+          <label htmlFor="password_confirmation">
+            confirmer votre mot de passe
+          </label>
+          <input type="password" {...register("password_confirmation")} />
+          {errors.password_confirmation && (
+            <p className="form-error">{errors.password_confirmation.message}</p>
           )}
         </div>
         {errors.root && (
