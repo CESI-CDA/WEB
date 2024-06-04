@@ -1,4 +1,4 @@
-import ressourceMapper from "../mapper/ressourceMapper";
+import ressourceMapper, { ressourceMapperOne } from "../mapper/ressourceMapper";
 import { IRessource } from "../interfaces";
 import { ObjectId } from "../types";
 import { API_DEV } from "./auth";
@@ -65,7 +65,10 @@ export async function updateRessource(
 }
 
 // Créer une nouvelle ressource
-export async function createRessource(newRes: ICreateRessource, token: string): Promise<string> {
+export async function createRessource(
+  newRes: ICreateRessource,
+  token: string
+): Promise<string> {
   const response = await fetch(`${API_DEV}/ressources`, {
     method: "POST",
     headers: {
@@ -82,10 +85,8 @@ export async function createRessource(newRes: ICreateRessource, token: string): 
   }
 }
 
-
 // Récupérer les catégories de ressource
 export async function getCategories(token: string): Promise<any[]> {
-
   try {
     const response = await fetch(`${API_DEV}/categories`, {
       headers: {
@@ -97,14 +98,13 @@ export async function getCategories(token: string): Promise<any[]> {
     if (data.status) {
       return data.items.data; // Retourne uniquement les données des catégories
     } else {
-      throw new Error('Error fetching categories');
+      throw new Error("Error fetching categories");
     }
   } catch (error) {
-    console.error('Error fetching categories:', error);
+    console.error("Error fetching categories:", error);
     throw error;
   }
 }
-
 
 // Récupérer les types de relation
 export async function getRelations(token: string): Promise<any[]> {
@@ -117,12 +117,12 @@ export async function getRelations(token: string): Promise<any[]> {
     });
     const data = await response.json();
     if (data.status) {
-      return data.items.data; 
+      return data.items.data;
     } else {
-      throw new Error('Error fetching relations');
+      throw new Error("Error fetching relations");
     }
   } catch (error) {
-    console.error('Error fetching relations:', error);
+    console.error("Error fetching relations:", error);
     throw error;
   }
 }
@@ -138,12 +138,12 @@ export async function getVisibilities(token: string): Promise<any[]> {
     });
     const data = await response.json();
     if (data.status) {
-      return data.items.data; 
+      return data.items.data;
     } else {
-      throw new Error('Error fetching visibilities');
+      throw new Error("Error fetching visibilities");
     }
   } catch (error) {
-    console.error('Error fetching visibilities:', error);
+    console.error("Error fetching visibilities:", error);
     throw error;
   }
 }
@@ -159,12 +159,12 @@ export async function getResourcesTypes(token: string): Promise<any[]> {
     });
     const data = await response.json();
     if (data.status) {
-      return data.items.data; 
+      return data.items.data;
     } else {
-      throw new Error('Error fetching types of resource');
+      throw new Error("Error fetching types of resource");
     }
   } catch (error) {
-    console.error('Error fetching types of resource:', error);
+    console.error("Error fetching types of resource:", error);
     throw error;
   }
 }
@@ -181,4 +181,3 @@ export async function getWaitingRessources(): Promise<IRessource[]> {
     throw new Error("Error fetch ressources");
   }
 }
-

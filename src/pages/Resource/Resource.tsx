@@ -8,22 +8,24 @@ import { createComment } from "../../apis/comment";
 import { AuthContext } from "../../context";
 
 const Resource: React.FC = () => {
-  const [resourceData, setResourceData] = useState<any>(null);
+  const [ressource, setRessources] = useState<any>(null);
   const { id = "" } = useParams<{ id?: string }>();
   const [comment, setComment] = useState<boolean>(false);
+  const [listComment, setListComment] = useState<any>([]);
   const { user, token } = useContext(AuthContext);
   const inputRef = useRef<HTMLInputElement>();
 
   useEffect(() => {
-    const fetchResourceData = async () => {
+    const fetchressource = async () => {
       try {
         const data = await getRessource(id);
-        setResourceData(data);
+        setRessources(data);
       } catch (error) {
         console.error("Error fetching resource data:", error);
       }
     };
-    fetchResourceData();
+    fetchressource();
+    console.log(ressource);
   }, [id]);
 
   function postComment(
@@ -46,19 +48,19 @@ const Resource: React.FC = () => {
         className={`card flex-fill d-flex flex-column p-20 mb-20 ${styles.contentCard}`}
       >
         <div className={styles.header}>
-          {resourceData && <HeaderResource resourceId={resourceData.item.id} />}
+          {ressource && <HeaderResource resourceId={ressource.item.id} />}
         </div>
-        {resourceData && (
+        {ressource && (
           <>
             <img
-              src={resourceData.item.url_res}
+              src={ressource.item.url_res}
               alt="Resource"
               className={styles.imageContainer}
             />
             <div className={styles.characteristicProp}>
               <p className={styles.category}>
                 Catégorie :{" "}
-                {resourceData.item.get_lien_ressource_categorie
+                {ressource.item.get_lien_ressource_categorie
                   .map(
                     (lien: { get_categorie: { intitule_cat: string } }) =>
                       lien.get_categorie.intitule_cat
@@ -67,7 +69,7 @@ const Resource: React.FC = () => {
               </p>
               <p className={styles.typeOfRelation}>
                 Types de relation :{" "}
-                {resourceData?.item.get_lien_ressource_relation
+                {ressource?.item.get_lien_ressource_relation
                   .map(
                     (lien: {
                       get_relation_ressource: { intitule_rel: string };
@@ -77,13 +79,13 @@ const Resource: React.FC = () => {
               </p>
               <p className={styles.typeOfResource}>
                 Type de ressource :{" "}
-                {resourceData.item.get_type_ressource.intitule_type_res}
+                {ressource.item.get_type_ressource.intitule_type_res}
               </p>
             </div>
             <div className={styles.content}>
-              <h1 className={styles.title}>{resourceData.item.titre_res}</h1>
+              <h1 className={styles.title}>{ressource.item.titre_res}</h1>
               <p className={styles.resourceContent}>
-                {resourceData.item.contenu_res}
+                {ressource.item.contenu_res}
               </p>
             </div>
           </>
@@ -106,7 +108,7 @@ const Resource: React.FC = () => {
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
                   postComment(
-                    resourceData.item.id,
+                    ressource.item.id,
                     user.id,
                     token,
                     inputRef.current.value
@@ -116,6 +118,15 @@ const Resource: React.FC = () => {
             ></input>
           </>
         )}
+        {ressource?.item?.get_lien_ressource_commentaire &&
+          ressource.item.get_lien_ressource_commentaire.map((comment) => {
+            return (
+              <div className={styles.commentContainer} key={comment.id}>
+                <p className={styles.commentAuthor}>{comment.date}</p>
+                <p className={styles.commentAuthor}>{comment.commentaire}</p>
+              </div>
+            );
+          })}
       </div>
     </div>
   );
