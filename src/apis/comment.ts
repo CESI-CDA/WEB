@@ -38,3 +38,30 @@ export async function acceptComment(id: number, token: string, etat: number) {
     throw new Error("Error update comment");
   }
 }
+
+export async function createComment(
+  idRessource: number,
+  idUser: number,
+  token: string,
+  comment: string
+) {
+  const response = await fetch(`${API_DEV}/liensRessourceCommentaire`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({
+      id_res: idRessource,
+      id_user: idUser,
+      date: new Date().toISOString().replace("T", " ").substring(0, 19),
+      commentaire: comment,
+      id_commentaire_parent: null,
+    }),
+  });
+  if (response.ok) {
+    return response.json();
+  } else {
+    throw new Error("Error create comment");
+  }
+}
