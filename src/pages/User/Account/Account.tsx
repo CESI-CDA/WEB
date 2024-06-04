@@ -6,30 +6,40 @@ import backgroundHeader from '../../../assets/images/background-header-user-acco
 import { IContextAuth, UserData } from "interfaces";
 import { AuthContext } from "../../../context";
 import { getUserById } from "../../../apis/users";
+import Loader from "../../../components/Loader/Loader";
+
 
 const Account: React.FC = () => {
     const authContext = useContext<IContextAuth | Partial<IContextAuth> | null>(AuthContext);
     if (!authContext) {
         return null;
     }
+
     const { token, user } = authContext;
     const [userData, setUserData] = useState<UserData | null>(null);
-    const [editable, setEditable] = useState(false);  // Ajouter un état pour gérer l'édition
+    const [editable, setEditable] = useState(false); 
+    const [loading, setLoading] = useState<boolean>(true);
 
     useEffect(() => {
-        const fetchUser = async () => {
-            try {
-                if (user && token) {
-                    const fetchedUserData = await getUserById(user.id, token);
-                    setUserData(fetchedUserData);
-                }
-            } catch (error) {
-                console.error("Erreur lors de la récupération des données utilisateur:", error);
-            }
-        };
-        fetchUser();
-    }, [user, token]);
+        if (user && token) {
 
+            getUserById(user.id, token)
+                .then(data => {
+                    setUserData(data);
+                    setLoading(false); // Fin du chargement
+                })
+                .catch(error => {
+                    console.error('Erreur lors de la récupération des données utilisateur:', error);
+                    setLoading(false); // Fin du chargement même en cas d'erreur
+                });
+        }
+    }, [user, token]);
+   
+
+
+    if (loading) {
+        return <Loader />; // Afficher le loader pendant le chargement
+    }
     const handleInputChange = (field: string, value: string) => {
         setUserData((prevState) => {
             if (!prevState) return prevState;

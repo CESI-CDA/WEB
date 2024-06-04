@@ -5,6 +5,7 @@ import HeaderCreateResource from './components/HeaderCreateResource/HeaderCreate
 import { IContextAuth } from 'interfaces';
 import { createRessource, getCategories, getRelations, getResourcesTypes, getVisibilities } from '../../../apis'; // Assurez-vous que vous avez une fonction getRelations dans votre API
 import { AuthContext } from "../../../context";
+import Loader from "../../../components/Loader/Loader";
 
 const CreateResource: React.FC = () => {
     const authContext = useContext<IContextAuth | Partial<IContextAuth> | null>(AuthContext);
@@ -14,7 +15,7 @@ const CreateResource: React.FC = () => {
     }
 
     const { token, user } = authContext;
-    const userId = user ? user.id : "N/A";
+    const userId = user?.id;
     const [imagePreviewUrl, setImagePreviewUrl] = useState<string | null>(null);
     const [title, setTitle] = useState<string>('');
     const [content, setContent] = useState<string>('');
@@ -62,7 +63,7 @@ const CreateResource: React.FC = () => {
                 url_res: imagePreviewUrl ?? '',
                 id_type_res: parseInt(selectedTypeOfResource),
                 id_vis: parseInt(selectedVisibility),
-                id_createur: parseInt(userId.toString()),  // Convertir en nombre
+                id_createur: userId as number,
                 arrayIdRel: [parseInt(selectedRelation)],
                 arrayIdCat: [parseInt(selectedCategory)],
             };

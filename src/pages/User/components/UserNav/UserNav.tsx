@@ -25,7 +25,7 @@ export function UserNav() {
         className={({ isActive }) => (isActive ? styles.active : "")}
         to="archive"
       >
-        Mes ressources en attente de lecture
+        Mes archives
       </NavLink>
       <NavLink
         className={({ isActive }) => (isActive ? styles.active : "")}
