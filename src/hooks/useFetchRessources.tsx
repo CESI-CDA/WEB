@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import { getRessources } from "../apis";
+import { set } from "react-hook-form";
 
-export function useFetchRessources(page?: number): [boolean, string, any[]] {
+export function useFetchRessources(
+  page?: number
+): [boolean, string, any[], any] {
   const [ressources, setRessources] = useState([] as any[]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -39,5 +42,5 @@ export function useFetchRessources(page?: number): [boolean, string, any[]] {
     };
   }, [page, setRessources]);
 
-  return [loading, error, ressources];
+  return [loading, error, ressources, setRessources];
 }

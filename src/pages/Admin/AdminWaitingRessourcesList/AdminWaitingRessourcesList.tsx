@@ -1,16 +1,14 @@
-import styles from "./AdminRessourcesList.module.scss";
+import styles from "./AdminWaitingRessourcesList.module.scss";
 import { useFetchRessources } from "../../../hooks";
 import Loader from "../../../components/Loader/Loader";
 import { RessourceCategorie } from "../../../types";
 import { HTMLAttributes, MouseEventHandler, useEffect, useState } from "react";
 import { IRessource } from "interfaces";
 import { getWaitingRessources } from "../../../apis/ressource";
-import { set } from "react-hook-form";
 
-function AdminRecipesList() {
+function AdminWaitingRessourcesList() {
   const [ressources, setRessources] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-
 
   useEffect(() => {
     const fetchRessources = async () => {
@@ -59,4 +57,4 @@ function AdminRecipesList() {
   );
 }
 
-export default AdminRecipesList;
+export default AdminWaitingRessourcesList;
