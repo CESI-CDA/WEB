@@ -43,10 +43,9 @@ function Register() {
     handleSubmit,
     register,
     formState: { errors, isSubmitting },
-
     clearErrors,
   } = useForm<typeof initialValues>({
-    resolver: yupResolver(validationSchema),
+    resolver: yupResolver(validationSchema) as any,
     defaultValues: initialValues,
   });
 
