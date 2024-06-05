@@ -1,14 +1,20 @@
 import { useContext, useState } from "react";
-import { useLoaderData } from "react-router-dom";
 import { AuthContext } from "../../context";
 import { login, logout } from "../../apis/auth";
 import { IUser } from "interfaces";
 import userMapper from "../../mapper/userMapper";
+import { set } from "react-hook-form";
 
 function AuthProvider({ children }: { children: React.ReactNode }) {
   const context = useContext(AuthContext);
-  const [user, setUser] = useState<IUser | null>(context?.user || null);
-  const [token, setToken] = useState<string | null>(null);
+  const storedUser = localStorage.getItem("user");
+  const [user, setUser] = useState<IUser | null>(
+    storedUser !== null ? JSON.parse(storedUser) : null
+  );
+  const storedToken = localStorage.getItem("token");
+  const [token, setToken] = useState<string | null>(
+    storedToken !== null ? storedToken : null
+  );
 
   async function loginUser(credentials: { email: string; password: string }) {
     const user = await login(credentials);
@@ -22,11 +28,16 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
 
     setUser(userMapped);
     setToken(user.token);
+    localStorage.setItem("user", JSON.stringify(userMapped));
+    localStorage.setItem("token", user.token);
   }
 
   async function logoutUser() {
     await logout();
     setUser(null);
+    setToken(null);
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
   }
 
   return (
