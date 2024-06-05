@@ -98,12 +98,7 @@ export function AdminRessourcesManagement() {
           ? filteredRessources.map((r) => (
               <li key={r.id} className="d-flex align-items-center">
                 <span className="flex-fill">{r.title}</span>
-                <button
-                  className="btn btn-primary mr-15 ml-10"
-                  onClick={() => handleDeleteRessource(r.id)}
-                >
-                  Suspendre
-                </button>
+
                 <button
                   className="btn btn-danger"
                   onClick={() => handleDeleteRessource(r.id)}
