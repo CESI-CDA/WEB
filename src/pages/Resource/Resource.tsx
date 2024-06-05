@@ -122,7 +122,9 @@ const Resource: React.FC = () => {
           ressource.item.get_lien_ressource_commentaire.map((comment) => {
             return (
               <div className={styles.commentContainer} key={comment.id}>
-                <p className={styles.commentAuthor}>{comment.date}</p>
+                <p className={styles.commentAuthor}>
+                  {comment.get_utilisateur.pseudonyme}
+                </p>
                 <p className={styles.commentAuthor}>{comment.commentaire}</p>
               </div>
             );

@@ -1,4 +1,6 @@
 export function commentMapper(data: any) {
+  console.log(data);
+
   return data.map((d: any) => {
     return {
       text: d.commentaire ? d.commentaire : "N/A",
