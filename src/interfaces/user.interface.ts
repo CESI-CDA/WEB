@@ -5,7 +5,7 @@ export type IUser = {
   pseudonyme?: string;
   email: string;
   password?: string;
-  role?: number;
+  id_rol?: number;
   favories?: number[];
   archives?: number[];
 };
