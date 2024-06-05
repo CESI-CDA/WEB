@@ -37,6 +37,9 @@ export function AdminCommentsList() {
       {loading && <Loader />}
 
       <ul className={styles.list}>
+        {comments.length === 0 && (
+          <p>Aucun commentaire en attente de validation</p>
+        )}
         {comments.length > 0
           ? comments.map((comment) => (
               <li key={comment.id} className="d-flex align-items-center">

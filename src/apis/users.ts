@@ -3,6 +3,7 @@ import userMapper from "../mapper/userMapper";
 import { API_DEV } from "./auth";
 import { IRessource } from "interfaces";
 import ressourceMapper from "../mapper/ressourceMapper";
+import { TIME } from "../pages/Admin/AdminUser/UserManagement/UserManagement";
 
 const API_USERS = "https://projet-resources.fr/api/users";
 
@@ -42,7 +43,19 @@ export async function createUserAdmin(newUser: IUser, token: string) {
     throw new Error("Error api createUser");
   }
 }
-export async function suspendUser(token: string, id: number) {
+export async function suspendUser(token: string, id: number, date: TIME) {
+  let dateValue = new Date();
+  switch (date) {
+    case TIME.DAY:
+      dateValue.setDate(dateValue.getDate() + 1);
+      break;
+    case TIME.WEEK:
+      dateValue.setDate(dateValue.getDate() + 7);
+      break;
+    case TIME.MONTH:
+      dateValue.setMonth(dateValue.getMonth() + 1);
+      break;
+  }
   const response = await fetch(`${API_DEV}/liens-user-restriction`, {
     method: "POST",
     headers: {
@@ -51,7 +64,7 @@ export async function suspendUser(token: string, id: number) {
     },
     body: JSON.stringify({
       id_user: id,
-      date: new Date().toISOString().replace("T", " ").substring(0, 19),
+      date: dateValue.toISOString().replace(/T/, " ").replace(/\..+/, ""),
       commentaire: "test",
     }),
   });
