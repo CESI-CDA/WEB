@@ -132,6 +132,7 @@ export async function getUserById(
       prenom: user.prenom,
       pseudonyme: user.pseudonyme,
       email: user.email,
+      role: user.role
     };
     return userData;
   } else {
