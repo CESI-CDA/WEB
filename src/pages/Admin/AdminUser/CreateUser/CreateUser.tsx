@@ -11,13 +11,19 @@ import { AuthContext } from "../../../../context";
 export function CreateUser() {
   const [error, setError] = useState<string | null>("");
   const { token } = useContext(AuthContext);
-  const schema = yup.object({});
+  const schema = yup.object({
+    nom: yup.string().required("Ce champ est requis"),
+    prenom: yup.string().required("Ce champ est requis"),
+    pseudonyme: yup.string().required("Ce champ est requis"),
+    email: yup.string().email().required("Ce champ est requis"),
+    id_rol: yup.number().required("Ce champ est requis"),
+  });
   const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-
+    reset,
     clearErrors,
   } = useForm<IUser>({
     resolver: yupResolver(schema) as any,
@@ -27,7 +33,7 @@ export function CreateUser() {
     try {
       clearErrors();
       await createUserAdmin(user, token);
-      navigate("/");
+      reset();
     } catch (e: any) {
       setError("Erreur lors de l'inscription");
     }
@@ -64,15 +70,8 @@ export function CreateUser() {
           {errors.email && <p className="form-error">{errors.email.message}</p>}
         </div>
         <div className="mb-10 d-flex flex-column">
-          <label htmlFor="password">Mot de passe</label>
-          <input type="password" {...register("password")} />
-          {errors.password && (
-            <p className="form-error">{errors.password.message}</p>
-          )}
-        </div>
-        <div className="mb-10 d-flex flex-column">
           <label htmlFor="role">Rôle</label>
-          <select {...register("role")}>
+          <select {...register("id_rol")}>
             <option value="1">Citoyen</option>
             <option value="2">Modérateur</option>
             <option value="3">Administrateur</option>

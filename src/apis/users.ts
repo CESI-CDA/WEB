@@ -35,6 +35,8 @@ export async function createUserAdmin(newUser: IUser, token: string) {
   });
 
   if (response.ok) {
+    console.log(response);
+
     return "utilisateur crée";
   } else {
     throw new Error("Error api createUser");

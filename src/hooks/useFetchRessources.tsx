@@ -3,7 +3,8 @@ import { getRessources } from "../apis";
 import { set } from "react-hook-form";
 
 export function useFetchRessources(
-  page?: number
+  page?: number,
+  etat?: 1 | 2 | 3
 ): [boolean, string, any[], any] {
   const [ressources, setRessources] = useState([] as any[]);
   const [loading, setLoading] = useState(true);
@@ -18,6 +19,9 @@ export function useFetchRessources(
         if (page) {
           queryParam.append("per_page", "18");
           queryParam.append("page", `${page}`);
+        }
+        if (etat) {
+          queryParam.append("keywordIdEtat", etat.toString());
         }
         const fetchedRessources = await getRessources(queryParam);
 

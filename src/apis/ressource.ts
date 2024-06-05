@@ -85,6 +85,29 @@ export async function createRessource(
   }
 }
 
+export async function acceptRessource(
+  id: ObjectId,
+  token: string,
+  etat: 2 | 3
+) {
+  const response = await fetch(
+    `${API_DEV}/ressources/validate-ressource/${id}`,
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ id_etat: etat }),
+    }
+  );
+  if (response.ok) {
+    return "Opération terminée";
+  } else {
+    throw new Error("Error accepting ressource");
+  }
+}
+
 // Récupérer les catégories de ressource
 export async function getCategories(token: string): Promise<any[]> {
   try {
