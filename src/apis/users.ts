@@ -502,8 +502,6 @@ export async function forgotPassword(email: string): Promise<void> {
 }
 
 export async function resetPassword(data: { token: string, email: string, password: string, password_confirmation: string }): Promise<void> {
-  console.log("Objet envoyé au backend :", data);
-
   const response = await fetch(`${API_DEV}/reset-password`, {
     method: 'POST',
     headers: {

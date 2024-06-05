@@ -13,9 +13,12 @@ const ResetPassword: React.FC = () => {
     const location = useLocation();
 
     useEffect(() => {
-        const searchParams = new URLSearchParams(location.search);
-        const token = searchParams.get('token');
-        console.log("Token de réinitialisation de mot de passe :", token);
+        const queryString = location.search.substring(1); // Retirer le point d'interrogation de la chaîne de requête
+        const emailParam = queryString.split('?')[1];
+        if (emailParam) {
+            const emailValue = emailParam.split('=')[1]; // Extraire la valeur de l'e-mail
+            setEmail(emailValue);
+        }
     }, [location.search]);
 
     const handleSubmit = async (event: React.FormEvent) => {
@@ -28,9 +31,12 @@ const ResetPassword: React.FC = () => {
         }
 
         try {
-            const searchParams = new URLSearchParams(location.search);
-            const token = searchParams.get('token');
-            console.log("Token utilisé pour la réinitialisation :", token);
+
+            const queryString = location.search.substring(1); 
+            const [tokenParam] = queryString.split('?');
+            const tokenEncoded  = tokenParam.split('=')[1]; 
+            const token = decodeURIComponent(tokenEncoded); 
+
             await resetPassword({ token, email, password, password_confirmation: confirmPassword });
             setSuccess("Votre mot de passe a été réinitialisé avec succès.");
             setError("");

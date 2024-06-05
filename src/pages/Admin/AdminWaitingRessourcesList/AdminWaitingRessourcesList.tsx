@@ -26,7 +26,6 @@ function AdminWaitingRessourcesList() {
     setRessources((prevRessources) =>
       prevRessources.filter((r) => r.name !== name)
     );
-    console.log(ressources);
   };
   return (
     <>

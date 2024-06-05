@@ -24,7 +24,6 @@ export function AdminCommentsList() {
       }
     };
     fetchComments();
-    console.log(comments);
   }, []);
 
   const handleComment = (id: number, etat: number) => {

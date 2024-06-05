@@ -11,22 +11,16 @@ const ForgotPassword: React.FC = () => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        console.log("Form submitted");
         setLoading(true);
         setError(null);
-        console.log("Loading state set to true");
 
         try {
-            console.log("Calling forgotPassword with email:", email);
             await forgotPassword(email);
-            console.log("Password reset email sent successfully");
             navigate('/emailsent'); 
         } catch (error) {
-            console.error("Error sending password reset email:", error);
             setError("Erreur lors de l'envoi de l'email de réinitialisation de mot de passe.");
         } finally {
             setLoading(false);
-            console.log("Loading state set to false");
         }
     };
 
