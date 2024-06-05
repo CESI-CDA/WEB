@@ -6,8 +6,6 @@ import { IContextAuth } from "interfaces";
 import {
   addResourceToArchives,
   addResourceToFavorites,
-  checkArchiveStatus,
-  checkFavoriteStatus,
   removeResourceFromArchives,
   removeResourceFromFavorites,
 } from "../../../../apis/users";
@@ -47,7 +45,9 @@ const HeaderResource: React.FC<{ resourceId: IRessource["id"] }> = ({
           token!
         );
         setIsHeartFilled(false);
-        setFavorites(user.favories.filter((id) => id !== parseInt(resourceId)));
+        setFavorites(
+          user?.favories?.filter((id) => id !== parseInt(resourceId))
+        );
       } else {
         await addResourceToFavorites(
           userIdString,
@@ -71,7 +71,7 @@ const HeaderResource: React.FC<{ resourceId: IRessource["id"] }> = ({
           token!
         );
         setIsArchiveFilled(false);
-        setArchives(user.archives.filter((id) => id !== parseInt(resourceId)));
+        setArchives(user?.archives.filter((id) => id !== parseInt(resourceId)));
       } else {
         await addResourceToArchives(userIdString, parseInt(resourceId), token!);
         setIsArchiveFilled(true);

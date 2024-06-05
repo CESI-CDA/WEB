@@ -33,14 +33,15 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
     const archivesId = archives.map((a) => {
       return a.id_res;
     });
-
-    setUser({
+    const userFully = {
       ...userMapped,
       favories: favoriesId,
       archives: archivesId,
-    });
+    };
+
+    setUser(userFully);
     setToken(user.token);
-    localStorage.setItem("user", JSON.stringify(userMapped));
+    localStorage.setItem("user", JSON.stringify(userFully));
     localStorage.setItem("token", user.token);
   }
 
