@@ -4,9 +4,9 @@ import { login, logout } from "../../apis/auth";
 import { IUser } from "interfaces";
 import userMapper from "../../mapper/userMapper";
 import { set } from "react-hook-form";
+import { getArchives, getFavorites } from "../../apis/users";
 
 function AuthProvider({ children }: { children: React.ReactNode }) {
-  const context = useContext(AuthContext);
   const storedUser = localStorage.getItem("user");
   const [user, setUser] = useState<IUser | null>(
     storedUser !== null ? JSON.parse(storedUser) : null
@@ -25,8 +25,20 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
       email: user.user.email ? user.user.email : "N/A",
       role: user.user.id_rol ? user.user.id_rol : "N/A",
     };
+    const favories = await getFavorites(userMapped.id, user.token);
+    const favoriesId = favories.map((f) => {
+      return f.id_res;
+    });
+    const archives = await getArchives(userMapped.id, user.token);
+    const archivesId = archives.map((a) => {
+      return a.id_res;
+    });
 
-    setUser(userMapped);
+    setUser({
+      ...userMapped,
+      favories: favoriesId,
+      archives: archivesId,
+    });
     setToken(user.token);
     localStorage.setItem("user", JSON.stringify(userMapped));
     localStorage.setItem("token", user.token);
@@ -40,6 +52,18 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
     localStorage.removeItem("token");
   }
 
+  async function setArchives(archives: number[]) {
+    setUser({ ...user, archives });
+    localStorage.setItem("user", JSON.stringify({ ...user, archives }));
+  }
+  async function setFavorites(favorites: number[]) {
+    setUser({ ...user, favories: favorites });
+    localStorage.setItem(
+      "user",
+      JSON.stringify({ ...user, favories: favorites })
+    );
+  }
+
   return (
     <AuthContext.Provider
       value={{
@@ -47,6 +71,8 @@ function AuthProvider({ children }: { children: React.ReactNode }) {
         user,
         loginUser,
         logoutUser,
+        setArchives,
+        setFavorites,
       }}
     >
       {children}
