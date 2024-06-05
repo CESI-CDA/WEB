@@ -23,6 +23,7 @@ import Archive from "./pages/User/Archive/Archive";
 import MyResources from "./pages/User/MyResources/MyResources";
 import CreateResource from "./pages/User/CreateResource/CreateResource";
 import AdminWaitingRessourcesList from "./pages/Admin/AdminWaitingRessourcesList/AdminWaitingRessourcesList";
+import { Unauthorize } from "./pages/Unauthorize/Unauthorize";
 
 export const router = createBrowserRouter([
   {
@@ -126,6 +127,10 @@ export const router = createBrowserRouter([
             element: <CreateResource />,
           },
         ],
+      },
+      {
+        path: "/unauthorized",
+        element: <Unauthorize />,
       },
     ],
   },

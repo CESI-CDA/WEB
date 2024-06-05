@@ -11,7 +11,7 @@ function ProtectedRoute({ children, allowedRole }: ProtectedRouteProps) {
   if (!user) {
     return <Navigate to="/login" />;
   }
-  return allowedRole >= user.role ? children : <Navigate to="/" />;
+  return allowedRole >= user.role ? children : <Navigate to="/unauthorized" />;
   //todo page unauthorized
 }
 

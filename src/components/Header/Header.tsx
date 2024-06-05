@@ -34,7 +34,7 @@ function Header() {
             <NavLink to="user">
               <button className="btn btn-primary mr-15">Profil</button>
             </NavLink>
-            {user.role === 1 ? (
+            {user.role <= 3 ? (
               <NavLink to="admin">
                 <button className="btn btn-primary mr-15">
                   Administration
