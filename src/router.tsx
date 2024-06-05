@@ -26,6 +26,7 @@ import EmailSent from "./pages/EmailSent/EmailSent";
 
 import CreateResource from "./pages/User/CreateResource/CreateResource";
 import AdminWaitingRessourcesList from "./pages/Admin/AdminWaitingRessourcesList/AdminWaitingRessourcesList";
+import { Unauthorize } from "./pages/Unauthorize/Unauthorize";
 
 export const router = createBrowserRouter([
   {
@@ -47,7 +48,7 @@ export const router = createBrowserRouter([
       {
         path: "/admin",
         element: (
-          <ProtectedRoute allowedRole={[1]}>
+          <ProtectedRoute allowedRole={3}>
             <Admin />
           </ProtectedRoute>
         ),
@@ -62,15 +63,15 @@ export const router = createBrowserRouter([
           },
           {
             path: "users",
-            element: <AdminUser />,
+            element: (
+              <ProtectedRoute allowedRole={1}>
+                <AdminUser />
+              </ProtectedRoute>
+            ),
             children: [
               {
                 path: "create",
-                element: (
-                  <ProtectedRoute allowedRole={[1]}>
-                    <CreateUser />
-                  </ProtectedRoute>
-                ),
+                element: <CreateUser />,
               },
               {
                 path: "manage",
@@ -80,7 +81,11 @@ export const router = createBrowserRouter([
           },
           {
             path: "manageRessources",
-            element: <AdminRessourcesManagement />,
+            element: (
+              <ProtectedRoute allowedRole={2}>
+                <AdminRessourcesManagement />
+              </ProtectedRoute>
+            ),
           },
         ],
       },
@@ -103,7 +108,7 @@ export const router = createBrowserRouter([
       {
         path: "/user",
         element: (
-          <ProtectedRoute allowedRole={[1,2,3,4]}>
+          <ProtectedRoute allowedRole={1}>
             <User />
           </ProtectedRoute>
         ),
@@ -129,6 +134,10 @@ export const router = createBrowserRouter([
             element: <CreateResource />,
           },
         ],
+      },
+      {
+        path: "/unauthorized",
+        element: <Unauthorize />,
       },
     ],
   },

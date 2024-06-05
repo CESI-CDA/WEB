@@ -12,6 +12,7 @@ function Home() {
 
   function handleClickMoreRessources() {
     setPage((current) => current + 1);
+    console.log(ressources);
   }
 
   return (
@@ -29,7 +30,7 @@ function Home() {
               {ressources
                 .filter((r) => r.title.toLowerCase().startsWith(filter))
                 .map((ressource) => (
-                  <RessourceCard key={ressource.title} ressource={ressource} />
+                  <RessourceCard key={ressource.id} ressource={ressource} />
                 ))}
             </div>
           )}

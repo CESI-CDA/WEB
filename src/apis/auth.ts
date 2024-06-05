@@ -29,7 +29,10 @@ export async function login(credentials: { email: string; password: string }) {
 // }
 
 export async function logout() {
-  await fetch(`${API_DEV}/logout`, {
+  const response = await fetch(`${API_DEV}/logout`, {
     method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
   });
 }

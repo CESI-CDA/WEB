@@ -5,7 +5,9 @@ export type IUser = {
   pseudonyme?: string;
   email: string;
   password?: string;
-  role?: number;
+  id_rol?: number;
+  favories?: number[];
+  archives?: number[];
 };
 
 export interface IContextAuth {
@@ -16,6 +18,8 @@ export interface IContextAuth {
     password: string;
   }) => Promise<void>;
   logoutUser: () => Promise<void>;
+  setArchives: (archives: number[]) => void;
+  setFavorites: (favorites: number[]) => void;
 }
 
 export interface UserData {
