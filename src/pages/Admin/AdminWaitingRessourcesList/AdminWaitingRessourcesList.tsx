@@ -21,25 +21,6 @@ function AdminWaitingRessourcesList() {
     1
   );
 
-<<<<<<< HEAD
-  useEffect(() => {
-    const fetchRessources = async () => {
-      try {
-        setRessources(await getWaitingRessources());
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetch ressources", error);
-      }
-    };
-    fetchRessources();
-  }, []);
-
-  const handleRessource = (name: string) => {
-    setRessources((prevRessources) =>
-      prevRessources.filter((r) => r.name !== name)
-    );
-  };
-=======
   async function handleRessource(id: ObjectId, token: string, etat: 2 | 3) {
     try {
       acceptRessource(id, token, etat);
@@ -48,7 +29,6 @@ function AdminWaitingRessourcesList() {
       console.error("Error accepting ressource:", e);
     }
   }
->>>>>>> develop
   return (
     <>
       {loading && <Loader />}
