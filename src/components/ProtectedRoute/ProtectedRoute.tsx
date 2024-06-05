@@ -4,14 +4,14 @@ import { AuthContext } from "../../context";
 
 interface ProtectedRouteProps {
   children: ReactNode;
-  allowedRole: number;
+  allowedRole: number[];
 }
 function ProtectedRoute({ children, allowedRole }: ProtectedRouteProps) {
   const { user } = useContext(AuthContext);
   if (!user) {
     return <Navigate to="/login" />;
   }
-  return allowedRole >= user.role ? children : <Navigate to="/unauthorized" />;
+  return allowedRole.includes(user.role) ? children : <Navigate to="/unauthorized" />;
   //todo page unauthorized
 }
 

@@ -25,7 +25,6 @@ const Resource: React.FC = () => {
       }
     };
     fetchressource();
-    console.log(ressource);
   }, [id]);
 
   function postComment(
