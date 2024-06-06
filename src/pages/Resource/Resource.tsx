@@ -128,9 +128,12 @@ const Resource: React.FC = () => {
                 }
               }}
             ></input>
+            <div className={styles.publish}>
             <button className="btn btn-primary" onClick={() => postComment(ressource.item.id, user.id, token, commentText)}>
-              Poster
-            </button>          </>
+              Soumettre le commentaire
+            </button>
+            </div>
+          </>
         )}
         {ressource?.item?.get_lien_ressource_commentaire &&
           ressource.item.get_lien_ressource_commentaire.map((comment) => {
