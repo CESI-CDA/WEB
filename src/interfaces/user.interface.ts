@@ -4,7 +4,6 @@ export type IUser = {
   prenom: string;
   pseudonyme?: string;
   email: string;
-  restricted: boolean;
   password?: string;
   id_rol?: number;
   favories?: number[];

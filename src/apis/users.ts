@@ -79,6 +79,7 @@ export async function suspendUser(token: string, id: number, date: TIME) {
 export async function getUsers(token: string): Promise<IUser[]> {
   const response = await fetch(`${API_DEV}/users`, {
     headers: {
+      "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
   });

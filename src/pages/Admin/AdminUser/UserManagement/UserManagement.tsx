@@ -55,7 +55,6 @@ export function UserManagement() {
         if (user.id === id) {
           return {
             ...user,
-            restricted: true,
             date: dateValue.toISOString().replace(/T/, " ").replace(/\..+/, ""),
           };
         }
@@ -76,7 +75,7 @@ export function UserManagement() {
         {loading && <Loader />}
         {users &&
           users.map((user) => {
-            if (user.restricted) {
+            if (user.date) {
               return (
                 <li key={user.id} className="d-flex align-items-center">
                   <span className="flex-fill">{user.prenom}</span>
