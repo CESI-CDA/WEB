@@ -22,10 +22,10 @@ import Favorite from "./pages/User/Favorite/Favorite";
 import Archive from "./pages/User/Archive/Archive";
 import MyResources from "./pages/User/MyResources/MyResources";
 
-
 import CreateResource from "./pages/User/CreateResource/CreateResource";
 import AdminWaitingRessourcesList from "./pages/Admin/AdminWaitingRessourcesList/AdminWaitingRessourcesList";
 import { Unauthorize } from "./pages/Unauthorize/Unauthorize";
+import { AdminStats } from "./pages/Admin/AdminStats/AdminStats";
 
 export const router = createBrowserRouter([
   {
@@ -59,6 +59,10 @@ export const router = createBrowserRouter([
           {
             path: "comments",
             element: <AdminCommentsList />,
+          },
+          {
+            path: "stats",
+            element: <AdminStats />,
           },
           {
             path: "users",
