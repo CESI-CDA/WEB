@@ -33,31 +33,35 @@ export function AdminCommentsList() {
 
   return (
     <>
-      {loading && <Loader />}
-
       <ul className={styles.list}>
-        {comments.length === 0 && (
-          <p>Aucun commentaire en attente de validation</p>
+        {loading === true ? (
+          <Loader />
+        ) : (
+          <>
+            {comments.length === 0 && (
+              <p>Aucun commentaire en attente de validation</p>
+            )}
+            {comments.length > 0
+              ? comments.map((comment) => (
+                  <li key={comment.id} className="d-flex align-items-center">
+                    <span className="flex-fill">{comment.text}</span>
+                    <button
+                      className="btn btn-primary mr-15"
+                      onClick={() => handleComment(comment.id, 2)}
+                    >
+                      Accepter
+                    </button>
+                    <button
+                      className="btn btn-danger"
+                      onClick={() => handleComment(comment.id, 3)}
+                    >
+                      Rejeter
+                    </button>
+                  </li>
+                ))
+              : null}
+          </>
         )}
-        {comments.length > 0
-          ? comments.map((comment) => (
-              <li key={comment.id} className="d-flex align-items-center">
-                <span className="flex-fill">{comment.text}</span>
-                <button
-                  className="btn btn-primary mr-15"
-                  onClick={() => handleComment(comment.id, 2)}
-                >
-                  Accepter
-                </button>
-                <button
-                  className="btn btn-danger"
-                  onClick={() => handleComment(comment.id, 3)}
-                >
-                  Rejeter
-                </button>
-              </li>
-            ))
-          : null}
       </ul>
     </>
   );

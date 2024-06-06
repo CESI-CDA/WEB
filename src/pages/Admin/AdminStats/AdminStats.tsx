@@ -3,6 +3,7 @@ import { getStats } from "../../../apis/stats";
 import { AuthContext } from "../../../context";
 import { useContext, useEffect, useState } from "react";
 import { IStats } from "../../../interfaces/stats.interface";
+import Loader from "../../../components/Loader/Loader";
 
 export function AdminStats() {
   const [stats, setStats] = useState<IStats>(null);
@@ -24,7 +25,7 @@ export function AdminStats() {
   }, []);
   return (
     <div>
-      {loading && <div>Chargement...</div>}
+      {loading && <Loader />}
       {stats && (
         <div>
           <div>Nombre de ressources: {stats.cree}</div>

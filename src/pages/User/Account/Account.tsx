@@ -88,7 +88,11 @@ const Account: React.FC = () => {
                 <div className={styles.body}>
                     <div className={styles.bodyheader}>
                         <div className={styles.bodytitle}>Mes infos</div>
+
                         {/* <div
+
+                        
+
                             className={styles.modifyprofile}
                             onClick={() => setEditable(!editable)}  // Ajouter un gestionnaire pour basculer le mode édition
                         >
