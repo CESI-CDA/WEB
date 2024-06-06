@@ -88,7 +88,11 @@ const Account: React.FC = () => {
                 <div className={styles.body}>
                     <div className={styles.bodyheader}>
                         <div className={styles.bodytitle}>Mes infos</div>
-                        <div
+
+                        {/* <div
+
+                        
+
                             className={styles.modifyprofile}
                             onClick={() => setEditable(!editable)}  // Ajouter un gestionnaire pour basculer le mode édition
                         >
@@ -96,7 +100,7 @@ const Account: React.FC = () => {
                             <span className={styles.textmodifyprofile}>
                                 Modifier mes informations
                             </span>
-                        </div>
+                        </div> */}
                     </div>
                     <div className={styles.formfield}>
                         <TextInputField
@@ -126,11 +130,11 @@ const Account: React.FC = () => {
                             value={userData?.item?.user?.email || ''}
                             editable={false}  // Pas modifiable, donc pas besoin d'onChange
                         />
-                        <div className={styles.positionButton}>
+                        {/* <div className={styles.positionButton}>
                             <button className={styles.deleteButton}>
                                 Supprimer mon compte
                             </button>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </div>
