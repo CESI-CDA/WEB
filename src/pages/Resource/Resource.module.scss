@@ -38,6 +38,7 @@
     font-weight: bold;
     margin-bottom: 10px;
     color: #0F0F0F;
+    width:100%;
 }
 
 .resourceContent {
@@ -67,6 +68,11 @@
     padding-bottom: 12;
     border: none;
     background-color: transparent;
+}
+
+button {
+    margin-top: 20px;
+    width: 10%;
 }
 
 @media (max-width: 430px) {

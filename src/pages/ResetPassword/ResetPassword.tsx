@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { resetPassword } from '../../apis/users';
 import { useNavigate, useLocation } from 'react-router-dom';
 import styles from "./ResetPassword.module.scss";
+import Modal from "../../components/Modal/Modal";
+
 
 const ResetPassword: React.FC = () => {
     const [email, setEmail] = useState("");
@@ -11,6 +13,8 @@ const ResetPassword: React.FC = () => {
     const [success, setSuccess] = useState("");
     const navigate = useNavigate();
     const location = useLocation();
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
 
     useEffect(() => {
         const queryString = location.search.substring(1); // Retirer le point d'interrogation de la chaîne de requête
@@ -38,18 +42,20 @@ const ResetPassword: React.FC = () => {
             const token = decodeURIComponent(tokenEncoded); 
 
             await resetPassword({ token, email, password, password_confirmation: confirmPassword });
-            setSuccess("Votre mot de passe a été réinitialisé avec succès.");
             setError("");
             setPassword("");
             setConfirmPassword("");
-            setTimeout(() => {
-                navigate("/login");
-            }, 2000);
+            setIsModalOpen(true);
         } catch (error) {
             setError("Une erreur s'est produite lors de la réinitialisation du mot de passe.");
             setSuccess("");
         }
     }
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+        navigate("/login"); 
+      };
 
     return (
         <div className="flex-fill d-flex align-items-center justify-content-center">
@@ -96,6 +102,11 @@ const ResetPassword: React.FC = () => {
                     </button>
                 </div>
             </form>
+
+            <Modal isOpen={isModalOpen} onClose={closeModal}>
+        <h2>Réinitialisation réussie</h2>
+        <p>Votre mot de passe a été réinitialisé avec succès. Vous allez être redirigé vers la page de connexion.</p>
+      </Modal>
         </div>
     );
 };

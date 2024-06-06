@@ -5,10 +5,13 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigate } from "react-router-dom";
 import { createUser } from "../../apis/users";
 import { useState } from "react";
+import Modal from "../../components/Modal/Modal";
+
 
 function Register() {
   const navigate = useNavigate();
   const [error, setError] = useState<string | null>("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const validationSchema = yup.object({
     nom: yup
@@ -61,11 +64,16 @@ function Register() {
     try {
       clearErrors();
       await createUser(user);
-      navigate("/login");
+      setIsModalOpen(true);
     } catch (e: any) {
       setError("Erreur lors de l'inscription");
     }
   });
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    navigate("/login"); 
+  };
 
   return (
     <div className="flex-fill d-flex align-items-center justify-content-center">
@@ -125,6 +133,11 @@ function Register() {
           </button>
         </div>
       </form>
+
+      <Modal isOpen={isModalOpen} onClose={closeModal}>
+        <h2>Inscription réussie</h2>
+        <p>Votre compte a été créé avec succès. Vous allez être redirigé vers la page de connexion.</p>
+      </Modal>
     </div>
   );
 }

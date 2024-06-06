@@ -8,4 +8,10 @@
     padding: 5px 0;
     border-bottom: var(--border);
   }
+  button {
+    width: 15%;
+    display: flex;
+    align-self: center;
+    justify-content: center;
+}
 }

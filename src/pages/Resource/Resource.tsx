@@ -6,6 +6,8 @@ import { useParams } from "react-router-dom";
 import { set } from "react-hook-form";
 import { createComment } from "../../apis/comment";
 import { AuthContext } from "../../context";
+import Modal from "../../components/Modal/Modal";
+
 
 const Resource: React.FC = () => {
   const [ressource, setRessources] = useState<any>(null);
@@ -14,6 +16,9 @@ const Resource: React.FC = () => {
   const [listComment, setListComment] = useState<any>([]);
   const { user, token } = useContext(AuthContext);
   const inputRef = useRef<HTMLInputElement>();
+  const [commentText, setCommentText] = useState<string>("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
 
   useEffect(() => {
     const fetchressource = async () => {
@@ -36,10 +41,16 @@ const Resource: React.FC = () => {
     try {
       createComment(id_res, id_user, token, text);
       setComment(false);
+      setIsModalOpen(true);
+
     } catch (e) {
       console.error("Error creating comment:", e);
     }
   }
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
   return (
     <div className={`flex-fill container d-flex flex-column p-20`}>
@@ -104,6 +115,8 @@ const Resource: React.FC = () => {
               ref={inputRef}
               type="text"
               placeholder="Vous pouvez écrire votre commentaire"
+              value={commentText}
+              onChange={(e) => setCommentText(e.target.value)}
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
                   postComment(
@@ -115,7 +128,9 @@ const Resource: React.FC = () => {
                 }
               }}
             ></input>
-          </>
+            <button className="btn btn-primary" onClick={() => postComment(ressource.item.id, user.id, token, commentText)}>
+              Poster
+            </button>          </>
         )}
         {ressource?.item?.get_lien_ressource_commentaire &&
           ressource.item.get_lien_ressource_commentaire.map((comment) => {
@@ -129,6 +144,10 @@ const Resource: React.FC = () => {
             );
           })}
       </div>
+      <Modal isOpen={isModalOpen} onClose={closeModal}>
+        <h2>Commentaire créé avec succès</h2>
+        <p>En attente de validation...</p>
+      </Modal>
     </div>
   );
 };
