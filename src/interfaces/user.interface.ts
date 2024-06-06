@@ -10,6 +10,7 @@ export type IUser = {
   favories?: number[];
   archives?: number[];
   role?: number;
+  date?: string;
 };
 
 export interface IContextAuth {

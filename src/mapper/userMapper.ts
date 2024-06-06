@@ -9,6 +9,9 @@ export function userMapper(users: Array<any>): Array<IUser> {
       email: d.email ? d.email : "N/A",
       role: d.role ? d.role : "N/A",
       restricted: d.is_restricted === true ? d.is_restricted : false,
+      date: d.get_lien_user_restriction
+        ? d.get_lien_user_restriction.date
+        : "N/A",
     };
   });
 

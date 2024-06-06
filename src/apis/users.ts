@@ -54,6 +54,8 @@ export async function suspendUser(token: string, id: number, date: TIME) {
       dateValue.setMonth(dateValue.getMonth() + 1);
       break;
   }
+  console.log(dateValue.toISOString().replace(/T/, " ").replace(/\..+/, ""));
+
   const response = await fetch(`${API_DEV}/liens-user-restriction`, {
     method: "POST",
     headers: {
