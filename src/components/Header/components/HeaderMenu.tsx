@@ -19,9 +19,7 @@ function HeaderMenu() {
       )}
       {!user && (
         <>
-          <NavLink to="admin">
-            <li>admin</li>
-          </NavLink>
+          {user?.role <= 3 && <NavLink to="admin">admin</NavLink>}
           <NavLink to="favoris">
             <li>Favoris</li>
           </NavLink>

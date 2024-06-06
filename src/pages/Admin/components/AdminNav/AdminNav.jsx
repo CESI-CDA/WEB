@@ -26,7 +26,7 @@ export function AdminNav() {
           Gestion des utilisateurs
         </NavLink>
       )}
-      {user?.role === 2 && (
+      {user?.role <= 2 && (
         <NavLink
           className={({ isActive }) => (isActive ? styles.active : "")}
           to="manageRessources"
