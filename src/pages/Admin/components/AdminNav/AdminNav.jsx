@@ -34,6 +34,14 @@ export function AdminNav() {
           Gestion des ressources
         </NavLink>
       )}
+      {user?.role <= 2 && (
+        <NavLink
+          className={({ isActive }) => (isActive ? styles.active : "")}
+          to="stats"
+        >
+          Statistiques
+        </NavLink>
+      )}
     </ul>
   );
 }
