@@ -31,29 +31,33 @@ function AdminWaitingRessourcesList() {
   }
   return (
     <>
-      {loading && <Loader />}
-
       <ul className={styles.list}>
-        {ressources.length > 0 ? (
-          ressources.map((r) => (
-            <li key={r.name} className="d-flex align-items-center">
-              <span className="flex-fill">{r.title}</span>
-              <button
-                className="btn btn-primary mr-15"
-                onClick={() => handleRessource(r.id, token, 2)}
-              >
-                Accepter
-              </button>
-              <button
-                className="btn btn-danger"
-                onClick={() => handleRessource(r.id, token, 3)}
-              >
-                Rejeter
-              </button>
-            </li>
-          ))
+        {loading === true ? (
+          <Loader />
         ) : (
-          <p>Aucune ressource en attente de validation</p>
+          <>
+            {ressources.length > 0 ? (
+              ressources.map((r) => (
+                <li key={r.name} className="d-flex align-items-center">
+                  <span className="flex-fill">{r.title}</span>
+                  <button
+                    className="btn btn-primary mr-15"
+                    onClick={() => handleRessource(r.id, token, 2)}
+                  >
+                    Accepter
+                  </button>
+                  <button
+                    className="btn btn-danger"
+                    onClick={() => handleRessource(r.id, token, 3)}
+                  >
+                    Rejeter
+                  </button>
+                </li>
+              ))
+            ) : (
+              <p>Aucune ressource en attente de validation</p>
+            )}
+          </>
         )}
       </ul>
     </>
