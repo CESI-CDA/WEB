@@ -12,7 +12,6 @@ function Home() {
 
   function handleClickMoreRessources() {
     setPage((current) => current + 1);
-    console.log(ressources);
   }
 
   return (

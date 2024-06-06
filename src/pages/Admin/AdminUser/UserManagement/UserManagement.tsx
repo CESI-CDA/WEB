@@ -24,7 +24,7 @@ export function UserManagement() {
         const data = await getUsers(context?.token as string);
         setUsers(data);
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     }
     fetchData();
@@ -44,8 +44,6 @@ export function UserManagement() {
       <ul className={styles.list}>
         {users &&
           users.map((user) => {
-            console.log(user);
-
             if (user.restricted) {
               return (
                 <li key={user.id} className="d-flex align-items-center">

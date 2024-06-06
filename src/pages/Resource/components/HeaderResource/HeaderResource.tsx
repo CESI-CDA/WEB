@@ -33,7 +33,6 @@ const HeaderResource: React.FC<{ resourceId: IRessource["id"] }> = ({
       user.archives.includes(parseInt(resourceId)) && setIsArchiveFilled(true);
       user.favories.includes(parseInt(resourceId)) && setIsHeartFilled(true);
     }
-    console.log(user.archives, user.favories);
   }, [resourceId, userIdString, token]);
 
   const handleHeartClick = async () => {

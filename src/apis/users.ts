@@ -36,8 +36,6 @@ export async function createUserAdmin(newUser: IUser, token: string) {
   });
 
   if (response.ok) {
-    console.log(response);
-
     return "utilisateur crée";
   } else {
     throw new Error("Error api createUser");
@@ -493,7 +491,6 @@ export async function forgotPassword(email: string): Promise<void> {
   });
 
   if (response.ok) {
-    console.log("Password reset email sent successfully");
   } else {
     const errorData = await response.json();
     throw new Error(errorData.message || "Error sending password reset email");
@@ -515,7 +512,6 @@ export async function resetPassword(data: {
   });
 
   if (response.ok) {
-    console.log("Password reset successfully");
   } else {
     const errorData = await response.json();
     throw new Error(errorData.message || "Error resetting password");
