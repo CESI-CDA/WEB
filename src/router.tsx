@@ -22,7 +22,6 @@ import Favorite from "./pages/User/Favorite/Favorite";
 import Archive from "./pages/User/Archive/Archive";
 import MyResources from "./pages/User/MyResources/MyResources";
 
-
 import CreateResource from "./pages/User/CreateResource/CreateResource";
 import AdminWaitingRessourcesList from "./pages/Admin/AdminWaitingRessourcesList/AdminWaitingRessourcesList";
 import { Unauthorize } from "./pages/Unauthorize/Unauthorize";
@@ -47,7 +46,7 @@ export const router = createBrowserRouter([
       {
         path: "/admin",
         element: (
-          <ProtectedRoute allowedRole={[1,3]}>
+          <ProtectedRoute allowedRole={3}>
             <Admin />
           </ProtectedRoute>
         ),
@@ -63,7 +62,7 @@ export const router = createBrowserRouter([
           {
             path: "users",
             element: (
-              <ProtectedRoute allowedRole={[1]}>
+              <ProtectedRoute allowedRole={1}>
                 <AdminUser />
               </ProtectedRoute>
             ),
@@ -81,7 +80,7 @@ export const router = createBrowserRouter([
           {
             path: "manageRessources",
             element: (
-              <ProtectedRoute allowedRole={[1,2]}>
+              <ProtectedRoute allowedRole={2}>
                 <AdminRessourcesManagement />
               </ProtectedRoute>
             ),
@@ -103,7 +102,7 @@ export const router = createBrowserRouter([
       {
         path: "/user",
         element: (
-          <ProtectedRoute allowedRole={[1,2,3,4]}>
+          <ProtectedRoute allowedRole={4}>
             <User />
           </ProtectedRoute>
         ),

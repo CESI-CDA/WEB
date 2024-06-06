@@ -8,8 +8,11 @@ export function userMapper(users: Array<any>): Array<IUser> {
       prenom: d.prenom ? d.prenom : "N/A",
       email: d.email ? d.email : "N/A",
       role: d.role ? d.role : "N/A",
+      restricted: d.is_restricted === true ? d.is_restricted : false,
     };
   });
+  console.log(users);
+
   return data;
 }
 

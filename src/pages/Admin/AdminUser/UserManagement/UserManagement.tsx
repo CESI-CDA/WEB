@@ -3,11 +3,20 @@ import { IUser } from "interfaces";
 import { useContext, useEffect, useState } from "react";
 import styles from "./UserManagement.module.scss";
 import { AuthContext } from "../../../../context";
-import { set } from "react-hook-form";
+
+export enum TIME {
+  DAY = 1,
+  WEEK = 7,
+  MONTH = 30,
+}
 
 export function UserManagement() {
   const [users, setUsers] = useState<IUser[]>([]);
   const context = useContext(AuthContext);
+
+  const [selectValues, setSelectValues] = useState<{ [key: string]: string }>(
+    {}
+  );
 
   useEffect(() => {
     async function fetchData() {
@@ -21,8 +30,8 @@ export function UserManagement() {
     fetchData();
   }, []);
 
-  function handleSuspend(id: number) {
-    suspendUser(context.token, id);
+  function handleSuspend(id: number, date: TIME) {
+    suspendUser(context.token, id, date);
     setUsers(users.filter((user) => user.id !== id));
   }
   function handleDelete(id: number) {
@@ -34,23 +43,62 @@ export function UserManagement() {
     <div>
       <ul className={styles.list}>
         {users &&
-          users.map((user) => (
-            <li key={user.id} className="d-flex align-items-center">
-              <span className="flex-fill">{user.prenom}</span>
-              <button
-                className="btn btn-primary mr-15"
-                onClick={() => handleSuspend(user.id)}
-              >
-                Suspendre
-              </button>
-              <button
-                className="btn btn-danger"
-                onClick={() => handleDelete(user.id)}
-              >
-                Supprimer
-              </button>
-            </li>
-          ))}
+          users.map((user) => {
+            console.log(user);
+
+            if (user.restricted) {
+              return (
+                <li key={user.id} className="d-flex align-items-center">
+                  <span className="flex-fill">{user.prenom}</span>
+                  <span className="mr-15">Restreint</span>
+
+                  <button
+                    className="btn btn-danger"
+                    onClick={() => handleDelete(user.id)}
+                  >
+                    Supprimer
+                  </button>
+                </li>
+              );
+            } else {
+              return (
+                <li key={user.id} className="d-flex align-items-center">
+                  <span className="flex-fill">{user.prenom}</span>
+
+                  <select
+                    className="mr-15"
+                    value={selectValues[user.id] || ""}
+                    onChange={(e) =>
+                      setSelectValues({
+                        ...selectValues,
+                        [user.id]: e.target.value,
+                      })
+                    }
+                  >
+                    <option value={TIME.DAY}>1 jour</option>
+                    <option value={TIME.WEEK}>1 semaine</option>
+                    <option value={TIME.MONTH}>1 mois</option>
+                  </select>
+
+                  <button
+                    className="btn btn-primary mr-15"
+                    onClick={() =>
+                      handleSuspend(user.id, parseInt(selectValues[user.id]))
+                    }
+                  >
+                    Suspendre
+                  </button>
+
+                  <button
+                    className="btn btn-danger"
+                    onClick={() => handleDelete(user.id)}
+                  >
+                    Supprimer
+                  </button>
+                </li>
+              );
+            }
+          })}
       </ul>
     </div>
   );
