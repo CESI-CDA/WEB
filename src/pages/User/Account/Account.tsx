@@ -34,7 +34,7 @@ const Account: React.FC = () => {
                 });
         }
     }, [user, token]);
-   
+
 
 
     if (loading) {
@@ -67,9 +67,6 @@ const Account: React.FC = () => {
                             className={styles.headerImage}
                         />
                     </div>
-                    <button className={styles.logoutButton}>
-                        <i className={`fa-solid fa-right-from-bracket ${styles.logoutIcon}`}></i>
-                    </button>
                     <img
                         src="https://cdn.icon-icons.com/icons2/3054/PNG/512/account_profile_user_icon_190494.png"
                         alt="User"
@@ -91,8 +88,8 @@ const Account: React.FC = () => {
                 <div className={styles.body}>
                     <div className={styles.bodyheader}>
                         <div className={styles.bodytitle}>Mes infos</div>
-                        <div 
-                            className={styles.modifyprofile} 
+                        <div
+                            className={styles.modifyprofile}
                             onClick={() => setEditable(!editable)}  // Ajouter un gestionnaire pour basculer le mode édition
                         >
                             <i className="fa-solid fa-pen-clip"></i>
