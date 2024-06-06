@@ -108,12 +108,14 @@ const Resource: React.FC = () => {
             )}
             <div className={styles.headerComment}>
               <h3 className={styles.comment}>Commentaires</h3>
-              <button
-                className={styles.icon}
-                onClick={() => user && setComment(true)}
-              >
-                +
-              </button>
+              {user && (
+                <button
+                  className={styles.icon}
+                  onClick={() => user && setComment(true)}
+                >
+                  +
+                </button>
+              )}
             </div>
             {comment && (
               <>
