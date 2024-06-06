@@ -30,13 +30,46 @@ export function UserManagement() {
     fetchData();
   }, []);
 
-  function handleSuspend(id: number, date: TIME) {
-    suspendUser(context.token, id, date);
-    setUsers(users.filter((user) => user.id !== id));
+  const refreshUsers = async () => {
+    try {
+      const data = await getUsers(context?.token as string);
+      setUsers(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  async function handleSuspend(id: number, date: TIME) {
+    await suspendUser(context.token, id, date);
+    let dateValue = new Date();
+    switch (date) {
+      case TIME.DAY:
+        dateValue.setDate(dateValue.getDate() + 1);
+        break;
+      case TIME.WEEK:
+        dateValue.setDate(dateValue.getDate() + 7);
+        break;
+      case TIME.MONTH:
+        dateValue.setMonth(dateValue.getMonth() + 1);
+        break;
+    }
+    setUsers((prev) => {
+      return prev.map((user) => {
+        if (user.id === id) {
+          return {
+            ...user,
+            restricted: true,
+            date: dateValue.toISOString().replace(/T/, " ").replace(/\..+/, ""),
+          };
+        }
+        return user;
+      });
+    });
   }
-  function handleDelete(id: number) {
-    deleteUser(id, context.token);
-    setUsers(users.filter((user) => user.id !== id));
+  async function handleDelete(id: number) {
+    await deleteUser(id, context.token);
+    setUsers((prev) => {
+      return prev.filter((user) => user.id !== id);
+    });
   }
 
   return (
@@ -48,7 +81,9 @@ export function UserManagement() {
               return (
                 <li key={user.id} className="d-flex align-items-center">
                   <span className="flex-fill">{user.prenom}</span>
-                  <span className="mr-15">Restreint</span>
+                  <span className="mr-15">
+                    Restreint jusqu'au <strong>{user.date}</strong>
+                  </span>
 
                   <button
                     className="btn btn-danger"
