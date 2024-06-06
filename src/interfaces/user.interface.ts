@@ -8,7 +8,7 @@ export type IUser = {
   id_rol?: number;
   favories?: number[];
   archives?: number[];
-  role: number;
+  role?: number;
 };
 
 export interface IContextAuth {

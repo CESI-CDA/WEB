@@ -1,14 +1,14 @@
-
 import React, { useState, useContext, useEffect } from 'react';
 import styles from './CreateResource.module.scss';
 import HeaderCreateResource from './components/HeaderCreateResource/HeaderCreateResource';
 import { IContextAuth } from 'interfaces';
 import { createRessource, getCategories, getRelations, getResourcesTypes, getVisibilities } from '../../../apis'; // Assurez-vous que vous avez une fonction getRelations dans votre API
 import { AuthContext } from "../../../context";
-import Loader from "../../../components/Loader/Loader";
+import Modal from "../../../components/Modal/Modal";
 
 const CreateResource: React.FC = () => {
     const authContext = useContext<IContextAuth | Partial<IContextAuth> | null>(AuthContext);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     if (!authContext || !authContext.token) {
         throw new Error('Authentication token is missing.');
@@ -53,7 +53,7 @@ const CreateResource: React.FC = () => {
         }).catch((error) => {
             console.error('Error fetching types of resources:', error);
         });
-    }, []);
+    }, [token]);
 
     const handleCreateResource = async () => {
         try {
@@ -69,8 +69,8 @@ const CreateResource: React.FC = () => {
             };
 
             const message = await createRessource(newResource, token);
-            alert(message);
-            
+            setIsModalOpen(true);
+
             setTitle('');
             setImagePreviewUrl(null);
             setContent('');
@@ -95,7 +95,9 @@ const CreateResource: React.FC = () => {
         }
     };
 
-
+    const closeModal = () => {
+        setIsModalOpen(false);
+    };
 
     return (
         <div className={`card flex-fill d-flex flex-column p-30 mb-30 ${styles.contentCard}`}>
@@ -103,7 +105,6 @@ const CreateResource: React.FC = () => {
                 <HeaderCreateResource title="Créer une nouvelle ressource" />
             </div>
             <div className={styles.formContainer}>
-
                 <input type="file" accept="image/*" className={styles.input} onChange={handleImageChange} />
                 {imagePreviewUrl && <img src={imagePreviewUrl} alt="Preview" className={styles.imagePreview} />}
                 <input type="text" placeholder="Title" className={styles.input} value={title} onChange={(e) => setTitle(e.target.value)} />
@@ -147,8 +148,12 @@ const CreateResource: React.FC = () => {
                 </div>
                 {error && <p className="form-error">{error}</p>}
             </div>
-        </div>
+            <Modal isOpen={isModalOpen} onClose={closeModal}>
+                <h2>Ressource créée avec succès</h2>
+                <p>En attente de publication... </p>
 
+            </Modal>
+        </div>
     );
 };
 

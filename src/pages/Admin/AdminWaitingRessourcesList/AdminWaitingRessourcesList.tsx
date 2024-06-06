@@ -53,7 +53,7 @@ function AdminWaitingRessourcesList() {
             </li>
           ))
         ) : (
-          <p>Aucune ressource en attentes de validation</p>
+          <p>Aucune ressource en attente de validation</p>
         )}
       </ul>
     </>
