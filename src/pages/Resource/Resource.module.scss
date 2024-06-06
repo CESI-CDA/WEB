@@ -38,6 +38,7 @@
     font-weight: bold;
     margin-bottom: 10px;
     color: #0F0F0F;
+    width:100%;
 }
 
 .resourceContent {
@@ -71,7 +72,9 @@
 
 button {
     margin-top: 20px;
+    width: 10%;
 }
+
 @media (max-width: 430px) {
     .title {
         font-size: 22px;

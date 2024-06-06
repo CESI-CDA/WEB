@@ -116,7 +116,7 @@ const Resource: React.FC = () => {
               type="text"
               placeholder="Vous pouvez écrire votre commentaire"
               value={commentText}
-  onChange={(e) => setCommentText(e.target.value)}
+              onChange={(e) => setCommentText(e.target.value)}
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
                   postComment(
@@ -128,12 +128,12 @@ const Resource: React.FC = () => {
                 }
               }}
             ></input>
-<button className="btn btn-primary" onClick={() => postComment(ressource.item.id, user.id, token, commentText)}>
-  Soumettre le commentaire
-</button>          </>
+            <button className="btn btn-primary" onClick={() => postComment(ressource.item.id, user.id, token, commentText)}>
+              Poster
+            </button>          </>
         )}
         {ressource?.item?.get_lien_ressource_commentaire &&
-          ressource.item.get_lien_ressource_commentaire.map((comment) => {         
+          ressource.item.get_lien_ressource_commentaire.map((comment) => {
             return (
               <div className={styles.commentContainer} key={comment.id}>
                 <p className={styles.commentAuthor}>
