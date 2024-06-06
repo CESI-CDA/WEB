@@ -1,6 +1,9 @@
 import { NavLink } from "react-router-dom";
 import styles from "./AdminNav.module.scss";
+import { useContext } from "react";
+import { AuthContext } from "../../../../context";
 export function AdminNav() {
+  const { user } = useContext(AuthContext);
   return (
     <ul className={`${styles.list} d-flex flex-column`}>
       <NavLink
@@ -15,18 +18,22 @@ export function AdminNav() {
       >
         Commentaires en attente de validation
       </NavLink>
-      <NavLink
-        className={({ isActive }) => (isActive ? styles.active : "")}
-        to="users"
-      >
-        Gestion des utilisateurs
-      </NavLink>
-      <NavLink
-        className={({ isActive }) => (isActive ? styles.active : "")}
-        to="manageRessources"
-      >
-        Gestion des ressources
-      </NavLink>
+      {user?.role === 1 && (
+        <NavLink
+          className={({ isActive }) => (isActive ? styles.active : "")}
+          to="users"
+        >
+          Gestion des utilisateurs
+        </NavLink>
+      )}
+      {user?.role === 2 && (
+        <NavLink
+          className={({ isActive }) => (isActive ? styles.active : "")}
+          to="manageRessources"
+        >
+          Gestion des ressources
+        </NavLink>
+      )}
     </ul>
   );
 }
