@@ -3,6 +3,8 @@ import { IUser } from "interfaces";
 import { useContext, useEffect, useState } from "react";
 import styles from "./UserManagement.module.scss";
 import { AuthContext } from "../../../../context";
+import { set } from "react-hook-form";
+import Loader from "../../../../components/Loader/Loader";
 
 export enum TIME {
   DAY = 1,
@@ -12,6 +14,7 @@ export enum TIME {
 
 export function UserManagement() {
   const [users, setUsers] = useState<IUser[]>([]);
+  const [loading, setLoading] = useState<boolean>(null);
   const context = useContext(AuthContext);
 
   const [selectValues, setSelectValues] = useState<{ [key: string]: string }>(
@@ -19,25 +22,20 @@ export function UserManagement() {
   );
 
   useEffect(() => {
+    setLoading(true);
     async function fetchData() {
       try {
         const data = await getUsers(context?.token as string);
         setUsers(data);
+        setLoading(false);
       } catch (error) {
         console.error(error);
+        setLoading(false);
       }
     }
     fetchData();
   }, []);
 
-  const refreshUsers = async () => {
-    try {
-      const data = await getUsers(context?.token as string);
-      setUsers(data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
   async function handleSuspend(id: number, date: TIME) {
     await suspendUser(context.token, id, date);
     let dateValue = new Date();
@@ -75,6 +73,7 @@ export function UserManagement() {
   return (
     <div>
       <ul className={styles.list}>
+        {loading && <Loader />}
         {users &&
           users.map((user) => {
             if (user.restricted) {
