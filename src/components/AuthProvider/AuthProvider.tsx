@@ -8,7 +8,7 @@ import { getArchives, getFavorites } from "../../apis/users";
 
 function AuthProvider({ children }: { children: React.ReactNode }) {
   const storedUser = localStorage.getItem("user");
-  const [user, setUser] = useState<IUser | null>(
+  const [user, setUser] = useState<any | null>(
     storedUser !== null ? JSON.parse(storedUser) : null
   );
   const storedToken = localStorage.getItem("token");

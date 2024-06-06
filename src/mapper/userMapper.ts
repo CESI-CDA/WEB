@@ -11,7 +11,6 @@ export function userMapper(users: Array<any>): Array<IUser> {
       restricted: d.is_restricted === true ? d.is_restricted : false,
     };
   });
-  console.log(users);
 
   return data;
 }

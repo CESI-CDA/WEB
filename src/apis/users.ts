@@ -8,7 +8,7 @@ import { TIME } from "../pages/Admin/AdminUser/UserManagement/UserManagement";
 const API_USERS = "https://projet-resources.fr/api/users";
 
 // Créer un nouvel utilisateur
-export async function createUser(newUser: IUser) {
+export async function createUser(newUser: Partial<IUser>) {
   const response = await fetch(`${API_DEV}/register`, {
     method: "POST",
     headers: {
@@ -36,8 +36,6 @@ export async function createUserAdmin(newUser: IUser, token: string) {
   });
 
   if (response.ok) {
-    console.log(response);
-
     return "utilisateur crée";
   } else {
     throw new Error("Error api createUser");
@@ -139,13 +137,13 @@ export async function getUserById(
   if (response.ok) {
     const userData: UserData = await response.json();
     const { user } = userData.item;
-    const userObject: IUser = {
+    const userObject: Partial<IUser> = {
       id: user.id,
       nom: user.nom,
       prenom: user.prenom,
       pseudonyme: user.pseudonyme,
       email: user.email,
-      role: user.role
+      role: user.role,
     };
     return userData;
   } else {
@@ -485,35 +483,37 @@ export function deleteUser(id: number, token: string) {
 
 export async function forgotPassword(email: string): Promise<void> {
   const response = await fetch(`${API_DEV}/forgot-password`, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
     body: JSON.stringify({ email }),
   });
 
   if (response.ok) {
-    console.log("Password reset email sent successfully");
   } else {
     const errorData = await response.json();
     throw new Error(errorData.message || "Error sending password reset email");
   }
 }
 
-export async function resetPassword(data: { token: string, email: string, password: string, password_confirmation: string }): Promise<void> {
+export async function resetPassword(data: {
+  token: string;
+  email: string;
+  password: string;
+  password_confirmation: string;
+}): Promise<void> {
   const response = await fetch(`${API_DEV}/reset-password`, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
     },
     body: JSON.stringify(data),
   });
 
   if (response.ok) {
-    console.log("Password reset successfully");
   } else {
     const errorData = await response.json();
     throw new Error(errorData.message || "Error resetting password");
   }
 }
-

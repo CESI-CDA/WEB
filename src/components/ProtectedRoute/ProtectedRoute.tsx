@@ -12,7 +12,6 @@ function ProtectedRoute({ children, allowedRole }: ProtectedRouteProps) {
     return <Navigate to="/login" />;
   }
   return user.role <= allowedRole ? children : <Navigate to="/unauthorized" />;
-  //todo page unauthorized
 }
 
 export default ProtectedRoute;
