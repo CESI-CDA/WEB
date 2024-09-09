@@ -5,6 +5,8 @@ branches: develop
 
 jobs:
   build:
+  runs-on: ubuntu-latest
+  steps:
     -name: Set up Node.js
     use: actions/setup-node@latest
     with:
