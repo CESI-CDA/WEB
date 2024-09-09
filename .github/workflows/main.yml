@@ -1,0 +1,20 @@
+name: Build
+on:
+push:
+branches: develop
+
+jobs:
+  build:
+    -name: Set up Node.js
+    use: actions/setup-node@latest
+    with:
+    node-version: "latest"
+
+    -name: install dependencies
+    run: npm install
+
+    -name: build docker image
+    run: docker build -t 
+
+
+
