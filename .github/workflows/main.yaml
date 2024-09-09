@@ -8,6 +8,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment: raspberry
 
     steps:
     # Étape 1 : Checkout du code source
