@@ -42,7 +42,7 @@ jobs:
         host: ${{ secrets.SSH_HOST }}
         username: ${{ secrets.SSH_USER }}
         password: ${{ secrets.SSH_PASSWORD }}
-        source: 'dist/*'
+        source: cp -r 'dist/..'
         target: '/var/www/html/Cube-Front'
 
     # Étape 6 : Redémarrer le serveur Apache (si nécessaire)
