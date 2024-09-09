@@ -1,6 +1,6 @@
 # Pour installer le projet
 
-`npm i`"
+`npm i`
 
 ## Pour lancer le projet
 
