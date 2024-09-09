@@ -5,18 +5,15 @@ branches: develop
 
 jobs:
   build:
-  runs-on: ubuntu-latest
+  runs-on: ubuntu
   steps:
     -name: Set up Node.js
     use: actions/setup-node@latest
     with:
-    node-version: "latest"
+    node-version: "18"
 
     -name: install dependencies
     run: npm install
-
-    -name: build docker image
-    run: docker build -t 
 
 
 
