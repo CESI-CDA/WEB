@@ -28,6 +28,12 @@ jobs:
     - name: Build React app
       run: npm run build
 
+    - name: Debug SSH host and user
+      run: |
+        echo "SSH Host: ${{ secrets.SSH_HOST }}"
+        echo "SSH User: ${{ secrets.SSH_USER }}"
+        echo "SSH Mdp : ${{ secrets.SSH_PASSWORD }}"
+        
     # Étape 5 : Transférer les fichiers vers le serveur via SSH (avec mot de passe)
     - name: Copy files via SSH
       uses: appleboy/scp-action@v0.1.3
