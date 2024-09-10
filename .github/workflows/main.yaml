@@ -28,12 +28,6 @@ jobs:
     # Étape 4 : Builder l'application React
     - name: Build React app
       run: npm run build
-
-    - name: Debug SSH host and user
-      run: |
-        echo "SSH Host: ${{ secrets.SSH_HOST }}"
-        echo "SSH User: ${{ secrets.SSH_USER }}"
-        echo "SSH Mdp : ${{ secrets.SSH_PASSWORD }}"
         
     # Étape 5 : Transférer les fichiers vers le serveur via SSH (avec mot de passe)
     - name: Copy files via SSH
@@ -42,7 +36,7 @@ jobs:
         host: ${{ secrets.SSH_HOST }}
         username: ${{ secrets.SSH_USER }}
         password: ${{ secrets.SSH_PASSWORD }}
-        source: 'dist/'
+        source: 'dist/*'
         target: '/var/www/html/Cube-Front'
 
     # Étape 6 : Redémarrer le serveur Apache (si nécessaire)
