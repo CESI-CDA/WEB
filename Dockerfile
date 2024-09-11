@@ -1,4 +1,4 @@
-FROM node:18 AS build
+FROM arm64v8/node:18 AS build
 
 WORKDIR /app
 
