@@ -79,7 +79,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd /var/www/html/Cube-Front/
-            docker load -i web-front.tar
+            docker load -i /web-front.tar
 
       # Ajoute une vérification après le chargement de l'image pour s'assurer qu'elle est bien présente
       - name: Verify Docker image on server
