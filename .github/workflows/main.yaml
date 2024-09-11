@@ -32,12 +32,12 @@ jobs:
         run: npm run build
         
       - name: stocker-build
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: build-result
-          path: /dist
+          path: dist/
       - name: ls
-        run: ls
+        run: cd dist | ls
   run-sonar:
     needs: build
     runs-on: ubuntu-latest
@@ -57,10 +57,10 @@ jobs:
     environment: Raspberry
     steps:
       - name: download-build
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: build-result
-          path: /dist
+          path: dist/
     # Étape 5 : Transférer les fichiers vers le serveur via SSH (avec mot de passe)
       - name: Copy files via SSH
         uses: appleboy/scp-action@v0.1.3
