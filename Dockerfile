@@ -1,10 +1,10 @@
-FROM node:18 AS build
+FROM --platform=arm64 node:18 AS build
 
 WORKDIR /app
 
 COPY package*.json ./
 
-RUN npm ci --arch=arm64
+RUN npm install
 
 COPY . .
 
