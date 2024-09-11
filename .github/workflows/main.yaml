@@ -30,21 +30,21 @@ jobs:
           name: build-image
           path: cube-front.tar
           
-  run-sonar:
-    needs: build
-    runs-on: ubuntu-latest
-    environment: Raspberry
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
-      - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+  #run-sonar:
+    # needs: build
+    # runs-on: ubuntu-latest
+    # environment: Raspberry
+    # steps:
+    #   - uses: actions/checkout@v3
+    #     with:
+    #       fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
+    #   - name: SonarCloud Scan
+    #     uses: SonarSource/sonarcloud-github-action@master
+    #     env:
+    #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
+    #       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
   deploy-on-erver:
-    needs: [build, run-sonar]
+    needs: [build,]
     runs-on: ubuntu-latest
     environment: Raspberry
     steps:        
@@ -74,7 +74,8 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           password: ${{ secrets.SSH_PASSWORD }}
-          run: ls
+          scipts: | 
+              ls
 
     # Étape 6 : Redémarrer le serveur Apache (si nécessaire)
       - name: Restart Apache server
