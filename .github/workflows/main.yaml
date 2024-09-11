@@ -1,4 +1,4 @@
-name: Deploy React App
+name: Deploy React App to Docker Hub
 
 on:
   push:
@@ -6,68 +6,47 @@ on:
       - develop
 
 jobs:
-  build:
+  build-and-push:
     runs-on: ubuntu-latest
-    environment: Raspberry
     steps:
+      # 1. Cloner le dépôt
       - name: Checkout repository
         uses: actions/checkout@v2
 
+      # 2. Connexion à Docker Hub avec les informations d'identification stockées dans les secrets
+      - name: Log in to Docker Hub
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
+      # 3. Construire l'image Docker
       - name: Build Docker image
-        run: docker build -t web-front .
+        run: docker build --platform linux/arm64 -t ${{ secrets.DOCKER_USERNAME }}/web-front:latest .
 
-      - name: Save Docker image as a tar file
-        run: docker save -o web-front.tar web-front
-
-      - name: Upload Docker image artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: build-image
-          path: web-front.tar
+      # 4. Pousser l'image Docker sur Docker Hub
+      - name: Push Docker image to Docker Hub
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/web-front:latest
 
   deploy-on-server:
-    needs: [build]
+    needs: [build-and-push]
     runs-on: ubuntu-latest
-    environment: Raspberry  # Spécifie l'environnement ici
+    environment: Raspberry
     steps:
-      - name: Download Docker image artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: build-image
-          path: web-front.tar
-
-      - name: Setup SSH for connection  # Configurer SSH avec la clé privée
+      # 1. Configurer la connexion SSH avec la clé privée
+      - name: Setup SSH for connection
         run: |
           mkdir -p ~/.ssh
           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan github.com >> ~/.ssh/known_hosts
           ssh-keyscan ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
-
-      - name: Transfer Docker image via SCP
-        uses: appleboy/scp-action@v0.1.3
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}  # Utiliser la clé privée pour SCP
-          source: web-front.tar
-          target: "/var/www/html/Cube-Front"
-
-      - name: Load Docker image on server
+      # 2. Se connecter au serveur, tirer l'image Docker depuis Docker Hub et la lancer
+      - name: Pull Docker image and run on server
         uses: appleboy/ssh-action@v0.1.5
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd /var/www/html/Cube-Front/
-            docker load -i web-front.tar
-
-      - name: Run Docker container
-        uses: appleboy/ssh-action@v0.1.5
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: |
-            docker run -d --name web-front-container -p 80:80 web-front
+            docker login -u "${{ secrets.DOCKER_USERNAME }}" -p "${{ secrets.DOCKER_PASSWORD }}"
+            docker pull ${{ secrets.DOCKER_USERNAME }}/web-front:latest
+            docker stop web-front-container || true
+            docker rm web-front-container || true
+            docker run -d --name web-front-container -p 80:80 -p 443:443 ${{ secrets.DOCKER_USERNAME }}/web-front:latest
