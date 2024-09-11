@@ -75,7 +75,8 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           password: ${{ secrets.SSH_PASSWORD }}
           script: |
-                ls
+                docker load -i /var/www/html/Cube-Front
+                docker images
            
 
     # Étape 6 : Redémarrer le serveur Apache (si nécessaire)
