@@ -18,7 +18,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: build dockerfile
-        run: docker build -t cube-front .
+        run: docker build -t cube-front
         
       - name: stocker-build
         uses: actions/upload-artifact@v4
