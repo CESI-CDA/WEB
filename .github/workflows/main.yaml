@@ -16,6 +16,9 @@ jobs:
       # Étape 1 : Checkout du code source
       - name: Checkout repository
         uses: actions/checkout@v2
+        
+      - name: build project
+        run: npm run build
 
       - name: build dockerfile
         run: docker build -t cube-front .
