@@ -17,27 +17,18 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      # Étape 2 : Configuration de Node.js
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: "16"
+      - name: build dockerfile
+        run: docker build -t cube-front .
 
-      # Étape 3 : Installer les dépendances
-      - name: Install dependencies
-        run: npm install
-
-      # Étape 4 : Builder l'application React
-      - name: Build React app
-        run: npm run build
+      - name: Save the Docker image as a tar file
+        run: docker save -o cube-front.tar cube-front
         
       - name: stocker-build
         uses: actions/upload-artifact@v4
         with:
-          name: build-result
-          path: dist/
-      - name: ls
-        run: cd dist | ls
+          name: build-image
+          path: cube-front.tar
+          
   run-sonar:
     needs: build
     runs-on: ubuntu-latest
@@ -59,8 +50,8 @@ jobs:
       - name: download-build
         uses: actions/download-artifact@v4
         with:
-          name: build-result
-          path: dist/
+          name: build-image
+          path: cube-front.tar
     # Étape 5 : Transférer les fichiers vers le serveur via SSH (avec mot de passe)
       - name: Copy files via SSH
         uses: appleboy/scp-action@v0.1.3
@@ -68,8 +59,20 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           password: ${{ secrets.SSH_PASSWORD }}
-          source: "dist/*"
+          source: build-image
           target: "/var/www/html/Cube-Front"
+          
+      - name: run the conteneur
+        uses: appleboy/scp-action@v0.1.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          script: |
+            docker load -i /var/www/html/Cube-Front/cube-front.tar
+            docker stop cube-front || true
+            docker rm my-cube-front || true
+            docker run -d -p 80 --name cube-front cube-front
 
     # Étape 6 : Redémarrer le serveur Apache (si nécessaire)
       - name: Restart Apache server
