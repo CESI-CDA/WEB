@@ -28,6 +28,7 @@ jobs:
   deploy-on-server:
     needs: [build-and-push]
     runs-on: ubuntu-latest
+    environment: Raspberry
     steps:
       # 1. Configurer la connexion SSH avec la clé privée
       - name: Setup SSH for connection
