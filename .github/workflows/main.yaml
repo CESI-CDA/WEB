@@ -75,9 +75,9 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           password: ${{ secrets.SSH_PASSWORD }}
           script: |
-            docker load -i /var/www/html/Cube-Front/cube-front
+            docker load -i /var/www/html/Cube-Front/cube-front.tar
             docker stop cube-front || true
-            docker rm my-cube-front || true
+            docker rm cube-front || true
             docker run -d -p 80 --name cube-front cube-front
 
     # Étape 6 : Redémarrer le serveur Apache (si nécessaire)
