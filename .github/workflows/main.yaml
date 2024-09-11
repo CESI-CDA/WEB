@@ -16,9 +16,6 @@ jobs:
       # Étape 1 : Checkout du code source
       - name: Checkout repository
         uses: actions/checkout@v2
-        
-      - name: build project
-        run: npm run build
 
       - name: build dockerfile
         run: docker build -t cube-front .
@@ -55,7 +52,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: build-image
-          path: cube-front
+          path: cube-front.tar
     # Étape 5 : Transférer les fichiers vers le serveur via SSH (avec mot de passe)
       - name: send image via SSH
         uses: appleboy/scp-action@v0.1.3
