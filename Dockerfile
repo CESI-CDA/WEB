@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY package*.json ./
 
-RUN npm install --arch=arm64
+RUN npm ci --arch=arm64
 
 COPY . .
 
