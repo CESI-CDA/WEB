@@ -54,4 +54,4 @@ jobs:
             docker pull ${{ secrets.DOCKER_USERNAME }}/web-front:latest
             docker stop web-front-container || true
             docker rm web-front-container || true
-            docker run -d --name web-front-container -p 80:80 -p 443:443 ${{ secrets.DOCKER_USERNAME }}/web-front:latest
+            docker run -d --name web-front-container -p 8443:80 ${{ secrets.DOCKER_USERNAME }}/web-front:latest
