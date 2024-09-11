@@ -10,6 +10,7 @@ jobs:
   sonarcloud:
     name: SonarCloud
     runs-on: ubuntu-latest
+    environment: Raspberry
     steps:
       - uses: actions/checkout@v3
         with:
