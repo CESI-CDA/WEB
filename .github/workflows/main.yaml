@@ -30,6 +30,12 @@ jobs:
       # Étape 4 : Builder l'application React
       - name: Build React app
         run: npm run build
+        
+      - name: stocker-build
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-result
+          path: /dist
   run-sonar:
     needs: build
     runs-on: ubuntu-latest
@@ -48,23 +54,11 @@ jobs:
     runs-on: ubuntu-latest
     environment: Raspberry
     steps:
-     # Étape 1 : Checkout du code source
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      # Étape 2 : Configuration de Node.js
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
+      - name: download-build
+        uses: actions/download-artifact@v4
         with:
-          node-version: "16"
-
-      # Étape 3 : Installer les dépendances
-      - name: Install dependencies
-        run: npm install
-
-      # Étape 4 : Builder l'application React
-      - name: Build React app
-        run: npm run build
+          name: build-result
+          path: /dist
     # Étape 5 : Transférer les fichiers vers le serveur via SSH (avec mot de passe)
       - name: Copy files via SSH
         uses: appleboy/scp-action@v0.1.3
