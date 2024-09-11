@@ -19,6 +19,8 @@ jobs:
 
       - name: build dockerfile
         run: docker build -t cube-front .
+      - name: Save the Docker image as a tar file
+        run: docker save -o cube-front.tar cube-front
       - name: ls
         run: ls
         
@@ -26,7 +28,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: build-image
-          path: /cube-front
+          path: /cube-front.tar
           
   run-sonar:
     needs: build
