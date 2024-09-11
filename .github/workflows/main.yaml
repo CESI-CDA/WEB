@@ -75,7 +75,7 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           password: ${{ secrets.SSH_PASSWORD }}
           script: |
-                docker load -i /var/www/html/Cube-Front
+                docker load -i /var/www/html/Cube-Front/cube-front.tar
                 docker images
            
 
