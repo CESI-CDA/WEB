@@ -3,7 +3,9 @@ name: Deploy React App
 on:
   push:
     branches:
-      - develop
+      - prod
+  pull_request:
+      types: [opened, synchronize, reopened]
 
 jobs:
   build:
@@ -28,8 +30,8 @@ jobs:
       # Étape 4 : Builder l'application React
       - name: Build React app
         run: npm run build
-
-  run-Sonar:
+  run-sonar:
+    needs: build
     runs-on: ubuntu-latest
     environment: Raspberry
     steps:
@@ -42,6 +44,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
   deploy-on-erver:
+    needs: run-sonar
     runs-on: ubuntu-latest
     environment: Raspberry
     steps:
