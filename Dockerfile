@@ -16,7 +16,7 @@ COPY . .
 # Construire l'application React pour la production
 RUN npm run build
 
-# Exposer le port 3000
+# Exposer le port 80
 EXPOSE 80
 
 # Lancer l'application quand le conteneur démarre
