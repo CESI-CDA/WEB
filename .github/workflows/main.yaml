@@ -30,6 +30,14 @@ jobs:
       # Étape 4 : Builder l'application React
       - name: Build React app
         run: npm run build
+        
+      - name: stocker-build
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-result
+          path: dist/
+      - name: ls
+        run: cd dist | ls
   run-sonar:
     needs: build
     runs-on: ubuntu-latest
@@ -48,21 +56,26 @@ jobs:
     runs-on: ubuntu-latest
     environment: Raspberry
     steps:
+      - name: download-build
+        uses: actions/download-artifact@v4
+        with:
+          name: build-result
+          path: dist/
     # Étape 5 : Transférer les fichiers vers le serveur via SSH (avec mot de passe)
-    - name: Copy files via SSH
-      uses: appleboy/scp-action@v0.1.3
-      with:
-        host: ${{ secrets.SSH_HOST }}
-        username: ${{ secrets.SSH_USER }}
-        password: ${{ secrets.SSH_PASSWORD }}
-        source: "dist/*"
-        target: "/var/www/html/Cube-Front"
+      - name: Copy files via SSH
+        uses: appleboy/scp-action@v0.1.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          source: "dist/*"
+          target: "/var/www/html/Cube-Front"
 
     # Étape 6 : Redémarrer le serveur Apache (si nécessaire)
-    - name: Restart Apache server
-      uses: appleboy/ssh-action@v0.1.5
-      with:
-        host: ${{ secrets.SSH_HOST }}
-        username: ${{ secrets.SSH_USER }}
-        password: ${{ secrets.SSH_PASSWORD }}
-        script: sudo systemctl restart apache2
+      - name: Restart Apache server
+        uses: appleboy/ssh-action@v0.1.5
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          script: sudo systemctl restart apache2
