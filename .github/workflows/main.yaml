@@ -69,7 +69,7 @@ jobs:
           target: "/var/www/html/Cube-Front"
           
       - name: run the conteneur
-        uses: appleboy/scp-action@v0.1.3
+        uses: appleboy/ssh-action@v0.1.5
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
