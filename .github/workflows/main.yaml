@@ -24,9 +24,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: build-image
-          path: /cube-front
-      - name: ls
-        run: cd ../ | ls | docker images 
+          path: cube-front
           
   run-sonar:
     needs: build
