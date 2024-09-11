@@ -47,15 +47,12 @@ jobs:
     needs: [build, run-sonar]
     runs-on: ubuntu-latest
     environment: Raspberry
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-        
+    steps:        
       - name: download-build
         uses: actions/download-artifact@v4
         with:
           name: build-image
-          path: /
+          path: cube-front.tar
           
       - name: ls 
         run: ls
