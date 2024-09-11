@@ -75,8 +75,8 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           password: ${{ secrets.SSH_PASSWORD }}
           script: |
-                sudo -S ${{ secret.SSH_PASSWORD }} docker load -i /var/www/html/Cube-Front/cube-front.tar
-                sudo -S ${{ secret.SSH_PASSWORD }}docker images
+                sudo -S ${{ secrets.SSH_PASSWORD }} docker load -i /var/www/html/Cube-Front/cube-front.tar
+                sudo -S ${{ secrets.SSH_PASSWORD }}docker images
            
 
     # Étape 6 : Redémarrer le serveur Apache (si nécessaire)
@@ -86,4 +86,4 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           password: ${{ secrets.SSH_PASSWORD }}
-          script: sudo -S ${{ secret.SSH_PASSWORD }} systemctl restart apache2
+          script: sudo -S ${{ secrets.SSH_PASSWORD }} systemctl restart apache2
