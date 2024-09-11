@@ -44,7 +44,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
   deploy-on-erver:
-    needs: run-sonar
+    needs: [build, run-sonar]
     runs-on: ubuntu-latest
     environment: Raspberry
     steps:
