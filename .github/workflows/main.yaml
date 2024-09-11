@@ -36,6 +36,7 @@ jobs:
         with:
           name: build-result
           path: /dist
+          run: ls
   run-sonar:
     needs: build
     runs-on: ubuntu-latest
