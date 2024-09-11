@@ -3,7 +3,7 @@ name: Deploy React App
 on:
   push:
     branches:
-      - prod
+      - develop
   pull_request:
       types: [opened, synchronize, reopened]
 
