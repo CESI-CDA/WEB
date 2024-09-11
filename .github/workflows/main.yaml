@@ -78,6 +78,7 @@ jobs:
             ls
             cd /var/www/html/Cube-Front
             docker load -i /var/www/html/Cube-Front/cube-front.tar
+            docker images
             docker stop cube-front || true
             docker rm cube-front || true
             docker run -d -p 80:80 --name cube-front cube-front
