@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - develop
+    pull_request:
+      types: [opened, synchronize, reopened]
 
 jobs:
   build:
@@ -11,24 +13,40 @@ jobs:
     environment: Raspberry
 
     steps:
-    # Étape 1 : Checkout du code source
-    - name: Checkout repository
-      uses: actions/checkout@v2
+      # Étape 1 : Checkout du code source
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-    # Étape 2 : Configuration de Node.js
-    - name: Set up Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '16'
+      # Étape 2 : Configuration de Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "16"
 
-    # Étape 3 : Installer les dépendances
-    - name: Install dependencies
-      run: npm install
+      # Étape 3 : Installer les dépendances
+      - name: Install dependencies
+        run: npm install
 
-    # Étape 4 : Builder l'application React
-    - name: Build React app
-      run: npm run build
-        
+      # Étape 4 : Builder l'application React
+      - name: Build React app
+        run: npm run build
+
+  run Sonar:
+    runs-on: ubuntu-latest
+    environment: Raspberry
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+  deploy on server:
+    runs-on: ubuntu-latest
+    environment: Raspberry
+    steps:
     # Étape 5 : Transférer les fichiers vers le serveur via SSH (avec mot de passe)
     - name: Copy files via SSH
       uses: appleboy/scp-action@v0.1.3
@@ -36,8 +54,8 @@ jobs:
         host: ${{ secrets.SSH_HOST }}
         username: ${{ secrets.SSH_USER }}
         password: ${{ secrets.SSH_PASSWORD }}
-        source: 'dist/*'
-        target: '/var/www/html/Cube-Front'
+        source: "dist/*"
+        target: "/var/www/html/Cube-Front"
 
     # Étape 6 : Redémarrer le serveur Apache (si nécessaire)
     - name: Restart Apache server
