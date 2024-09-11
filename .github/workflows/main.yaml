@@ -28,7 +28,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: build-image
-          path: /cube-front.tar
+          path: cube-front.tar
           
   run-sonar:
     needs: build
