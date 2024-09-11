@@ -32,7 +32,7 @@ jobs:
         run: npm run build
         
       - name: stocker-build
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v3
         with:
           name: build-result
           path: /dist
@@ -55,7 +55,7 @@ jobs:
     environment: Raspberry
     steps:
       - name: download-build
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v3
         with:
           name: build-result
           path: /dist
