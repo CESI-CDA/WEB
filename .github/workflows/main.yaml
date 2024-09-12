@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - prod
+  pull_request:
+      types: [opened, synchronize, reopened]
 
 jobs:
   build-and-push:
