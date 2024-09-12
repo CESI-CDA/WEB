@@ -3,7 +3,7 @@ name: Deploy React App to Docker Hub
 on:
   push:
     branches:
-      - develop
+      - prod
 
 jobs:
   build-and-push:
@@ -28,6 +28,19 @@ jobs:
           docker buildx build --platform linux/amd64,linux/arm64 \
           -t ${{ secrets.DOCKER_USERNAME }}/web-front:latest . \
           --push
+  run-sonar:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    environment: Raspberry
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
   deploy-on-server:
     needs: [build-and-push]
