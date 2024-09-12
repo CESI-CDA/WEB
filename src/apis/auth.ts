@@ -1,8 +1,8 @@
 import userMapper from "../mapper/userMapper";
 import { IUser } from "interfaces";
 
-export const API_AUTH = "https://projet-resources.fr/api";
-export const API_DEV = "http://127.0.0.1:8000/api";
+export const API_AUTH = "https://api.projet-resources.fr/api";
+export const API_DEV = API_AUTH;
 
 export async function login(credentials: { email: string; password: string }) {
   const response = await fetch(`${API_DEV}/login`, {

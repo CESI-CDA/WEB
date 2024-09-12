@@ -1,4 +1,4 @@
-name: Deploy React App
+name: Deploy React App to Docker Hub
 
 on:
   push:
@@ -6,41 +6,32 @@ on:
       - prod
   pull_request:
       types: [opened, synchronize, reopened]
-      
 
 jobs:
-  build:
+  build-and-push:
     runs-on: ubuntu-latest
-    environment: Raspberry
-
     steps:
-      # Étape 1 : Checkout du code source
+      # 1. Cloner le dépôt
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      # Étape 2 : Configuration de Node.js
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: "16"
+      # 2. Connexion à Docker Hub avec les informations d'identification stockées dans les secrets
+      - name: Log in to Docker Hub
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
-      # Étape 3 : Installer les dépendances
-      - name: Install dependencies
-        run: npm install
+      # 3. Configurer Docker Buildx pour la construction multi-plateforme
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
 
-      # Étape 4 : Builder l'application React
-      - name: Build React app
-        run: npm run build
-        
-      - name: stocker-build
-        uses: actions/upload-artifact@v4
-        with:
-          name: build-result
-          path: dist/
-      - name: ls
-        run: cd dist | ls
+      # 4. Construire l'image Docker pour plusieurs architectures
+      - name: Build Docker image
+        run: |
+          docker buildx create --use
+          docker buildx build --platform linux/amd64,linux/arm64 \
+          -t ${{ secrets.DOCKER_USERNAME }}/web-front:latest . \
+          --push
   run-sonar:
-    needs: build
+    needs: build-and-push
     runs-on: ubuntu-latest
     environment: Raspberry
     steps:
@@ -52,31 +43,30 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-  deploy-on-erver:
-    needs: [build, run-sonar]
+
+  deploy-on-server:
+    needs: [build-and-push]
     runs-on: ubuntu-latest
     environment: Raspberry
     steps:
-      - name: download-build
-        uses: actions/download-artifact@v4
-        with:
-          name: build-result
-          path: dist/
-    # Étape 5 : Transférer les fichiers vers le serveur via SSH (avec mot de passe)
-      - name: Copy files via SSH
-        uses: appleboy/scp-action@v0.1.3
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          password: ${{ secrets.SSH_PASSWORD }}
-          source: "dist/*"
-          target: "/var/www/html/Cube-Front"
+      # 1. Configurer la connexion SSH avec la clé privée
+      - name: Setup SSH for connection
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
 
-    # Étape 6 : Redémarrer le serveur Apache (si nécessaire)
-      - name: Restart Apache server
+      # 2. Se connecter au serveur, tirer l'image Docker depuis Docker Hub et la lancer
+      - name: Pull Docker image and run on server
         uses: appleboy/ssh-action@v0.1.5
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
-          password: ${{ secrets.SSH_PASSWORD }}
-          script: sudo systemctl restart apache2
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            docker login -u "${{ secrets.DOCKER_USERNAME }}" -p "${{ secrets.DOCKER_PASSWORD }}"
+            docker pull ${{ secrets.DOCKER_USERNAME }}/web-front:latest
+            docker stop web-front-container || true
+            docker rm web-front-container || true
+            docker run -d --name web-front-container -p 8443:80 ${{ secrets.DOCKER_USERNAME }}/web-front:latest
